@@ -1,0 +1,150 @@
+require 'mongrel_cluster/recipes'
+set :scm_command, 'env LANG=C svn'
+
+set :application, "mobilesns"
+set :deploy_to, "/usr/local/site/#{application}"
+
+set :repository_version, ENV['version']
+set :ssh_options, :forward_agent => true
+set :repository, "svn+ssh://futatsumori@svn.drecom.co.jp/usr/local/svnrepos/mobilesns_banprest/tags/#{repository_version}"
+#set :repository, "svn+ssh://futatsumori@svn.drecom.co.jp/usr/local/svnrepos/mobilesns_banprest/trunk"
+default_run_options[:pty] = true
+set :user, "drecom"
+
+# -----------------------------------------------------------
+# DB
+# -----------------------------------------------------------
+  set :db_password, "root"
+  set :db_user, "root"
+  set :db_host, "127.0.0.1"
+
+# -----------------------------------------------------------
+# Mongrel
+# -----------------------------------------------------------
+
+set :mongrel_conf, "#{current_path}/config/mongrel_cluster.yml"
+set :mongrel_clean, true
+set :mongrel_user, "drecom"
+set :mongrel_group, "drecom"
+set :mongrel_servers, "2"
+set :mongrel_environment, "testserver"
+set :mongrel_port, "3000"
+set :mongrel_address, "127.0.0.1"
+
+# -----------------------------------------------------------
+# Memcache
+# -----------------------------------------------------------
+
+set :memcache_server, "127.0.0.1"
+
+# -----------------------------------------------------------
+# Backgroundrb
+# -----------------------------------------------------------
+
+set :backgroundrb_environment, "testserver"
+set :backgroundrb_host, "127.0.0.1"
+
+
+# =========================================================================
+# recipes
+# =========================================================================
+require File.join(File.dirname(__FILE__), 'recipes')
+
+# =========================================================================
+# Tasks
+# =========================================================================
+
+after  :"deploy:cold",   :"config:fixperm"
+
+after  :"deploy:update",   :"config:setup"
+after  :"deploy:update",   :"config:fixperm"
+after  :"deploy:update",   :"mongrel:cluster:restart"
+
+namespace :config do
+
+  desc "Copy configuration files for specific environment. (see config/deployments/)"
+  task :setup do
+    deployments = File.join(File.dirname(__FILE__), 'deployments')
+    environment = File.join(deployments, deployment_code)
+    
+    RAILS_ROOT = current_path
+    
+    Dir.chdir(environment) do |path|
+      Dir.glob("**/*.yml\0**/*.rb\0**/*.conf") do |file|
+        next if file == 'recipes.rb'
+        config = ERB.new(File.read(file))
+        put config.result(binding), File.join(current_path, "config", file)
+      end
+    end
+    
+  end
+  
+  desc "Fix permisions"
+  task :fixperm do
+    sudo "#{current_path}/script/fixperm"
+  end
+end
+
+namespace :memcached do
+
+  desc "start memcached server process."
+  task :start, :roles => :memcached do
+    sudo "#{current_path}/script/memcached start"
+  end
+
+
+  desc "stop memcached server process."
+  task :stop, :roles => :memcached do
+    sudo "#{current_path}/script/memcached stop"
+  end
+
+
+  desc "restart memcached server process."
+  task :restart, :roles => :memcached do
+    sudo "#{current_path}/script/memcached restart"
+  end
+
+end
+
+namespace :backgroundrb do
+
+  desc "start backgroundrb server process."
+  task :start, :roles => :backgroundrb do
+    run "cd #{current_path} && RAILS_ENV=#{backgroundrb_environment} nohup ./script/backgroundrb/start -d > /dev/null 2>&1"
+  end
+
+
+  desc "stop backgroundrb server process."
+  task :stop, :roles => :backgroundrb do
+    run "cd #{current_path} && ./script/backgroundrb/stop"
+  end
+
+
+  desc "restart backgroundrb server process."
+  task :restart, :roles => :backgroundrb do
+    run "cd #{current_path} && ./script/backgroundrb/restart"
+  end
+
+end
+
+namespace :apache do
+
+  desc "start apache server process."
+  task :start, :roles => :web do
+    sudo "/etc/init.d/httpd start"
+  end
+
+
+  desc "stop memcached server process."
+  task :stop, :roles => :web do
+    sudo "/etc/init.d/httpd stop"
+  end
+
+
+  desc "restart memcached server process."
+  task :restart, :roles => :web do
+    sudo "/etc/init.d/httpd restart"
+  end
+
+end
+
