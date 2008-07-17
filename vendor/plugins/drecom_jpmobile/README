@@ -1,0 +1,230 @@
+= drecom_jpmobile: extended jpmobile plugin
+
+== drecom_jpmobileってなによ
+jpmobileに足りない機能、バグの修正などを行った拡張jpmobileです。
+外に出せる部分に関してはpatchを提供していきたいと思っています。
+追加するであろう機能は次のとおり。
+
+* 機種別情報の取得
+** FLASH対応・非対応・バージョン
+** 画面サイズ
+** 対応画像フォーマット
+** 着うた対応・非対応
+
+* バグフィックス
+
+また、このプラグインには未公開情報が含まれている可能性があります。
+取り扱いは慎重にお願いいたします。
+
+リリース版は基本的にその時点でプレスリリースが行われている機種を
+収録しますので公開サービスに関してはそちらをご利用いただければ
+問題はないかと思います。
+
+
+== インストール
+
+リリース版:
+  % ./script/plugin install svn+ssh://manage-svn-dc.drecom.jp/srv/svn/drecom_jpmobile/tags/rel-x.x.x/drecom_jpmobile
+    (x.x.xはバージョン)
+開発版:
+  % ./script/plugin install svn+ssh://manage-svn-dc.drecom.jp/srv/svn/drecom_jpmobile/trunk/drecom_jpmobile
+
+
+
+== 以下jpmobileのリードミー
+
+
+= jpmobile: A Rails plugin for Japanese mobile-phones
+
+== jpmobileとは
+携帯電話特有の機能を Rails で利用するためのプラグイン。
+以下の機能を備える。
+
+* 携帯電話のキャリア判別
+* 端末位置情報の取得
+* 端末製造番号、契約者番号等の取得
+* IPアドレスの検証(キャリアが公開しているIPアドレス帯域からのアクセスか判定)
+* セッションIDをフォーム／リンクに付与(Transit SID)
+* 携帯電話ビューへの自動振分け
+* ディスプレイ情報(画面サイズ、ブラウザ画面サイズ、カラー・白黒、色数)の取得
+* GeoKit(http://geokit.rubyforge.org)との連携
+* 文字コード変換機能／絵文字のキャリア間相互変換
+
+== インストール
+
+svnレポジトリからインストールする場合
+
+リリース版:
+  % ./script/plugin install svn://rubyforge.org/var/svn/jpmobile/tags/rel-x.x.x/jpmobile
+  (x.x.xはバージョン)
+
+開発版:
+  % ./script/plugin install svn://rubyforge.org/var/svn/jpmobile/trunk/jpmobile
+
+== 使用例
+
+=== 携帯電話の識別
+
+==== Viewの中で一部を切替える例
+  <% if request.mobile? %>
+    携帯電話からのアクセスです。
+  <% else %>
+    携帯電話からのアクセスではありません。
+  <% end %>
+
+==== 別に用意した携帯電話用コントローラへリダイレクトする例
+  class PcController < ApplicationController
+    before_filter :redirect_if_mobile
+
+    def index
+    end
+
+    private
+    def redirect_if_mobile
+      if request.mobile?
+        pa = params.dup
+        pa[:controller] = "/mobile"
+        redirect_to pa
+      end
+    end
+  end
+
+  class MobileController < ApplicationController
+    after_filter :to_sjis
+
+    def index
+    end
+
+    private
+    def to_sjis
+      @headers["Content-Type"] = "text/html; charset=Shift_JIS"
+      response.body = response.body.tosjis
+    end
+  end
+
+
+=== 携帯電話viewの自動振分け
+DoCoMo携帯電話からアクセスすると、
+* index_mobile_docomo.rhtml
+* index_mobile.rhtml
+* index.rhtml
+の順でテンプレートを検索し、最初に見付かったテンプレートが利用される。
+Auの場合は、index_mobile_au.rhtml、Softbankの場合はindex_mobile_softbank.rhtmlが最初に検索される。
+
+==== キャリアの識別
+
+  case request.mobile
+  when Jpmobile::Mobile::Docomo
+    # for DoCoMo
+  when Jpmobile::Mobile::Au
+    # for au
+  when Jpmobile::Mobile::Softbank
+    # for SoftBank
+  when Jpmobile::Mobile::Willcom
+    # for Willcom
+  else
+    # for PC
+  end
+
+あるいは
+  if request.mobile.is_a?(Jpmobile::Mobile::Docomo)
+    # for DoCoMo
+  end
+
+=== 位置情報の取得
+
+==== 取得用リンクの生成
+
+以下のようなコードで、端末に位置情報を要求するリンクを出力する。
+  <%= link_to_get_position(:action=>:gps) %>
+
+==== 位置情報の取得
+
+  class MobileController < ApplicationController
+    def gps
+      if request.mobile && pos = request.mobile.position
+        @latitude = pos.lat
+        @longuitude = pos.lon
+      end
+    end
+  end
+
+
+=== 端末情報の取得
+
+端末側から通知されている場合、
+契約に固有の識別子もしくは端末の製造番号を取得できる。
+両方存在する場合は契約に固有のIDが優先される。
+
+* 契約に固有のID
+  * au: EZ番号(サブスクライバ番号)
+  * DoCoMo: FOMAカード製造番号
+* 端末製造番号
+  * DoCoMo: 端末製造番号(FOMA, MOVA)
+  * SoftBank: 製造番号
+
+=== IPの検証
+キャリアが公開しているIPアドレス帯域からのアクセスか判定する。
+  request.mobile.valid_ip?
+
+=== セッションIDの付与(Transit SID)
+==== Cookie非対応携帯だけに付与する
+  class MyController
+    transit_sid
+  end
+ 
+==== PCにも付与する
+  class MyController
+    transit_sid :always
+  end
+
+=== 端末の画面サイズ
+request.mobile.display で Jpmobile::Display クラスのインスタンスが返る。
+  画面幅 <%= request.mobile.display.width %>
+  画面高さ <%= request.mobile.display.height %> 
+
+=== GeoKit(http://geokit.rubyforge.org)との連携
+
+vandor/plugins/geokit以下にGeoKitがインストールされていると、Jpmobile::PositionにGeoKit::Mappableがincludeされる。したがって、
+
+  request.mobile.position.distance_to('札幌駅')
+
+とすることで、端末と「札幌駅」との距離を求めることができる。詳細は http://geokit.rubyforge.org/api/index.html 参照。
+
+=== 文字コード変換機能／絵文字のキャリア間相互変換
+
+JpmobileではControllerにmobile_filterを指定することで
+DoCoMo、Au、SoftBankの絵文字を透過的に扱うことができる。
+また、キャリアに応じて文字コードが自動で変換され、
+携帯電話とのやり取りには半角カナが用いられるようになる。
+
+ class MyController
+   mobile_filter
+ end
+
+Jpmobile内では、各キャリアの絵文字はUnicode私的領域上にマッピングされ、管理される。
+このとき、DoCoMo、Auは公式サイト記載のマッピングが使用される。
+ただしSoftBankはAuとの重複を避けるため、公式のマッピングに0x1000加算しU+F001以降に割り当てる。
+テンプレート内ではUTF-8でエンコードするか、数値文字参照の&#xHHHH;形式で指定する。
+
+絵文字は送出時に内蔵の変換表に基づいて変換され、携帯電話のエンコーディングにあわせて送出される。
+携帯電話から受信した絵文字は上記マッピングに基づいてUTF-8でparamsに渡される。
+
+mobile_filterを有効にすると以下の処理が自動で行われる。
+* DoCoMo、Auとの通信時にはShift_JIS、SoftBankとの通信時にはUTF-8が使用される。
+* カタカナは半角カナに変換されて送出される。携帯電話から送られた半角カナは全角カナに変換される。
+* 絵文字はキャリアにあわせて変換されて送出される。
+* 携帯電話からの絵文字はUnicode私的領域にマップされ、UTF-8でparamsに格納される。
+
+== リンク
+* Project Website: http://jpmobile.rubyforge.org
+* RubyForge Project Page: http://rubyforge.org/projects/jpmobile
+* SVN Repository Browser: http://viewvc.rubyforge.mmmultiworks.com/cgi/viewvc.cgi/?root=jpmobile
+
+== 作者
+
+Copyright 2006 (c) Yohji Shidara, under MIT License.
+
+Yohji Shidara <dara@shidara.net>
+
+http://d.hatena.ne.jp/darashi
