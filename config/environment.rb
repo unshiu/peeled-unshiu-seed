@@ -58,3 +58,17 @@ end
 # Mime::Type.register "application/x-mobile", :mobile
 
 # Include your application configuration below
+require 'magic_multi_connections'
+connection_names = ActiveRecord::Base.configurations.keys.select do |name|
+  name =~ /^#{ENV['RAILS_ENV']}_slave/
+end
+@@connection_pool = connection_names.map do |connection_name|
+  length = ENV['RAILS_ENV'].length + 1
+  class_name = connection_name[length..-1]
+  Object.class_eval <<-EOS
+    module #{class_name.camelize}
+      establish_connection :#{connection_name}
+    end
+  EOS
+  class_name.camelize.constantize
+end
