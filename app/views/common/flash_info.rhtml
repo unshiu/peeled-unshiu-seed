@@ -1,0 +1,5 @@
+<% for name in [:notice, :error] %>
+   <% if flash[name] %>
+     <%= "<div class=\"#{name}\">#{flash[name]}</div>" %>
+   <% end %>
+<% end %>
