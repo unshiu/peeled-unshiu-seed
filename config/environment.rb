@@ -57,6 +57,17 @@ end
 # Mime::Type.register "text/richtext", :rtf
 # Mime::Type.register "application/x-mobile", :mobile
 
+# 規約に違反した携帯メールアドレスへの対応
+if TMail::Version=="0.10.7"
+  TMail.instance_eval{remove_const 'Parser'}
+  require 'tmail_0_10_7_parser_fix'
+else
+  # ここに来るようならこの if-else をコメントアウトしてテストが通るか試して、
+  # 通るようなら問題なしなので、ここを削除
+  # 通らないようなら、http://d.hatena.ne.jp/urekat/20080312/1205316182 をあたりを参考に修正
+  raise "TMail::Version != 0.10.7"
+end
+
 # Include your application configuration below
 require 'magic_multi_connections'
 connection_names = ActiveRecord::Base.configurations.keys.select do |name|
