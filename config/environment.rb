@@ -57,6 +57,9 @@ end
 # Mime::Type.register "text/richtext", :rtf
 # Mime::Type.register "application/x-mobile", :mobile
 
+require 'gettext/rails'
+require 'ar-extensions'
+
 # 規約に違反した携帯メールアドレスへの対応
 if TMail::Version=="0.10.7"
   TMail.instance_eval{remove_const 'Parser'}
