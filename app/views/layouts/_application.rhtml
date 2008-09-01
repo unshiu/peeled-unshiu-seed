@@ -1,1 +1,34 @@
-#　PC版 layout
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title><%= @content_for_header_title ||= "HOME" %> : Mobile SNS　運用者ページ</title>
+  <%= javascript_include_tag :defaults %>
+  <%= stylesheet_link_tag "mng_style", :media => 'all' %>
+  <%# stylesheet_link_tag "mng_print", :media => 'print' %>
+</head>
+<body>
+
+<div id="layout">
+
+<%= render 'common/header' %>
+
+<div id="contents">
+
+<div id="box02">
+  <div id="main02">
+	<%= render 'common/flash_info' %>
+	
+    <%= yield  %>
+  </div><!-- /main02 -->
+</div><!-- /box02 -->
+
+<%- if template_exists?("#{url_for :action => 'index'}/_side_menu", :rhtml) -%>
+  <%= render :partial => 'side_menu' %>
+<%- end -%>
+
+</div><!-- /contents -->
+<%= render 'common/footer' %>
+</div>
+</body>
+</html>
