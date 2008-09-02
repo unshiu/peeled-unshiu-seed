@@ -2,6 +2,8 @@ desc 'Continuous build target'
 plugins = ['base', 'abm', 'dia', 'prf', 'msg', 'pnt', 'cmm', 'mlg', 'mng', 'tpc']
 
 task :cruise do
+  ENV['RAILS_ENV'] = 'test'
+  
   # install plugin
   plugins.each do |plugin|
     system "rm -rf vendor/plugins/#{plugin}"
@@ -12,7 +14,6 @@ task :cruise do
   system "ruby script/generate plugin_migration "
   
   # rcov output
-  ENV['RAILS_ENV'] = 'test'
   out = ENV['CC_BUILD_ARTIFACTS']
   mkdir_p out unless File.directory? out if out
 
