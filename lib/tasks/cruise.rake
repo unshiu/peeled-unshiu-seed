@@ -5,7 +5,7 @@ task :cruise do
   # install plugin
   plugins.each do |plugin|
     system "rm -rf vendor/plugins/#{plugin}"
-    system "svn export http://svn.drecom.co.jp/repos/unshiu/#{plugin}/trunk/  --username=cruise --password=PCdp5URM  vendor/plugins/#{plugin}"
+    system "svn export https://svn.drecom.co.jp/repos/unshiu/#{plugin}/trunk/  --username=cruise --password=PCdp5URM  vendor/plugins/#{plugin}"
     system "yes | ruby script/generate #{plugin} #{plugin}"
   end
 
