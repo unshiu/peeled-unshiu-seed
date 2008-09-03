@@ -3,7 +3,7 @@ plugins = ['base', 'abm', 'dia', 'prf', 'msg', 'pnt', 'cmm', 'mlg', 'mng', 'tpc'
 
 desc 'Continuous build target'
 task :cruise do
-  ENV['RAILS_ENV'] = 'test'
+  RAILS_ENV = ENV['RAILS_ENV'] = 'test'
   
   # install plugin
   plugins.each do |plugin|
