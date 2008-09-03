@@ -14,7 +14,7 @@ task :cruise do
   system "ruby script/generate plugin_migration "
   
   # init data load
-  Rake::Task['db:load'].execute nil
+  Rake::Task['db:load'].invoke
   
   # rcov output
   out = ENV['CC_BUILD_ARTIFACTS']
