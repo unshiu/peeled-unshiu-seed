@@ -60,6 +60,7 @@ end
 require 'gettext/rails'
 require 'ar-extensions'
 require 'string_expanse'
+require 'unshiu/plugins'
 
 # 規約に違反した携帯メールアドレスへの対応
 if TMail::Version=="0.10.7"
