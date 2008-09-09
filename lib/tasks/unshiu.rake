@@ -1,13 +1,13 @@
 namespace :unshiu do
   
   namespace :plugins do
-    plugins = ['base', 'abm', 'dia', 'prf', 'msg', 'pnt', 'cmm', 'mlg', 'mng', 'tpc']
+    require 'unshiu/plugins'
     
     desc 'all plugin trunk install.'
     task :install_trunk_all, "user"
     task :install_trunk_all do |task, args|
       task.set_arg_names ["user"]
-      plugins.each do |plugin|
+      Unshiu::Plugins::LIST.each do |plugin|
         system "rm -rf vendor/plugins/#{plugin}"
         system "ruby script/plugin install svn+ssh://#{args.user}@svn.drecom.co.jp/usr/local/svnrepos/unshiu/#{plugin}/trunk/ "
       end
@@ -25,7 +25,7 @@ namespace :unshiu do
     task :checkout_trunk_all, "user"
     task :checkout_trunk_all do |task, args|
       task.set_arg_names ["user"]
-      plugins.each do |plugin|
+      Unshiu::Plugins::LIST.each do |plugin|
         if File.exist?("vendor/plugins/#{plugin}/.svn")
           system "svn up vendor/plugins/#{plugin}"
           
