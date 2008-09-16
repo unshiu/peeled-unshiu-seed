@@ -1,22 +1,37 @@
 require 'mongrel_cluster/recipes'
-set :scm_command, 'env LANG=C svn'
 
-set :application, "mobilesns"
+# -----------------------------------------------------------
+# server basic setting 
+# -----------------------------------------------------------
+#set :use_sudo, false
+
+# -----------------------------------------------------------
+# user setting 
+# -----------------------------------------------------------
+set :drecom_user_name, "asami"
+
+# -----------------------------------------------------------
+# application setting 
+# -----------------------------------------------------------
+set :application, "unshiu"
 set :deploy_to, "/usr/local/site/#{application}"
 
+# -----------------------------------------------------------
+# scm setting 
+# -----------------------------------------------------------
+set :scm_command, 'env LANG=C svn'
 set :repository_version, ENV['version']
 set :ssh_options, :forward_agent => true
-set :repository, "svn+ssh://futatsumori@svn.drecom.co.jp/usr/local/svnrepos/mobilesns_banprest/tags/#{repository_version}"
-#set :repository, "svn+ssh://futatsumori@svn.drecom.co.jp/usr/local/svnrepos/mobilesns_banprest/trunk"
+set :repository, "svn+ssh://#{drecom_user_name}@svn.drecom.co.jp/usr/local/svnrepos/unshiu/tags/#{repository_version}"
 default_run_options[:pty] = true
 set :user, "drecom"
 
 # -----------------------------------------------------------
 # DB
 # -----------------------------------------------------------
-  set :db_password, "root"
-  set :db_user, "root"
-  set :db_host, "127.0.0.1"
+set :db_password, "root"
+set :db_user, "root"
+set :db_host, "127.0.0.1"
 
 # -----------------------------------------------------------
 # Mongrel
