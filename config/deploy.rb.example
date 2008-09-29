@@ -63,7 +63,7 @@ set :backgroundrb_host, "127.0.0.1"
 # =========================================================================
 # recipes
 # =========================================================================
-require File.join(File.dirname(__FILE__), 'recipes')
+require File.join(File.dirname(__FILE__), "deployments/#{rails_env}/recipes")
 
 # =========================================================================
 # Tasks
@@ -74,6 +74,7 @@ after  :"deploy:cold",   :"config:fixperm"
 after  :"deploy:update",   :"config:setup"
 after  :"deploy:update",   :"config:fixperm"
 after  :"deploy:update",   :"mongrel:cluster:restart"
+after  :"deploy:update",   :"apache:restart"
 
 namespace :config do
 
