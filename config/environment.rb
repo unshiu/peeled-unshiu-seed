@@ -5,10 +5,11 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '1.2.6' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.1.1' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
+require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here
@@ -51,6 +52,12 @@ Rails::Initializer.run do |config|
   # end
 
   # See Rails::Configuration for more options
+  config.action_controller.session = {
+    :session_key => '_mobilesns_session_id',
+    :secret => 'drecom-mobilecgm-freamwork-unshiu'
+  }
+  
+  config.gem "gettext", :lib => "gettext/rails"
 end
 
 # Add new mime types for use in respond_to blocks:
@@ -60,15 +67,5 @@ end
 require 'gettext/rails'
 require 'ar-extensions'
 require 'string_expanse'
-require 'unshiu/plugins'
 
-# 規約に違反した携帯メールアドレスへの対応
-if TMail::Version=="0.10.7"
-  TMail.instance_eval{remove_const 'Parser'}
-  require 'tmail_0_10_7_parser_fix'
-else
-  # ここに来るようならこの if-else をコメントアウトしてテストが通るか試して、
-  # 通るようなら問題なしなので、ここを削除
-  # 通らないようなら、http://d.hatena.ne.jp/urekat/20080312/1205316182 をあたりを参考に修正
-  raise "TMail::Version != 0.10.7"
-end
+

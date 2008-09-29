@@ -69,8 +69,10 @@ ActionController::Base.class_eval do
 
   def guess_nested_layouts
     layouts      = [Pathname("/")]
-    partial_path = @template.send(:partial_pieces, "layout").first
-    partial_path.split('/').each{|dir| layouts << layouts.last + dir unless dir.to_s == "."}
+    partial_path = controller_path.split('/')
+    
+    #partial_path = @template.send(:partial_pieces, "layout").first
+    controller_path.split('/').each{|dir| layouts << layouts.last + dir unless dir.to_s == "."}
     
     if request.mobile?
       layouts.reject!{|path| !(Pathname(RAILS_ROOT) + "app/views#{path}" + "_layout_mobile.rhtml").exist? }

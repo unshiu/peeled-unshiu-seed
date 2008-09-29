@@ -13,7 +13,7 @@ module Unshiu
     LIST = ['base', 'abm', 'dia', 'prf', 'msg', 'pnt', 'cmm', 'mlg', 'mng', 'tpc']
     
     # 現在有効なplugin
-    ACTIVE_LIST = LIST.delete_if { |plugin| eval("!#{plugin}?") }
+    ACTIVE_LIST = LIST.clone.delete_if { |plugin| eval("!#{plugin}?") }
     
   end
 end

@@ -23,7 +23,7 @@
   </div><!-- /main02 -->
 </div><!-- /box02 -->
 
-<%- if template_exists?("#{url_for :action => 'index'}/_side_menu", :rhtml) -%>
+<%- if finder.file_exists?("#{url_for :action => 'index'}/_side_menu.rhtml") -%>
   <%= render :partial => 'side_menu' %>
 <%- end -%>
 
