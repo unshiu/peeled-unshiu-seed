@@ -8,7 +8,7 @@ require 'mongrel_cluster/recipes'
 # -----------------------------------------------------------
 # user setting 
 # -----------------------------------------------------------
-set :drecom_user_name, "asami"
+set :drecom_user_name, "drecom_user_name"
 
 # -----------------------------------------------------------
 # application setting 
@@ -26,44 +26,10 @@ set :repository, "svn+ssh://#{drecom_user_name}@svn.drecom.co.jp/usr/local/svnre
 default_run_options[:pty] = true
 set :user, "drecom"
 
-# -----------------------------------------------------------
-# DB
-# -----------------------------------------------------------
-set :db_password, "root"
-set :db_user, "root"
-set :db_host, "127.0.0.1"
-
-# -----------------------------------------------------------
-# Mongrel
-# -----------------------------------------------------------
-
-set :mongrel_conf, "#{current_path}/config/mongrel_cluster.yml"
-set :mongrel_clean, true
-set :mongrel_user, "drecom"
-set :mongrel_group, "drecom"
-set :mongrel_servers, "2"
-set :mongrel_environment, "testserver"
-set :mongrel_port, "3000"
-set :mongrel_address, "127.0.0.1"
-
-# -----------------------------------------------------------
-# Memcache
-# -----------------------------------------------------------
-
-set :memcache_server, "127.0.0.1"
-
-# -----------------------------------------------------------
-# Backgroundrb
-# -----------------------------------------------------------
-
-set :backgroundrb_environment, "testserver"
-set :backgroundrb_host, "127.0.0.1"
-
-
 # =========================================================================
 # recipes
 # =========================================================================
-require File.join(File.dirname(__FILE__), "deployments/#{rails_env}/recipes")
+require File.join(File.dirname(__FILE__), "deployments/#{ENV['RAILS_ENV']}/recipes")
 
 # =========================================================================
 # Tasks

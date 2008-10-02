@@ -13,9 +13,9 @@
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 development:
   adapter: mysql
-  database: mobilesns_development
+  database:　unshiu_development
   username: root
-  password: 
+  password: root 
   host: localhost
   estraier:
     host: localhost
@@ -23,22 +23,22 @@ development:
     password: admin
     port: 1978
     node: development
-
-development_slave:
-  adapter: mysql
-  database: mobilesns_development
-  username: root
-  password: 
-  host: localhost
-
+  read_only:
+    adapter: mysql
+    database: unshiu_development
+    username: root
+    password: root
+    host: localhost
+    port: 13306
+      
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
 # Do not set this db to the same as development or production.
 test:
   adapter: mysql
-  database: mobilesns_test
+  database: unshiu_test
   username: root
-  password:
+  password: root
   host: localhost
   estraier:
     host: localhost
@@ -46,13 +46,20 @@ test:
     password: admin
     port: 1978
     node: test
-
+  read_only:
+    adapter: mysql
+    database: unshiu_test
+    username: root
+    password: root
+    host: localhost
+    port: 13306
+      
 production:
   adapter: mysql
-  database: mobilesns_production
-  username: root
-  password: 
-  host: localhost
+  database: unshiu_production
+  username: <%= db_user %>
+  password: <%= db_password %>
+  host: <%= db_host %>
   encoding: utf8
   estraier:
     host: localhost
@@ -60,11 +67,10 @@ production:
     password: admin
     port: 1978
     node: production
-
-production_slave:
-  adapter: mysql
-  database: mobilesns_production
-  username: root
-  password: 
-  host: localhost
-  encoding: utf8
+  read_only:
+    adapter: mysql
+    database: unshiu_production
+    username: <%= db_user %>
+    password: <%= db_password %>
+    host: db_proxy
+    port: 13306

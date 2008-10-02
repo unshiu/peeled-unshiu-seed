@@ -33,14 +33,14 @@ test:
   disabled: true
 
 testserver:
-  user: <%= memcache_user %>
+  user: drecom
   memory: 512
   benchmarking: false
   servers:
-    - <%= memcache_server %>
+    - drecom
 
 production:
-  user: <%= memcache_user %>
+  user: drecom
   memory: 512
   benchmarking: false
   servers:
