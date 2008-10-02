@@ -7,7 +7,15 @@ Capistrano::Configuration.instance.load do
   env_path << '/usr/local/bin:/usr/local/mysql/bin'
   env_path << '$PATH'
   default_environment['PATH'] = env_path.join(':')
-
+  
+  # -----------------------------------------------------------
+  # Apache
+  # -----------------------------------------------------------
+  set :apache_server_admin,  "admin@unshiu.drecom.jp"
+  set :apache_server_name,   "unshiu.drecom.jp"
+  set :apache_max_clients,   200
+  set :apache_stickysession, "_mobilesns_session_id"
+  
   # -----------------------------------------------------------
   # DB
   # -----------------------------------------------------------
