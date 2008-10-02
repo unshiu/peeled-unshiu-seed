@@ -130,3 +130,26 @@ namespace :apache do
 
 end
 
+namespace :deploy do
+  namespace :web do
+    desc "web server mentenance mord start"
+    task :disable, :roles => :web, :except => { :no_release => true } do
+      require 'erb'
+      on_rollback { run "rm #{shared_path}/system/maintenance.html" }
+
+      reason = ENV['REASON']
+      deadline = ENV['UNTIL']
+	    
+      template = File.read(File.join(File.dirname(__FILE__), "../public/maintenance.html"))
+      result = ERB.new(template).result(binding)
+
+      put result, "#{shared_path}/system/maintenance.html", :mode => 0644
+    end
+    
+    desc "web server mentenance mord stop"
+    task :enable, :roles => :web, :except => { :no_release => true } do
+      run "rm #{shared_path}/system/maintenance.html"
+    end
+  end
+end
+
