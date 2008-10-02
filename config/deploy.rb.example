@@ -113,19 +113,19 @@ namespace :apache do
 
   desc "start apache server process."
   task :start, :roles => :web do
-    sudo "/etc/init.d/httpd start"
+    sudo "/etc/init.d/drecom-apache start"
   end
 
 
   desc "stop memcached server process."
   task :stop, :roles => :web do
-    sudo "/etc/init.d/httpd stop"
+    sudo "/etc/init.d/drecom-apache stop"
   end
 
 
   desc "restart memcached server process."
   task :restart, :roles => :web do
-    sudo "/etc/init.d/httpd restart"
+    sudo "/etc/init.d/drecom-apache restart"
   end
 
 end
