@@ -15,6 +15,7 @@ Capistrano::Configuration.instance.load do
   set :apache_server_name,   "unshiu.drecom.jp"
   set :apache_max_clients,   200
   set :apache_stickysession, "_mobilesns_session_id"
+  set :apache_use_ssl,       false
   
   # -----------------------------------------------------------
   # DB
