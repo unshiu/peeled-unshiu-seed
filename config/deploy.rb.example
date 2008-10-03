@@ -4,6 +4,7 @@ require 'mongrel_cluster/recipes'
 # server basic setting 
 # -----------------------------------------------------------
 #set :use_sudo, false
+set :drecom_ip, "124\.32\.97\.(234|236)"
 
 # -----------------------------------------------------------
 # user setting 
@@ -52,7 +53,7 @@ namespace :config do
     RAILS_ROOT = current_path
     
     Dir.chdir(environment) do |path|
-      Dir.glob("**/*.yml\0**/*.rb\0**/*.conf") do |file|
+      Dir.glob("*.{yml,rb,conf}") do |file|
         next if file == 'recipes.rb'
         config = ERB.new(File.read(file))
         put config.result(binding), File.join(current_path, "config", file)
@@ -110,6 +111,18 @@ namespace :backgroundrb do
 end
 
 namespace :apache do
+
+  desc "Copy configuration files for specific environment. (see config/deployments/apache)"
+  task :setup, :roles => :web do
+    confdir = File.join(File.dirname(__FILE__), "deployments/#{deployment_code}/apache/")
+  
+    Dir.chdir(confdir) do |path|
+      Dir.glob("**/*.conf") do |file|
+        config = ERB.new(File.read(file), nil, 2)
+        put config.result(binding), File.join(apache_home, "conf", file)
+      end
+    end
+  end
 
   desc "start apache server process."
   task :start, :roles => :web do
