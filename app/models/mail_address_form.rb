@@ -7,5 +7,5 @@ class MailAddressForm < ActiveForm
   validates_legal_mail_address_of :mail_address, :if => Proc.new{|form| !form.mail_address.blank?}
 
   _("mail address form")
-  _("MailAddressForm|Mail address")
+  _("MailAddressForm|mail_address")
 end

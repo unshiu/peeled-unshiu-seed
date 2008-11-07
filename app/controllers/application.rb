@@ -2,6 +2,12 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  # Pick a unique cookie name to distinguish our session data from others'
-  session :session_key => '_unshiu_seed_session_id'
+  Unshiu::Plugins::ACTIVE_LIST.each { |plugin| init_gettext(plugin) }
+  
+  include ApplicationControllerModule
+  
+  if Unshiu::Plugins.pnt? # for pnt plugin
+    include PntPointSystem
+    around_filter :pnt_target_filter
+  end
 end

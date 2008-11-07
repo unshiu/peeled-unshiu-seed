@@ -3,7 +3,9 @@
 	<div id="navi_bar">
 		<ul id="navi_menu">
 			<li><a href="" title="ヘルプ">ヘルプ</a></li>
-			<li class="navi_home"><%= link_to 'ログアウト', :controller => 'manage/mng', :action => 'logout' %></a></li>
+			<% if logged_in? %>
+			  <li class="navi_home"><%= link_to 'ログアウト', :controller => 'manage/mng', :action => 'logout' %></a></li>
+			<% end %>
 		</ul>
 	</div><!-- /navi_bar -->
 	<div id="header">
@@ -12,47 +14,49 @@
   </div>
   <%- case @pan1
         when "SNS設定"; @commu=1;
-        when "ユーザ"; @commu=2;
+        when "#{_('base user')}"; @commu=2;
         when "メール"; @commu=3
-        when "ポイント"; @commu=4;
+        when "#{_('pnt point')}"; @commu=4;
         when "アクセス数"; @commu=5;
         when "管理者設定"; @commu=6;
         end -%>
 	<div id="cont_menu_b">
     <ul id="cont_menu_l">
       <li id="bl_commu<%- if @commu==1 -%>_on<%- end -%>"><%= link_to 'SNS設定', :controller => 'manage/dia', :action => 'index' %></li>
-      <li id="bl_commu<%- if @commu==2 -%>_on<%- end -%>"><%= link_to 'ユーザ', :controller => 'manage/base_user', :action => 'index' %></li>
+      <li id="bl_commu<%- if @commu==2 -%>_on<%- end -%>"><%= link_to _('base user'), :controller => 'manage/base_user', :action => 'index' %></li>
       <li id="bl_commu<%- if @commu==3 -%>_on<%- end -%>"><%= link_to 'メール', :controller => 'manage/mlg', :action => 'list' %></li>
-      <li id="bl_commu<%- if @commu==4 -%>_on<%- end -%>"><%= link_to 'ポイント', :controller => 'manage/pnt', :action => 'month_history' %></li>
+      <li id="bl_commu<%- if @commu==4 -%>_on<%- end -%>"><%= link_to _('pnt point'), :controller => 'manage/pnt', :action => 'month_history' %></li>
       <li id="bl_commu<%- if @commu==5 -%>_on<%- end -%>"><%= link_to 'アクセス数', :controller => 'manage/mng', :action => 'index' %></li>
       <li id="bl_commu<%- if @commu==6 -%>_on<%- end -%>"><%= link_to '管理者設定', :controller => 'manage/mng_user', :action => 'list' %></li>
     </ul>
     <%- if @commu==1 -%>
       <%- case @pan2
-          when "プロフィール"; @sns_menu=1;
-          when "日記"; @sns_menu=2;
+          when "#{_('base profile')}"; @sns_menu=1;
+          when "#{_('dia entry')}"; @sns_menu=2;
           when "#{_('abm album')}"; @sns_menu=3;
-          when "コミュニティ"; @sns_menu=4;
-          when "メッセージ"; @sns_menu=5;
-          when "お知らせ"; @sns_menu=6;
+          when "#{_('cmm community')}"; @sns_menu=4;
+          when "#{_('msg message')}"; @sns_menu=5;
+          when "#{_('base notice')}"; @sns_menu=6;
        end -%>       
 	<ul id="menu_sub_blog">
-      <!--<li id="menu_01<%- if @sns_menu==1 -%>_on<%- end -%>"><%= link_to 'プロフィール', :controller => 'prf', :action => 'index' %></li>-->
-      <li id="menu_02<%- if @sns_menu==2 -%>_on<%- end -%>"><%= link_to '日記', :controller => 'manage/dia', :action => 'index' %></li>
+      <!--<li id="menu_01<%- if @sns_menu==1 -%>_on<%- end -%>"><%= link_to _('base profile'), :controller => 'prf', :action => 'index' %></li>-->
+      <li id="menu_02<%- if @sns_menu==2 -%>_on<%- end -%>"><%= link_to _('dia entry'), :controller => 'manage/dia', :action => 'index' %></li>
       <li id="menu_03<%- if @sns_menu==3 -%>_on<%- end -%>"><%= link_to _('abm album'), :controller => 'manage/abm_album', :action => 'index' %></li>
-      <li id="menu_04<%- if @sns_menu==4 -%>_on<%- end -%>"><%= link_to 'コミュニティ', :controller => 'manage/cmm', :action => 'index' %></li>
-      <li id="menu_05<%- if @sns_menu==5 -%>_on<%- end -%>"><%= link_to 'メッセージ', :controller => 'manage/msg', :action => 'index' %></li>
-      <li id="menu_06<%- if @sns_menu==6 -%>_on<%- end -%>"><%= link_to 'お知らせ', :controller => 'manage/base_notice', :action => 'index' %></li>
+      <li id="menu_04<%- if @sns_menu==4 -%>_on<%- end -%>"><%= link_to _('cmm community'), :controller => 'manage/cmm', :action => 'index' %></li>
+      <li id="menu_05<%- if @sns_menu==5 -%>_on<%- end -%>"><%= link_to _('msg message'), :controller => 'manage/msg', :action => 'index' %></li>
+      <li id="menu_06<%- if @sns_menu==6 -%>_on<%- end -%>"><%= link_to _('base notice'), :controller => 'manage/base_notice', :action => 'index' %></li>
     </ul>
    	<%- end -%>
     <%- if @commu==6 -%>
       <%- case @pan2
           when "管理者設定"; @mng_menu=1;
-          when "NGワード"; @mng_menu=2;
+          when "_('base ng word')"; @mng_menu=2;
+	      when "エラーコード"; @mng_menu=3;
        end -%>
 	<ul id="menu_sub_blog">
       <li id="menu_01<%- if @mng_menu==1 -%>_on<%- end -%>"><%= link_to '管理者設定', :controller => 'manage/mng_user', :action => 'index' %></li>
-      <li id="menu_02<%- if @mng_menu==2 -%>_on<%- end -%>"><%= link_to 'NGワード', :controller => 'manage/base_ng_word', :action => 'index' %></li>
+      <li id="menu_02<%- if @mng_menu==2 -%>_on<%- end -%>"><%= link_to "#{_('base ng word')}", :controller => 'manage/base_ng_word', :action => 'index' %></li>
+      <li id="menu_03<%- if @mng_menu==3 -%>_on<%- end -%>"><%= link_to "エラーコード", :controller => 'manage/base_error', :action => 'index' %></li>
    </ul>
    <%- end -%>
 	</div><!-- /cont_menu_b -->
