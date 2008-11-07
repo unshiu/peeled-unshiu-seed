@@ -86,14 +86,14 @@ namespace :unshiu do
     
     desc 'all plugin generate.'
     task :generate do 
-      Unshiu::Plugins::ACTIVE_LIST.each do |plugin|
+      Unshiu::Plugins::LIST.each do |plugin|
         system "yes | ruby script/generate #{plugin} #{plugin}"
       end
     end
     
     desc 'all plugin template generate.'
     task :template_generate do 
-      Unshiu::Plugins::ACTIVE_LIST.each do |plugin|
+      Unshiu::Plugins::LIST.each do |plugin|
         system "ruby script/generate unshiu_plugin_template_generator #{plugin}"
       end
     end

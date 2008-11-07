@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   
   include ApplicationControllerModule
   
-  if Unshiu::Plugins.pnt? # for pnt plugin
+  if Unshiu::Plugins.active_pnt? # for pnt plugin
     include PntPointSystem
     around_filter :pnt_target_filter
   end
