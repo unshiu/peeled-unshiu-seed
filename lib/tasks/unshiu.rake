@@ -90,6 +90,34 @@ namespace :unshiu do
         system "yes | ruby script/generate #{plugin} #{plugin}"
       end
     end
+    
+    desc 'all plugin template generate.'
+    task :template_generate do 
+      Unshiu::Plugins::ACTIVE_LIST.each do |plugin|
+        system "ruby script/generate unshiu_plugin_template_generator #{plugin}"
+      end
+    end
   end
 
+  namespace :gettext do
+    require 'locale'
+    require 'gettext/utils'
+    require 'unshiu/plugins'
+    
+    desc 'Update unshiu plugin pot/po files.'
+    task :updatepo, "plugin_name", "version"
+    task :updatepo do |task, args|
+      task.set_arg_names ["plugin_name", "version"]
+      
+      ENV["MSGMERGE_PATH"] = "msgmerge --sort-output --no-fuzzy-matching"
+      
+      files = []
+      files << Dir.glob("vendor/plugins/#{args.plugin_name}/{app,config,components,lib,generators}/**/*.{rb,rhtml}")
+      files.flatten!
+
+      unless files.empty?
+        GetText.update_pofiles(args.plugin_name, files, "#{args.plugin_name} #{args.version}")
+      end
+    end
+  end
 end
