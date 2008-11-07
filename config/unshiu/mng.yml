@@ -1,0 +1,19 @@
+common: &common
+  manager_mail_address: mobilesns-dev@devml.drecom.co.jp
+  
+  notice_list_size: 30
+
+development:
+  <<: *common
+
+testserver:
+  <<: *common
+
+testserver2:
+  <<: *common
+
+test:
+  <<: *common
+
+production:
+  <<: *common

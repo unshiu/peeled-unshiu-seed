@@ -1,0 +1,36 @@
+common: &common
+  # 一覧に出す最大数
+  topic_list_size: 5
+  comment_list_size: 5
+
+  # コミュニティのトップで出す数
+  cmm_show_list_size: 3
+
+  # コミュニティトピックともに表示するコメントの最大数
+  tpc_cmm_comment_list_size_with_comment: 3
+
+  # ポータルで表示する数と期間
+  portal_tpc_cmm_latest_topic_size: 3
+  portal_tpc_cmm_latest_topic_days: 10
+  portal_tpc_cmm_commented_topic_size: 3
+  portal_tpc_cmm_commented_topic_days: 10
+
+  # 管理画面で一覧に出す数
+  manage_topic_list_size: 30
+  manage_comment_list_size: 30
+
+development:
+  <<: *common
+
+testserver:
+  <<: *common
+
+testserver2:
+  <<: *common
+  
+test:
+  <<: *common
+
+production:
+  <<: *common
+

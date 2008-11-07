@@ -1,0 +1,40 @@
+common: &common
+  # 日記（DiaDiary）を作ったときのデフォルト公開レベルの初期値
+  default_default_public_level: 1
+  
+  # 日記記事リストの1ページに表示する数
+  entry_list_size: 5
+  manage_entry_list_size: 30
+
+  # プロフィール画面で表示する日記記事の最大数
+  profile_entry_list_size: 3
+  
+  # 日記記事とともに表示するコメントの最大数
+  entry_comment_list_size_with_comment: 3
+
+  # 日記記事コメントリストの1ページに表示する数
+  entry_comment_list_size: 5
+
+  # マイポータルに表示する友だち日記記事リストの最大数
+  portal_frined_entry_list_size: 3
+
+  # マイポータルに表示するコメントした日記記事リストの最大数
+  portal_commented_entry_list_size: 3
+
+  # 共通ポータルに表示する新着日記記事リストの最大数
+  portal_public_entry_list_size: 3
+
+development:
+  <<: *common
+
+testserver:
+  <<: *common
+
+testserver2:
+  <<: *common
+
+test:
+  <<: *common
+
+production:
+  <<: *common

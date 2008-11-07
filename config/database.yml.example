@@ -57,9 +57,9 @@ test:
 production:
   adapter: mysql
   database: unshiu_production
-  username: <%= db_user %>
-  password: <%= db_password %>
-  host: <%= db_host %>
+  username: root
+  password: root
+  host: root
   encoding: utf8
   estraier:
     host: localhost
@@ -70,7 +70,7 @@ production:
   read_only:
     adapter: mysql
     database: unshiu_production
-    username: <%= db_user %>
-    password: <%= db_password %>
+    username: root
+    password: root
     host: db_proxy
     port: 13306

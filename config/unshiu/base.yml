@@ -1,0 +1,86 @@
+common: &common
+  # サービス名
+  sevice_name: unshiu
+  
+  # ドメイン
+  mail_domain_name: unshiu.drecom.jp
+
+  # メールアドレス
+  system_mail_address: sendonly@unshiu.drecom.jp
+
+  # ユーザー
+  user_list_size: 5
+
+  # 友だち
+  portal_friend_list_size: 3 
+  friend_list_size: 5
+
+  # お気に入り
+  portal_favorite_list_size: 3 
+  favorite_list_size: 5
+
+  # あしあと
+  footmark_list_size: 5
+  
+  # 記録する1ユーザーに対するあしあとの最大数
+  footmark_max_size: 30
+  
+  # お知らせ
+  # 現状、ポータルでは、ポータルへの掲載期間を指定できるため、数による制限はかけていません
+  portal_notice_list_size: 3
+  notice_list_size: 5
+  
+  # 文字数制限（全体共通）
+  # 基本パッケージとしてはここの値を使う
+  # カスタマイズで一部変えたい場合は、個別の yml に書いてそれを使う
+  title_max_length: 100
+  body_max_length: 5000
+  comment_max_length: 2000
+  name_max_length: 20
+  
+  # 無効なユーザーのデフォルト表示名 ApplicationHelper#link_to_user から使用
+  deative_user_show_name: 退会したユーザー
+  
+  # New絵文字を表示する日数
+  notice_new_tearm: 3
+  
+  # 画像設置rootディレクトリ
+  file_column_image_web_root: system/images/
+  file_column_image_root_path: public/system/images
+  
+  ##############################
+  # 以下、管理。別ファイルに移動するかも #
+  ##############################
+  
+  # NGワードエラーメッセージ
+  error_message_of_ng_word: %{fn}に不適切な言葉が含まれています。
+  
+  # 絵文字が含まれるエラーメッセージ
+  error_message_of_no_emoticon: %{fn}に絵文字を含むことはできません。
+  
+  # 管理画面でのお知らせを1ページに表示する数
+  manage_notice_list_size: 30
+  
+  # ユーザー推移数csvを出力するパス
+  user_transit_file_path: public/system/base_user_transit
+  
+development:
+  registration_mail_address: registration@unshiu.drecom.jp
+  application_url_root: localhost:3007
+  <<: *common
+
+test:
+  registration_mail_address: registration@test
+  application_url_root: localhost
+  file_column_image_root_path: test/tmp/file_column
+  <<: *common
+
+production:
+  # メールドメイン
+  mail_domain_name: test.unshiu.drecom.jp
+  # 自動送信 FROM メールアドレス
+  system_mail_address: sendonly@test.unshiu.drecom.jp
+  # 登録用空メール送信先
+  registration_mail_address: registration@test.unshiu.drecom.jp
+  application_url_root: test.unshiu.drecom.jp
+  <<: *common

@@ -1,3 +1,4 @@
+$KCODE="u"
 # Be sure to restart your web server when you modify this file.
 
 # Uncomment below to force Rails into production mode when
@@ -29,7 +30,7 @@ Rails::Initializer.run do |config|
 
   # Use the database for sessions instead of the file system
   # (create the session table with 'rake db:sessions:create')
-  # config.action_controller.session_store = :active_record_store
+  config.action_controller.session_store = :active_record_store
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,
@@ -57,7 +58,18 @@ Rails::Initializer.run do |config|
     :secret => 'drecom-mobilecgm-freamwork-unshiu'
   }
   
-  config.gem "gettext", :lib => "gettext/rails"
+  config.gem "gettext",            :version => "1.93.0",   :lib => "gettext/rails"      
+  config.gem "mysql",              :version => "2.7"
+  config.gem "rmagick",            :version => "~> 2.5.0", :lib => 'RMagick'           
+  config.gem "ar-extensions",      :version => "~> 0.7",   :install_options => "--ignore-dependencies"
+  config.gem "capistrano",         :version => "~> 2.5"
+  config.gem "fastercsv",          :version => "~> 1.2.3"
+  config.gem "json",               :version => "~> 1.1.2"
+  config.gem "acts_as_searchable", :version => "~> 0.1.0"
+  config.gem "mongrel",            :version => "~> 1.1.5"
+  config.gem "mongrel_cluster",    :version => "~> 1.0.5", :lib => "mongrel_cluster/init"
+  config.gem "memcache-client",    :version => "~> 1.5.0", :lib => 'memcache'
+  
 end
 
 # Add new mime types for use in respond_to blocks:
