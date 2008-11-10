@@ -1,0 +1,10 @@
+1.0.1: 2008/11/07 <asami@drecom.co.jp>
+
+* テスターによる全体テストを実施し1.0.0のbug fix
+* テンプレートの拡張子を.rhtmlから.html.erbへ
+* #147 rails2.1のgem管理機能を導入
+* #165 config/initializersに初期化情報は書くように変更
+
+1.0.0: 2008/07  <asami@drecom.co.jp>
+
+* unshiu本体から切り離し seedとして確立
