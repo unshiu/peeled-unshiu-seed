@@ -97,6 +97,24 @@ namespace :unshiu do
         system "ruby script/generate unshiu_plugin_template_generator #{plugin}"
       end
     end
+    
+    desc "Report code statistics (KLOCs, etc) from the plugin "
+    task :stats, "plugin_name"
+    task :stats do |task, args|
+      task.set_arg_names ["plugin_name"]
+      require 'code_statistics'
+      STATS_DIRECTORIES = [
+        ["Controllers",        "lib/#{args.plugin_name}/app/controllers"],
+        ["Helpers",            "lib/#{args.plugin_name}/app/helpers"], 
+        ["Models",             "lib/#{args.plugin_name}/app/models"],
+        ["Libraries",          "lib/"],
+        ["Integration\ tests", "test/integration"],
+        ["Functional\ tests",  "test/functional"],
+        ["Unit\ tests",        "test/unit"]
+      ].collect { |name, dir| [ name, "#{RAILS_ROOT}/vendor/plugins/#{args.plugin_name}/#{dir}" ] }.select { |name, dir| File.directory?(dir) }
+      CodeStatistics.new(*STATS_DIRECTORIES).to_s
+    end
+    
   end
 
   namespace :gettext do
