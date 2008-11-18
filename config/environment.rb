@@ -11,6 +11,9 @@ RAILS_GEM_VERSION = '2.1.1' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
 
+require 'yaml'
+SETTINGS = YAML.load(File.read(RAILS_ROOT + "/config/settings.yml"))[RAILS_ENV]
+
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here
 
@@ -53,8 +56,8 @@ Rails::Initializer.run do |config|
 
   # See Rails::Configuration for more options
   config.action_controller.session = {
-    :session_key => '_mobilesns_session_id',
-    :secret => 'drecom-mobilecgm-freamwork-unshiu'
+    :session_key => SETTINGS['session_key'],
+    :secret => SETTINGS['secret']
   }
   
   config.gem "gettext",            :version => "1.93.0",   :lib => "gettext/rails"      
