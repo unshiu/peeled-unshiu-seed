@@ -10,7 +10,7 @@ namespace :hudson do
     "http://svn.drecom.co.jp/repos/unshiu/plugins/#{plugin}/trunk/ --username=cruise --password=PCdp5URM"
   end
   
-  desc 'all plugin trunk checkout.'
+  desc 'all unshiu plugin trunk checkout.'
   task :checkout_unshiu_plugin_trunk_all do
     Unshiu::Plugins::LIST.each do |plugin|
       if File.exist?("vendor/plugins/#{plugin}/.svn")
