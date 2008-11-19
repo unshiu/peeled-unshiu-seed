@@ -2,8 +2,12 @@ namespace :hudson do
   require 'unshiu/plugins'
   RAILS_ENV = ENV['RAILS_ENV'] = 'test'
   
-  def hudson_svn_plugin_trunk(plugin)
+  def hudson_svn_unshiu_plugin_trunk(plugin)
     "http://svn.drecom.co.jp/repos/unshiu/#{plugin}/trunk/ --username=cruise --password=PCdp5URM"
+  end
+  
+  def hudson_svn_plugin_trunk(plugin)
+    "http://svn.drecom.co.jp/repos/unshiu/plugins/#{plugin}/trunk/ --username=cruise --password=PCdp5URM"
   end
   
   desc 'all plugin trunk checkout.'
@@ -14,10 +18,10 @@ namespace :hudson do
         
       elsif File.exist?("vendor/plugins/#{plugin}")
         system "rm -rf vendor/plugins/#{plugin}"
-        system "svn co #{hudson_svn_plugin_trunk(plugin)} vendor/plugins/#{plugin}"
+        system "svn co #{hudson_svn_unshiu_plugin_trunk(plugin)} vendor/plugins/#{plugin}"
       
       else
-        system "svn co #{hudson_svn_plugin_trunk(plugin)} vendor/plugins/#{plugin}"
+        system "svn co #{hudson_svn_unshiu_plugin_trunk(plugin)} vendor/plugins/#{plugin}"
       end
     end
   end
