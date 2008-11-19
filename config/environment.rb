@@ -10,9 +10,7 @@ RAILS_GEM_VERSION = '2.1.1' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
-
-require 'yaml'
-SETTINGS = YAML.load(File.read(RAILS_ROOT + "/config/settings.yml"))[RAILS_ENV]
+require File.join(File.dirname(__FILE__), '../lib/app_resources.rb')
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here
@@ -56,8 +54,8 @@ Rails::Initializer.run do |config|
 
   # See Rails::Configuration for more options
   config.action_controller.session = {
-    :session_key => SETTINGS['session_key'],
-    :secret => SETTINGS['secret']
+    :session_key => AppResources[:init][:session_key],
+    :secret => AppResources[:init][:secret]
   }
   
   config.gem "gettext",            :version => "1.93.0",   :lib => "gettext/rails"      
