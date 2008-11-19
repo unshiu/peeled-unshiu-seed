@@ -46,6 +46,14 @@ module TestUtil
         when 2:
           @request.user_agent = 'SoftBank/1.0/910T/TJ001'
         end
+        
+        class << @request.session
+          def session_id 
+            '_unshiu_test_session_id'
+          end
+        end
+        @token = OpenSSL::HMAC.hexdigest(OpenSSL::Digest::Digest.new('SHA1'), 'unshiu', '_unshiu_test_session_id')
+        ActionController::Base.request_forgery_protection_token = :authenticity_token        
       end
 
       def run(result)
