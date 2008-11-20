@@ -18,4 +18,7 @@ config.action_controller.perform_caching             = false
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
 
+# Disable request forgery protection in test environment
+config.action_controller.allow_forgery_protection    = false
+
 ActionController::Base.cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache"
