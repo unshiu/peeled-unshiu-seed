@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   Unshiu::Plugins::ACTIVE_LIST.each { |plugin| init_gettext(plugin) }
   
-  include ApplicationControllerModule
+  include UnshiuApplicationControllerModule
   
   if Unshiu::Plugins.active_pnt? # for pnt plugin
     include PntPointSystem
