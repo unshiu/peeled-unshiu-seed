@@ -26,7 +26,7 @@ namespace :hudson do
     end
   end
   
-  PLUGIN_LIST = ['drecom_jpmobile', 'acts_as_paranoid', 'annotate_models', 'auto_nested_layouts', 'file_column', 'paginating_find', 'acts_as_readonlyable']
+  PLUGIN_LIST = ['drecom_jpmobile', 'acts_as_paranoid', 'auto_nested_layouts', 'file_column', 'paginating_find', 'acts_as_readonlyable']
   
   desc 'all plugin trunk checkout.'
   task :checkout_plugin_trunk_all do
