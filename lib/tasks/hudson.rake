@@ -1,6 +1,5 @@
 namespace :hudson do
   require 'unshiu/plugins'
-  RAILS_ENV = ENV['RAILS_ENV'] = 'test'
   
   def hudson_svn_unshiu_plugin_trunk(plugin)
     "http://svn.drecom.co.jp/repos/unshiu/#{plugin}/trunk/ --username=cruise --password=PCdp5URM"
