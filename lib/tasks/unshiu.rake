@@ -97,6 +97,7 @@ namespace :unshiu do
         
         else
           system "svn co #{svn_plugin_tags(args.user,plugin,args.version)} vendor/plugins/#{plugin}"
+        end
       end
     end
 
