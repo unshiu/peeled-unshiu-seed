@@ -15,6 +15,10 @@ namespace :unshiu do
       "svn+ssh://#{user}@svn.drecom.co.jp/usr/local/svnrepos/unshiu/#{plugin}/tags/#{plugin}-#{version}/"
     end
     
+    def svn_external_plugin_trunk(user, plugin)
+      "svn+ssh://#{user}@svn.drecom.co.jp/usr/local/svnrepos/unshiu/plugins/#{plugin}/trunk/"
+    end
+    
     desc 'all plugin trunk install.'
     task :install_trunk_all, "user"
     task :install_trunk_all do |task, args|
@@ -74,13 +78,18 @@ namespace :unshiu do
     task :checkout_tags_all do |task, args|
       task.set_arg_names ["user", "version"]
       Unshiu::Plugins::LIST.each do |plugin|
-        if File.exist?("vendor/plugins/#{plugin}")
-          system "rm -rf vendor/plugins/#{plugin}"
-          system "svn checkout #{svn_plugin_tags(args.user,plugin,args.version)} vendor/plugins/#{plugin}"
-        
-        else
-          system "svn checkout #{svn_plugin_tags(args.user,plugin,args.version)} vendor/plugins/#{plugin}"
-        end
+        system "rm -rf vendor/plugins/#{plugin}" if File.exist?("vendor/plugins/#{plugin}")
+        system "svn checkout #{svn_plugin_tags(args.user,plugin,args.version)} vendor/plugins/#{plugin}"
+      end
+    end
+    
+    desc 'all　external plugin trunk install.'
+    task :install_external_plugin_trunk_all, "user"
+    task :install_external_plugin_trunk_all do |task, args|
+      task.set_arg_names ["user"]
+      Unshiu::Plugins::EXTERNAL_LIST.each do |plugin|
+        system "rm -rf vendor/plugins/#{plugin}" if File.exist?("vendor/plugins/#{plugin}")
+        system "ruby script/plugin install #{svn_external_plugin_trunk(args.user, plugin)}"
       end
     end
     

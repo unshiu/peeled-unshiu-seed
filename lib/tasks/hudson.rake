@@ -25,11 +25,9 @@ namespace :hudson do
     end
   end
   
-  PLUGIN_LIST = ['drecom_jpmobile', 'acts_as_paranoid', 'auto_nested_layouts', 'file_column', 'paginating_find', 'acts_as_readonlyable']
-  
   desc 'all plugin trunk checkout.'
   task :checkout_plugin_trunk_all do
-    PLUGIN_LIST.each do |plugin|
+    Unshiu::Plugins::EXTERNAL_LIST.each do |plugin|
       if File.exist?("vendor/plugins/#{plugin}/.svn")
         system "svn up vendor/plugins/#{plugin}"
         
