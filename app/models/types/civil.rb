@@ -1,3 +1,4 @@
+# 結婚の有無
 module Types::Civil
 
   CIVIL = {
