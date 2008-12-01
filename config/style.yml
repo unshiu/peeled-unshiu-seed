@@ -4,13 +4,14 @@ hr: margin:5px 0px 5px 0px;
 ad: margin:10px 0px 10px 0px;text-align:center;
 header_title: border:1px solid black;margin:0px 10px 0px 10px;
 
-# 以下 bnp 用
 sub_title: background-color:#ff9e00; color:#FFFFFF;
 sub_title_hr: background-color:#000000; height:2px;
 small_info_right: text-align:right;font-size:x-small;
 
-list0: background-color:#FFF7E7;
-list1: # nothing
+# リストで偶数行と奇数行
+list_even: background-color:#FFF7E7;
+list_odd: # nothing
+
 list_cell: color:#F75200
 
 form_style: background-color:#FFF7E7; text-align:left;
