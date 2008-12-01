@@ -147,7 +147,7 @@ namespace :unshiu do
       ENV["MSGMERGE_PATH"] = "msgmerge --sort-output --no-fuzzy-matching"
       
       files = []
-      files << Dir.glob("vendor/plugins/#{args.plugin_name}/{app,config,components,lib,generators}/**/*.{rb,rhtml}")
+      files << Dir.glob("vendor/plugins/#{args.plugin_name}/{app,config,components,lib,generators}/**/*.{rb,html.erb}")
       files.flatten!
 
       unless files.empty?
