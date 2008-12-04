@@ -53,11 +53,23 @@ module TestUtil
           super
         end
       end
-
+      
       def login(base_user_id = 1)
         @controller.send(:current_base_user=, BaseUser.find(base_user_id))
       end
 
     end
+    
+    module UnitTest
+      
+      # テスト用のfixtureデータを読みemailオブジェクトを返す
+      # _param1_:: controller名
+      # _param2_:: action名
+      def read_mail_fixture(controller, action)
+        TMail::Mail.load("#{RAILS_ROOT}/test/fixtures/#{controller}/#{action}.txt")
+      end  
+    end
+    
   end
+
 end
