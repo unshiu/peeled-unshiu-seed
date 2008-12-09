@@ -37,16 +37,6 @@ namespace :unshiu do
       system "ruby script/plugin install #{svn_plugin_trunk(args.user,args.plugin_name)}"
     end
     
-    desc 'all　external plugin trunk install.'
-    task :install_external_plugin_trunk_all, "user"
-    task :install_external_plugin_trunk_all do |task, args|
-      task.set_arg_names ["user"]
-      Unshiu::Plugins::EXTERNAL_LIST.each do |plugin|
-        system "rm -rf vendor/plugins/#{plugin}"
-        system "ruby script/plugin install #{svn_external_plugin_trunk(args.user, plugin)}"
-      end
-    end
-    
     desc 'all plugin trunk checkout.'
     task :checkout_trunk_all, "user"
     task :checkout_trunk_all do |task, args|
@@ -88,19 +78,21 @@ namespace :unshiu do
     task :checkout_tags_all do |task, args|
       task.set_arg_names ["user", "version"]
       Unshiu::Plugins::LIST.each do |plugin|
-        if File.exist?("vendor/plugins/#{plugin}/.svn")
-          system "svn up vendor/plugins/#{plugin}"
-
-        elsif File.exist?("vendor/plugins/#{plugin}")
-          system "rm -rf vendor/plugins/#{plugin}" 
-          system "svn co #{svn_plugin_tags(args.user,plugin,args.version)} vendor/plugins/#{plugin}"
-        
-        else
-          system "svn co #{svn_plugin_tags(args.user,plugin,args.version)} vendor/plugins/#{plugin}"
-        end
+        system "rm -rf vendor/plugins/#{plugin}" if File.exist?("vendor/plugins/#{plugin}")
+        system "svn checkout #{svn_plugin_tags(args.user,plugin,args.version)} vendor/plugins/#{plugin}"
       end
     end
-
+    
+    desc 'all　external plugin trunk install.'
+    task :install_external_plugin_trunk_all, "user"
+    task :install_external_plugin_trunk_all do |task, args|
+      task.set_arg_names ["user"]
+      Unshiu::Plugins::EXTERNAL_LIST.each do |plugin|
+        system "rm -rf vendor/plugins/#{plugin}" if File.exist?("vendor/plugins/#{plugin}")
+        system "ruby script/plugin install #{svn_external_plugin_trunk(args.user, plugin)}"
+      end
+    end
+    
     desc 'all plugin generate.'
     task :generate do 
       Unshiu::Plugins::LIST.each do |plugin|
@@ -132,6 +124,16 @@ namespace :unshiu do
       CodeStatistics.new(*STATS_DIRECTORIES).to_s
     end
     
+    desc "Add schema information (as comments) to model files"
+      task :annotate_models, "plugin_name"
+      task :annotate_models do |task, args|
+        task.set_arg_names ["plugin_name"]
+
+        require File.join(File.dirname(__FILE__), "../../vendor/plugins/annotate_models/lib/annotate_models.rb")
+        require File.join(File.dirname(__FILE__), "../annotate_models_expanse.rb")
+        AnnotateModels.do_plugin_annotations(args.plugin_name)
+    end
+     
   end
 
   namespace :gettext do
@@ -158,8 +160,9 @@ namespace :unshiu do
   
   desc "Add schema information (as comments) to model files"
   task :annotate_models do
-     require File.join(File.dirname(__FILE__), "../../vendor/plugins/annotate_models/lib/annotate_models.rb")
-     require File.join(File.dirname(__FILE__), "../annotate_models.rb")
-     AnnotateModels.do_annotations
+    require File.join(File.dirname(__FILE__), "../../vendor/plugins/annotate_models/lib/annotate_models.rb")
+    require File.join(File.dirname(__FILE__), "../annotate_models_expanse.rb")
+    AnnotateModels.do_annotations
   end
+ 
 end
