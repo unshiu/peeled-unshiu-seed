@@ -3,7 +3,11 @@ module ApplicationHelper
   include Unshiu::ApplicationHelperModule
   
   if Unshiu::Plugins.active_base?
-    include BaseHelperModule
+    include BaseHelper
+  end
+  
+  if Unshiu::Plugins.active_ace?
+    include AceHelper
   end
   
 end
