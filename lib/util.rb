@@ -1,3 +1,4 @@
+require 'fileutils'
 #
 # 全体で利用されるユーティリティ系
 #
