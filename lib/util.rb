@@ -26,7 +26,7 @@ class Util
     if File.exist?(secret_path)
       secret = open(secret_path) { |io| io.read }.gsub(/\s/, '')
     end
-    if secret.empty?
+    if secret.nil? || secret.empty?
       open(secret_path, "w") { |io| io.write(Util.random_string) }
     end
   end
