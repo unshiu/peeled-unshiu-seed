@@ -55,7 +55,7 @@ Rails::Initializer.run do |config|
   # See Rails::Configuration for more options
   config.action_controller.session = {
     :session_key => AppResources[:init][:session_key],
-    :secret => Utils.secret_key("session_secret")
+    :secret => Util.secret_key("session_secret")
   }
   
   config.gem "gettext",            :version => "1.93.0",   :lib => "gettext/rails"      
