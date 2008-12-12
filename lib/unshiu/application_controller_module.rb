@@ -14,7 +14,7 @@ module Unshiu::ApplicationControllerModule
         
         layout '_application'
         
-        protect_from_forgery :secret => AppResources[:init][:secret_key]
+        protect_from_forgery :secret => Utils.secret_key("session_secret_key")
         
         # 生パスワードをログに出力させない 
         filter_parameter_logging :password

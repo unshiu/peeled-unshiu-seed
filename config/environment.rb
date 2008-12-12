@@ -11,6 +11,7 @@ RAILS_GEM_VERSION = '2.1.1' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
 require File.join(File.dirname(__FILE__), '../lib/app_resources.rb')
+require File.join(File.dirname(__FILE__), '../lib/util.rb')
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here
@@ -51,11 +52,10 @@ Rails::Initializer.run do |config|
   #   inflect.irregular 'person', 'people'
   #   inflect.uncountable %w( fish sheep )
   # end
-
   # See Rails::Configuration for more options
   config.action_controller.session = {
     :session_key => AppResources[:init][:session_key],
-    :secret => AppResources[:init][:secret]
+    :secret => Utils.secret_key("session_secret")
   }
   
   config.gem "gettext",            :version => "1.93.0",   :lib => "gettext/rails"      

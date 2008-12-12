@@ -1,9 +1,5 @@
 common: &common
-  
-  # 以下の項目はセキュリティ上の観点から、必ず変更して下さい
   session_key: _mobilesns_session_id                             # セッションの名称
-  secret: change-me-drecom-mobilecgm-freamwork-unshiu            # CSRF対策　英数字30文字以上でランダムで推測されない値に必ず変更して下さい。
-  secret_key: change-me                                          # CSRF対策　英数字30文字以上でランダムで推測されない値に必ず変更して下さい。
    
 development:
   <<: *common

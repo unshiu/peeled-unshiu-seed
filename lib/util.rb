@@ -14,4 +14,20 @@ class Util
     ret
   end
   
+  # ランダムな英数字のキーが未作成なら生成し保存し２回目以降はそれを用いる
+  # _param1_:: key名
+  # return :: ランダムな英数字
+  def self.secret_key(key)
+    secret_path = File.join(RAILS_ROOT, "system/files/secret_key/")
+    Dir::mkdir(secret_path) unless File.exist?(secret_path)
+    secret_path = secret_path + "#{key}.txt"
+    
+    if File.exist?(secret_path)
+      secret = open(secret_path) { |io| io.read }.gsub(/\s/, '')
+    end
+    if secret.empty?
+      open(secret_path, "w") { |io| io.write(Util.random_string) }
+    end
+  end
+  
 end
