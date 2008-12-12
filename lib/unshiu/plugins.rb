@@ -22,7 +22,7 @@ module Unshiu
     end
     
     # unshiu plugin リスト
-    LIST = ['base', 'abm', 'dia', 'prf', 'msg', 'pnt', 'cmm', 'mlg', 'mng', 'tpc']
+    LIST = ['base', 'abm', 'dia', 'prf', 'msg', 'pnt', 'cmm', 'mlg', 'mng', 'tpc', 'ace']
     
     # 現在有効なplugin
     ACTIVE_LIST = LIST.clone.delete_if { |plugin| eval("!active_#{plugin}?") }
