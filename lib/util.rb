@@ -19,7 +19,7 @@ class Util
   # _param1_:: key名
   # return :: ランダムな英数字
   def self.secret_key(key)
-    secret_path = File.join(RAILS_ROOT, "system/files/secret_key/")
+    secret_path = File.join(RAILS_ROOT, "public/system/files/secret_key/")
     Dir::mkdir(secret_path) unless File.exist?(secret_path)
     secret_path = secret_path + "#{key}.txt"
     
