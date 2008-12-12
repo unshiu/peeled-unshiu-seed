@@ -18,10 +18,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
   # base routes:
-  map.from_plugin :base if Unshiu::Plugins.base?
+  map.from_plugin :base if Unshiu::Plugins.base? && ENV['UNSHIU_ROUTE_SKIP'].nil?
   
   # mng routes:
-  map.from_plugin :mng if Unshiu::Plugins.mng?
+  map.from_plugin :mng if Unshiu::Plugins.mng? && ENV['UNSHIU_ROUTE_SKIP'].nil?
    
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'
