@@ -1,9 +1,9 @@
-#= UnshiuApplicationControllerModule
+#= Unshiu::ApplicationControllerModule
 #
 #== Summary
 # unshiu アプリケーションとしての規程 module
 # 
-module UnshiuApplicationControllerModule
+module Unshiu::ApplicationControllerModule
   
   class << self
     def included(base)

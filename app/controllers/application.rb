@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   Unshiu::Plugins::ACTIVE_LIST.each { |plugin| init_gettext(plugin) }
   
-  include UnshiuApplicationControllerModule
+  include Unshiu::ApplicationControllerModule
   
   if Unshiu::Plugins.active_base?
     include BaseApplicationControllerModule
