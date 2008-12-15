@@ -1,10 +1,10 @@
 require 'yaml/encoding'
+require 'active_record/fixtures'
 
 namespace :db do
   
   desc "load data to database from db/data"
   task :load => :environment do
-    require 'active_record/fixtures'
     ActiveRecord::Base.establish_connection(RAILS_ENV.to_sym)
     if ENV['FIXTURES']
       files = ENV['FIXTURES'].split(/,/)
