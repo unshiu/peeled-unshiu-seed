@@ -36,6 +36,17 @@ namespace :unshiu do
       system "rm -rf vendor/plugins/#{args.plugin_name}"
       system "ruby script/plugin install #{svn_plugin_trunk(args.user,args.plugin_name)}"
     end
+  
+    desc 'all plugin tags install.'
+    task :install_tags_all, "user", "version"
+    task :install_tags_all do |task, args|
+      task.set_arg_names ["user", "version"]
+      Unshiu::Plugins::LIST.each do |plugin|
+        system "rm -rf vendor/plugins/#{plugin}"
+        system "ruby script/plugin install #{svn_plugin_tags(args.user,plugin,args.version)}"
+        system "mv vendor/plugins/#{plugin}-#{args.version} vendor/plugins/#{plugin}"
+      end
+    end
     
     desc 'all plugin trunk checkout.'
     task :checkout_trunk_all, "user"
