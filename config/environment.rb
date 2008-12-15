@@ -69,7 +69,10 @@ Rails::Initializer.run do |config|
   config.gem "mongrel",            :version => "~> 1.1.5"
   config.gem "mongrel_cluster",    :version => "~> 1.0.5", :lib => "mongrel_cluster/init"
   config.gem "memcache-client",    :version => "~> 1.5.0", :lib => 'memcache'
-  config.gem "uuidtools",          :version => "~> 1.0.7"
+  config.gem "uuidtools",          :version => "~> 1.0"
+  config.gem "rspec",              :version => "~> 1.1",   :lib => 'spec'
+  config.gem "launchy",            :version => "~> 0.3"
+  config.gem "ci_reporter",        :version => "~> 1.5",   :lib => "ci/reporter/core"
   
 end
 
