@@ -27,7 +27,11 @@ class Util
       secret = open(secret_path) { |io| io.read }.gsub(/\s/, '')
     end
     if secret.nil? || secret.empty?
-      open(secret_path, "w") { |io| io.write(Util.random_string(32)) }
+      value = Util.random_string(32)
+      open(secret_path, "w") { |io| io.write(value) }
+      return value
+    else
+      return secret
     end
   end
   
