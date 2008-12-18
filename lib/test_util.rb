@@ -40,12 +40,14 @@ module TestUtil
         @response   = ActionController::TestResponse.new
         case @count
         when 0:
-          @request.user_agent = 'DoCoMo/2.0 SH903i(c100;TB;W24H16)'
+          @request.user_agent = 'DoCoMo/2.0 SH903i(c100;TB;W24H16) ser012345678912345;'
         when 1:
           @request.user_agent = 'KDDI-SA31 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0'
+          @request.env["HTTP_X_UP_SUBNO"] = "012345678912345"
         when 2:
           @request.user_agent = 'SoftBank/1.0/910T/TJ001'
-        end   
+          @request.env["HTTP_X_JPHONE_UID"] = "012345678912345"
+        end
       end
 
       def run(result)
