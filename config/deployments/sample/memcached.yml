@@ -43,5 +43,6 @@ production:
   user: drecom
   memory: 512
   benchmarking: false
+  raise_errors: false # memcacheが落ちてもサービスは継続する
   servers:
     - <%= memcache_server %>
