@@ -1,10 +1,15 @@
 common: &common
   session_key: _mobilesns_session_id                             # セッションの名称
-   
+  
+  # 画像設置rootディレクトリ
+  file_column_image_web_root: system/images/
+  file_column_image_root_path: public/system/images
+
 development:
   <<: *common
 
 test:
+  file_column_image_root_path: test/tmp/file_column
   <<: *common
 
 production:
