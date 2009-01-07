@@ -28,7 +28,8 @@ module Unshiu
     ACTIVE_LIST = LIST.clone.delete_if { |plugin| eval("!active_#{plugin}?") }
     
     # 外部　plugin リスト
-    EXTERNAL_LIST = ['drecom_jpmobile', 'acts_as_paranoid', 'auto_nested_layouts', 'file_column', 'paginating_find', 'acts_as_readonlyable']
+    EXTERNAL_LIST = ['drecom_jpmobile', 'acts_as_paranoid', 'auto_nested_layouts', 
+                     'file_column', 'paginating_find', 'acts_as_readonlyable', 'acts_as_tokyotyrant']
     
   end
 end
