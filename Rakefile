@@ -9,6 +9,8 @@ require 'rake/rdoctask'
 
 require 'tasks/rails'
 
-require 'rubygems'  
-gem 'ci_reporter'
-require 'ci/reporter/rake/test_unit'
+require 'rubygems'
+if defined? CI
+  gem 'ci_reporter'
+  require 'ci/reporter/rake/test_unit'
+end
