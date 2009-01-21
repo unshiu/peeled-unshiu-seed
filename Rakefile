@@ -10,7 +10,8 @@ require 'rake/rdoctask'
 require 'tasks/rails'
 
 require 'rubygems'
-if defined? CI
+begin
   gem 'ci_reporter'
   require 'ci/reporter/rake/test_unit'
+rescue LoadError
 end
