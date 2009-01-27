@@ -1,23 +1,20 @@
 desc "Update pot/po files."
-task :updatepo do
+task :updatepo, "additional_name", "version"  
+task :updatepo do |task, args|
   require 'locale'
   require 'gettext/utils'
-  
-  # カスタマイズ部分用のテキストドメイン名(init_gettextで使用する名前)
-  additional_name = ''
+  task.set_arg_names ["additional_name", "version"]
   
   ENV["MSGMERGE_PATH"] = "msgmerge --sort-output --no-fuzzy-matching"
   
-  # 拡張部分のファイル
-  unless additional_name.nil? 
+  unless args.additional_name.nil? 
     additional_files = []
-    additional_files << Dir.glob("{app,config,components,lib}/**/{#{additional_name}*.{rb,rhtml}")
+    additional_files << Dir.glob("{app,config,components,lib}/**/#{args.additional_name}*.rb")
+    additional_files << Dir.glob("{app,config,components,lib}/**/#{args.additional_name}*/*.html.erb")
     additional_files.flatten!
-
+    
     unless additional_files.empty?
-      GetText.update_pofiles(additional_name, additional_files,
-                             "#{additional_name} 1.0.0"  #カスタマイズ部分のバージョン
-                             )
+      GetText.update_pofiles(additional_name, additional_files, "#{args.additional_name} #{args.version}")
     end
   end
   
