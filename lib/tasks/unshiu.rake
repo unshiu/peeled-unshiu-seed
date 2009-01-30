@@ -111,6 +111,13 @@ namespace :unshiu do
       end
     end
     
+    desc 'all plugin migrate generate.'
+    task :migrate_generate do 
+      Unshiu::Plugins::LIST.each do |plugin|
+        system "ruby script/generate plugin_migration #{plugin} "
+      end
+    end
+    
     desc 'all plugin template generate.'
     task :template_generate do 
       Unshiu::Plugins::LIST.each do |plugin|
