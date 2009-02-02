@@ -41,6 +41,7 @@ module TestUtil
         case @count
         when 0:
           @request.user_agent = 'DoCoMo/2.0 SH903i(c100;TB;W24H16) ser012345678912345;'
+          @request.env["HTTP_USER_AGENT"] = "DoCoMo/2.0 SH903i(c100;TB;W24H16) ser012345678912345;"
         when 1:
           @request.user_agent = 'KDDI-SA31 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0'
           @request.env["HTTP_X_UP_SUBNO"] = "012345678912345"
@@ -69,7 +70,8 @@ module TestUtil
       # _param2_:: action名
       def read_mail_fixture(controller, action)
         TMail::Mail.load("#{RAILS_ROOT}/test/fixtures/#{controller}/#{action}.txt")
-      end  
+      end
+      
     end
     
   end
