@@ -32,7 +32,7 @@ tables = ["base_users", "base_profiles", "base_friends", "dia_diaries", "dia_ent
 
 # ユーザ生成
 FasterCSV.open("#{RAILS_ROOT}/tmp/base_users.csv", "w") do |csv|
-  for i in 1..users
+  for i in 2..users
     s = sprintf("%.6d", i).to_s
     email = "#{s}@test.drecom.jp"
     csv << [i,email,email,"00742970dc9e6319f8019fd54864d3ea740f04b1", "7e3041ebc2fc05a40c60028e2c4901a81035d3cd", 
@@ -101,7 +101,7 @@ FasterCSV.open("#{RAILS_ROOT}/tmp/abm_albums.csv", "w") do |a_csv|
     # 画像
     FasterCSV.open("#{RAILS_ROOT}/tmp/abm_images.csv", "a") do |i_csv|
       for j in 1..rand(abm_images)
-        i_csv << [nil, i, "image title:#{s}:#{i}", "image body:#{s}:#{i}", Time.now, Time.now, nil, File::open('test/file/test.jpg')]
+        i_csv << [nil, i, "image title:#{s}:#{i}", "image body:#{s}:#{i}", Time.now, Time.now, nil, File::open('public/images/default/logo.gif')]
       end
     end
   
@@ -148,7 +148,7 @@ end
 FasterCSV.open("#{RAILS_ROOT}/tmp/tpc_topic_cmm_communities.csv", "w") do |csv|
   for i in 1..rand(community_topices)
     s = sprintf("%.6d", i).to_s
-    csv << [nil, i, rand(communities), TpcTopic::PUBLIC_LEVEL_ALL, Time.now, Time.now, nil]
+    csv << [nil, i, rand(communities), TpcRelationSystem::PUBLIC_LEVEL_ALL, Time.now, Time.now, nil]
     
     # コメント
     FasterCSV.open("#{RAILS_ROOT}/tmp/tpc_comments.csv", "a") do |c_csv|
