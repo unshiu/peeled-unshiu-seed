@@ -43,4 +43,18 @@ for i in 1..users
                        
   user.make_activation_code                     
   user.save!
+  
+  name = "名前#{s}"
+  public_all = UserRelationSystem::PUBLIC_LEVEL_ALL
+  birthday = Time.now - 80.years + rand(60*60*24*365*80)
+  
+  profile = BaseProfile.new(:base_user_id => user.id,
+                            :name => name, :name_public_level => public_all, 
+                            :introduction => "#{name}", :introduction_public_level => public_all,
+                            :sex => rand(2), :sex_public_level => public_all,
+                            :civil_status => rand(2), :civil_status_public_level => public_all,
+                            :birthday => birthday, :birthday_public_level => public_all,
+                            :area => rand(47), :area_public_level => public_all)
+
+  profile.save!
 end
