@@ -42,12 +42,17 @@ module TestUtil
         when 0:
           @request.user_agent = 'DoCoMo/2.0 SH903i(c100;TB;W24H16) ser012345678912345;'
           @request.env["HTTP_USER_AGENT"] = "DoCoMo/2.0 SH903i(c100;TB;W24H16) ser012345678912345;"
+          @request.remote_addr = "210.153.84.1"
         when 1:
           @request.user_agent = 'KDDI-SA31 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0'
+          @request.env["HTTP_USER_AGENT"] = "KDDI-SA31 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0"
           @request.env["HTTP_X_UP_SUBNO"] = "012345678912345"
+          @request.remote_addr = "61.117.0.128"
         when 2:
-          @request.user_agent = 'SoftBank/1.0/910T/TJ001'
+          @request.user_agent = 'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1'
+          @request.env["HTTP_USER_AGENT"] = "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1"
           @request.env["HTTP_X_JPHONE_UID"] = "012345678912345"
+          @request.remote_addr = "123.108.236.0"
         end
       end
 
