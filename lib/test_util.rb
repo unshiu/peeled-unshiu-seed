@@ -35,6 +35,15 @@ module TestUtil
     module MobileControllerTest 
       include AuthenticatedTestHelper
       
+      class << self
+        def included(base)
+          base.class_eval do
+            fixtures :jpmobile_carriers
+            fixtures :jpmobile_devices
+          end
+        end
+      end
+      
       def setup
         @request    = ActionController::TestRequest.new
         @response   = ActionController::TestResponse.new
