@@ -72,7 +72,9 @@ Rails::Initializer.run do |config|
   config.gem "uuidtools",          :version => "~> 1.0"
   config.gem "launchy",            :version => "~> 0.3"
   config.gem "ci_reporter",        :version => "~> 1.5",   :lib => "ci/reporter/core"
-  
+  config.gem "mocha",              :version => "~> 0.9"
+  config.gem "packet",             :version => "~> 0.1"
+  config.gem "chronic",            :version => "~> 0.2"
 end
 
 # Add new mime types for use in respond_to blocks:
