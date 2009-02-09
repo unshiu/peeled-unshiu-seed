@@ -92,6 +92,13 @@ module Unshiu::ApplicationHelperModule
     datetime.strftime("%Y/%m/%d %H:%M")
   end
   
+  # 時間を表示せず日付のみ表示する
+  def datetime_to_date(datetime)
+    return '' unless datetime
+    
+    datetime.strftime("%Y/%m/%d")
+  end
+  
   # FIXME to_s が OS 依存なのか細かい原因は不明だが形式が違うことがあったので統一するためのヘルパ
   def datetime_for_hidden(datetime)
     return nil unless datetime
