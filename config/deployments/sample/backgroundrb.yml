@@ -1,10 +1,7 @@
-port: "22222"
-timer_sleep: 60
-load_rails: true
-environment: <%= backgroundrb_environment %>
-host: <%= backgroundrb_host %>
-database_yml: config/database.yml
-acl:
-  deny: all
-  allow: localhost 127.0.0.1
-  order: deny,allow
+--- 
+:backgroundrb: 
+  :ip: 127.0.0.1
+  :port: 11006
+  :environment: <%= backgroundrb_environment %> 
+  :debug_log: false
+  :log: foreground
