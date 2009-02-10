@@ -5,3 +5,10 @@
   :environment: <%= backgroundrb_environment %> 
   :debug_log: false
   :log: foreground
+
+:schedules:
+<% require 'unshiu/plugins' %>
+<% Unshiu::Plugins::ACTIVE_LIST.each do |plugin| %>
+  <% plugin_path = "#{RAILS_ENV}/vender/plugins/#{plugin}/schedules.yml" %>
+  <%= eval(IO.read(routes_path), binding, routes_path) if File.file?(plugin_path) %>
+<% end %>
