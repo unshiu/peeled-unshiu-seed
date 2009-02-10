@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+
   # The priority is based upon order of creation: first created -> highest priority.
   
   # Sample of regular route:
@@ -22,7 +23,10 @@ ActionController::Routing::Routes.draw do |map|
   
   # mng routes:
   map.from_plugin :mng if Unshiu::Plugins.mng? && ENV['UNSHIU_ROUTE_SKIP'].nil?
-   
+  
+  # ace routes:
+  map.from_plugin :ace if Unshiu::Plugins.ace? && ENV['UNSHIU_ROUTE_SKIP'].nil?
+  
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'
