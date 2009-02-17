@@ -159,3 +159,16 @@ namespace :deploy do
   end
 end
 
+namespace :deploy_check do
+  
+  desc "web server chkconfig check"
+  task :web_chkconfig, :roles => :web do
+    run "ruby #{current_path}/script/chkconfig.rb httpd2 #{shared_path}/system/files"
+  end
+  
+  desc "db server chkconfig check"
+  task :db_chkconfig, :roles => :db do
+    run "ruby #{current_path}/script/chkconfig.rb mysql #{shared_path}/system/files"
+  end
+
+end
