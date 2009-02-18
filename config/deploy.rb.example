@@ -1,4 +1,5 @@
 require 'mongrel_cluster/recipes'
+require File.join(File.dirname(__FILE__), '../lib/app_resources.rb')
 
 # -----------------------------------------------------------
 # server basic setting 
@@ -163,12 +164,12 @@ namespace :deploy_check do
   
   desc "web server chkconfig check"
   task :web_chkconfig, :roles => :web do
-    run "ruby #{current_path}/script/chkconfig.rb httpd2 #{shared_path}/system/chkconfig"
+    run "ruby #{current_path}/script/chkconfig.rb httpd2 #{current_path}/#{AppResources[:init][:chkconfig_outputfile_path]}/"
   end
   
   desc "db server chkconfig check"
   task :db_chkconfig, :roles => :db do
-    run "ruby #{current_path}/script/chkconfig.rb mysql #{shared_path}/system/chkconfig"
+    run "ruby #{current_path}/script/chkconfig.rb mysql #{current_path}/#{AppResources[:init][:chkconfig_outputfile_path]}/"
   end
 
 end
