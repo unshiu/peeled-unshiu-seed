@@ -11,6 +11,11 @@ common: &common
   # crontab出力ディレクトリ
   crontab_outputfile_path: public/system/files/cron
   
+  # メール送信設定
+  action_mailer_setting_address: mail.drecom.co.jp
+  action_mailer_setting_port: 25
+  action_mailer_setting_domain: unshiu.drecom.jp
+  
 development:
   <<: *common
 
