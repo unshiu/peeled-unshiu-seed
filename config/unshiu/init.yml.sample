@@ -6,8 +6,10 @@ common: &common
   file_column_image_root_path: public/system/images
   
   # chkconfig出力ディレクトリ
-  chkconfig_outputfile_path: public/system/chkconfig
-  
+  chkconfig_outputfile_path: public/system/files/chkconfig
+  # crontab出力ディレクトリ
+  crontab_outputfile_path: public/system/files/cron
+
 development:
   <<: *common
 
