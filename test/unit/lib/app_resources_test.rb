@@ -7,11 +7,11 @@ class AppResourcesTest < Test::Unit::TestCase
   end
   
   define_method('test: リソース情報を取得する') do 
-    assert_equal AppResources["base"]["mail_domain_name"], "unshiu.drecom.jp"
+    assert_equal AppResources["base"]["plugin_news_url"], "http://unshiu.drecom.jp/news"
   end
   
   define_method('test: シンボルででリソース情報を取得する') do 
-    assert_equal AppResources[:base][:mail_domain_name], "unshiu.drecom.jp"
+    assert_equal AppResources[:base][:plugin_news_url], "http://unshiu.drecom.jp/news"
   end
     
 end
