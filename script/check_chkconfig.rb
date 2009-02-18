@@ -5,4 +5,4 @@
 #　引数２：出力ディレクトリ
 
 host_name = %x( uname -n )
-system "chkconfig --list | grep #{ARGV[0]} > #{ARGV[1]}/chkconfi-#{host_name}"
+system "chkconfig --list | grep #{ARGV[0]} > #{ARGV[1]}/chkconfig-#{host_name}"
