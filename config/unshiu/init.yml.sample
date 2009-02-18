@@ -4,7 +4,10 @@ common: &common
   # 画像設置rootディレクトリ
   file_column_image_web_root: system/images/
   file_column_image_root_path: public/system/images
-
+  
+  # chkconfig出力ディレクトリ
+  chkconfig_outputfile_path: public/system/chkconfig
+  
 development:
   <<: *common
 
