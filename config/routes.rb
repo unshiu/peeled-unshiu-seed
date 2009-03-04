@@ -17,15 +17,6 @@ ActionController::Routing::Routes.draw do |map|
   # Allow downloading Web Service WSDL as a file with an extension
   # instead of a file named 'wsdl'
   map.connect ':controller/service.wsdl', :action => 'wsdl'
-
-  # base routes:
-  map.from_plugin :base if Unshiu::Plugins.base? && ENV['UNSHIU_ROUTE_SKIP'].nil?
-  
-  # mng routes:
-  map.from_plugin :mng if Unshiu::Plugins.mng? && ENV['UNSHIU_ROUTE_SKIP'].nil?
-  
-  # ace routes:
-  map.from_plugin :ace if Unshiu::Plugins.ace? && ENV['UNSHIU_ROUTE_SKIP'].nil?
   
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'

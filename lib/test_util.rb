@@ -2,7 +2,7 @@
 # 単体テスト用Utilモジュール
 # テストクラスにincludeして利用する
 #
-# ex)  class Hoge < Test::Unit::TestCase
+# ex)  class Hoge < ActiveSupport::TestCase
 #         include TestUtil::Base::PcControllerTest
 #      end
 #
@@ -11,8 +11,16 @@ module TestUtil
   module Base
     
     # PCのコントローラテスト便利モジュール
-    module PcControllerTest 
+    module PcControllerTest
       include AuthenticatedTestHelper
+      
+      class << self
+        def included(base)
+          base.class_eval do
+            fixtures :base_errors
+          end
+        end
+      end
       
       def uploaded_file(path, content_type, filename)
         t = Tempfile.new(filename);
@@ -23,6 +31,11 @@ module TestUtil
           define_method(:content_type) {content_type}
         end
         return t
+      end
+      
+      def assert_redirect_with_error_code(error_code)
+        error = BaseError.find_by_error_code_use_default(error_code)
+        assert_redirected_to :controller => :base, :action => :error, :error_code => error.error_code, :error_message => error.message
       end
     end
 
@@ -38,6 +51,7 @@ module TestUtil
       class << self
         def included(base)
           base.class_eval do
+            fixtures :base_errors
             fixtures :jpmobile_carriers
             fixtures :jpmobile_devices
           end
@@ -49,8 +63,8 @@ module TestUtil
         @response   = ActionController::TestResponse.new
         case @count
         when 0:
-          @request.user_agent = 'DoCoMo/2.0 SH903i(c100;TB;W24H16) ser012345678912345;'
-          @request.env["HTTP_USER_AGENT"] = "DoCoMo/2.0 SH903i(c100;TB;W24H16) ser012345678912345;"
+          @request.user_agent = 'DoCoMo/2.0 SH903i(c100;TB;W23H16;ser012345678912345;icc012345678912345)'
+          @request.env["HTTP_USER_AGENT"] = "DoCoMo/2.0 SH903i(c100;TB;W23H16;ser012345678912345;icc012345678912345)"
           @request.remote_addr = "210.153.84.1"
         when 1:
           @request.user_agent = 'KDDI-SA31 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0'
@@ -70,11 +84,21 @@ module TestUtil
           super
         end
       end
-      
-      def login(base_user_id = 1)
-        @controller.send(:current_base_user=, BaseUser.find(base_user_id))
-      end
 
+      # FIXME redirect_error_code_asに集約させるのでいらなくなる予定
+      def encode(message)
+        if @count == 2 # softbankの場合のみ変換しない。
+          message
+        else
+          NKF.nkf('-m0 -x -Ws', message)
+        end
+      end
+      
+      def assert_redirect_with_error_code(error_code)
+        error = BaseError.find_by_error_code_use_default(error_code)
+        assert_redirected_to :controller => :base, :action => :error, :error_code => error.error_code, :error_message => encode(error.message)
+      end
+      
     end
     
     module UnitTest

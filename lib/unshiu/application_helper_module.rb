@@ -35,13 +35,13 @@ module Unshiu::ApplicationHelperModule
 	#	  <%= date_or_time(base_user.updated_at) %>
 	# <% end %>
   def list_cell_for(style_options=nil, &block)
-    concat("<div style=\"#{style_value('list_' + cycle('even','odd'))} #{style_options}\">", block.binding)
-    concat("#{image_tag_for_default 'Spec_02.gif'}", block.binding)
-    concat("<br/>", block.binding)
+    concat("<div style=\"#{style_value('list_' + cycle('even','odd'))} #{style_options}\">", &block)
+    concat("#{image_tag_for_default 'Spec_02.gif'}", &block)
+    concat("<br/>", &block)
     yield
-    concat("#{image_tag_for_default 'Spec_02.gif'}", block.binding)
-    concat("<br/>", block.binding)
-    concat("</div>", block.binding)
+    concat("#{image_tag_for_default 'Spec_02.gif'}", &block)
+    concat("<br/>", &block)
+    concat("</div>", &block)
   end
   
   def link_to_list_cell(name, options = {}, html_options = nil, *parameters_for_method_reference)
@@ -139,7 +139,7 @@ module Unshiu::ApplicationHelperModule
   
   # キャンセルタグを出力するヘルパ
   def cancel_tag(value = nil, options = {})
-    value = _("Cancel button") unless value
+    value = I18n.t("Cancel button") unless value
     submit_tag(value, {:name => 'cancel'}.merge!(options))
   end
   
@@ -230,7 +230,7 @@ module Unshiu::ApplicationHelperModule
     options
   end
 
-  # FIXME error メッセージのデザインを変更しつつ、gettextにも対応しておくためにだいぶ大がかりなことをしている。なんとかしたい
+  # FIXME error メッセージのデザインを変更
   def error_messages_for(*params)
     options = params.last.is_a?(Hash) ? params.pop.symbolize_keys : {}
     objects = params.collect {|object_name| instance_variable_get("@#{object_name}") }.compact
@@ -244,40 +244,49 @@ module Unshiu::ApplicationHelperModule
         error_messages_for_mobile(self, objects, object_names, count, options)
       else
         # それ以外ならデフォルトのヘルパへ
-        ActionView::Helpers::ActiveRecordHelper::L10n.error_messages_for(self, objects, object_names, count, options)
+        super(params)
       end
     end
   end
   
   # 携帯用エラーメッセージヘルパ
   def error_messages_for_mobile(instance, objects, object_names, count, options)
-    # FIXME gettext を使った置換がうまく起こらないのでとりあえずここに日本語で書いてしまう。要修正
-    error_message_title = Nn_("%{record}にエラーが発生しました。", "%{record}に%{num}つのエラーが発生しました。")
-    error_message_explanation = Nn_("次の項目を確認してください。", "次の項目を確認してください。")
-    
-    record = ActiveRecord::Base.human_attribute_table_name_for_error(options[:object_name] || object_names[0].to_s)
-    
-    message_title = ActionView::Helpers::ActiveRecordHelper::L10n.set_error_message_title(error_message_title)
-    message_explanation = ActionView::Helpers::ActiveRecordHelper::L10n.set_error_message_explanation(error_message_explanation)
-    
-    html = {}
-    html[:style] = "background-color:#FFE7E7; text-align:left;"
+    count  = objects.inject(0) {|sum, object| sum + object.errors.count }
+    unless count.zero?
+      html = {}
+      html[:style] = "background-color:#FFE7E7; text-align:left;"      
+      [:id, :class].each do |key|
+        if options.include?(key)
+          value = options[key]
+          html[key] = value unless value.blank?
+        else
+          html[key] = 'errorExplanation'
+        end
+      end
 
-    header_message = n_(message_title, count) % {:num => count, :record => record}
-    error_messages = objects.map {|object|
-      object.errors.full_messages.map {|msg| '　・' + msg + '<br/>'}
-    }
-    
-    return instance.content_tag(:div,
-        image_tag_for_default('Spec_02.gif') <<
-        '<br/>' <<
-        instance.content_tag(options[:header_tag] || :span, '' + header_message, {:style => "color:#ff0100;"}) <<
-        '<br/>' <<
-        n_(message_explanation, count) % {:num => count} <<
-        '<br/>' <<
-        error_messages.to_s <<
-        image_tag_for_default('Spec_02.gif'),
-      html)
+      I18n.with_options :locale => options[:locale], :scope => [:activerecord, :errors, :template] do |locale|
+        header_message = if options.include?(:header_message)
+          options[:header_message]
+        else
+          object_name = options[:object_name].to_s.gsub('_', ' ')
+          object_name = I18n.t(object_name, :default => object_name, :scope => [:activerecord, :models], :count => 1)
+          locale.t :header, :count => count, :model => object_name
+        end
+        message = options.include?(:message) ? options[:message] : locale.t(:body)
+        error_messages = objects.sum {|object| object.errors.full_messages.map {|msg| content_tag(:li, msg) } }.join
+        
+        instance.content_tag(:div,
+            image_tag_for_default('Spec_02.gif') <<
+            '<br/>' <<
+            instance.content_tag(options[:header_tag] || :span, '' + header_message, {:style => "color:#ff0100;"}) <<
+            '<br/>' <<
+            error_messages.to_s <<
+            image_tag_for_default('Spec_02.gif'),
+          html)
+      end
+    else
+      ''
+    end
   end
   
   def error_message_on_for_mobile(object, method, prepend_text = "", append_text = "")

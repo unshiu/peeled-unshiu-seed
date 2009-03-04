@@ -100,7 +100,7 @@ namespace :unshiu do
       task.set_arg_names ["user"]
       Unshiu::Plugins::EXTERNAL_LIST.each do |plugin|
         system "rm -rf vendor/plugins/#{plugin}" if File.exist?("vendor/plugins/#{plugin}")
-        system "ruby script/plugin install #{svn_external_plugin_trunk(args.user, plugin)}"
+        system "svn script/plugin install #{svn_external_plugin_trunk(args.user, plugin)}"
       end
     end
     
@@ -151,7 +151,15 @@ namespace :unshiu do
         require File.join(File.dirname(__FILE__), "../annotate_models_expanse.rb")
         AnnotateModels.do_plugin_annotations(args.plugin_name)
     end
-     
+    
+    desc "gettext2i18n"
+    task :gettext2i18n do
+      base = Gettext2I18n::Base.new
+      Unshiu::Plugins::LIST.each do |plugin|
+        base.transform("#{RAILS_ROOT}/vendor/plugins/#{plugin}/lib/")
+      end
+    end
+    
   end
 
   namespace :gettext do

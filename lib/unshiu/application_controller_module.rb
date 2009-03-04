@@ -21,7 +21,7 @@ module Unshiu::ApplicationControllerModule
         
         # DoCoMo(FOMA)携帯対応
         # http://jpmobile-rails.org/ticket/22
-        session :cookie_only => false
+        #session :cookie_only => false
         
         # 携帯向けのセッション保持
         transit_sid

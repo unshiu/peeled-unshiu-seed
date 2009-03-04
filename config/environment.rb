@@ -5,13 +5,11 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.1.1' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.0' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
-require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
-require File.join(File.dirname(__FILE__), '../lib/app_resources.rb')
-require File.join(File.dirname(__FILE__), '../lib/util.rb')
+require 'string_expanse'
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here
@@ -28,11 +26,7 @@ Rails::Initializer.run do |config|
   # Force all environments to use the same logger level
   # (by default production uses :info, the others :debug)
   # config.log_level = :debug
-
-  # Use the database for sessions instead of the file system
-  # (create the session table with 'rake db:sessions:create')
-  config.action_controller.session_store = :active_record_store
-
+  
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types
@@ -53,12 +47,7 @@ Rails::Initializer.run do |config|
   #   inflect.uncountable %w( fish sheep )
   # end
   # See Rails::Configuration for more options
-  config.action_controller.session = {
-    :session_key => AppResources[:init][:session_key],
-    :secret => Util.secret_key("session_secret")
-  }
-  
-  config.gem "gettext",            :version => "1.93.0",   :lib => "gettext/rails"      
+ 
   config.gem "mysql",              :version => "2.7"
   config.gem "rmagick",            :version => "~> 2.5.0", :lib => 'RMagick'           
   config.gem "ar-extensions",      :version => "~> 0.7",   :install_options => "--ignore-dependencies"
@@ -81,10 +70,3 @@ end
 # Mime::Type.register "text/richtext", :rtf
 # Mime::Type.register "application/x-mobile", :mobile
 
-require 'string_expanse'
-
-ActionMailer::Base.smtp_settings = {
-  :address => AppResources[:init][:action_mailer_setting_address],
-  :port => AppResources[:init][:action_mailer_setting_port],
-  :domain => AppResources[:init][:action_mailer_setting_domain],
-}
