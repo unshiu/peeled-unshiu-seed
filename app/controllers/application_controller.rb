@@ -2,8 +2,6 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  Unshiu::Plugins::ACTIVE_LIST.each { |plugin| init_gettext(plugin) }
-  
   include Unshiu::ApplicationControllerModule
   
   if Unshiu::Plugins.active_base?
