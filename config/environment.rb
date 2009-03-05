@@ -64,6 +64,8 @@ Rails::Initializer.run do |config|
   config.gem "mocha",              :version => "~> 0.9"
   config.gem "packet",             :version => "~> 0.1"
   config.gem "chronic",            :version => "~> 0.2"
+  config.gem "echoe",              :version => "~> 3.1"
+  
 end
 
 # Add new mime types for use in respond_to blocks:
