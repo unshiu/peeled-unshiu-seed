@@ -26,9 +26,11 @@
   </div><!-- /main02 -->
 </div><!-- /box02 -->
 
-<%- if finder.file_exists?("#{url_for :action => 'index'}/_side_menu.html.erb") -%>
-  <%= render :partial => 'side_menu' %>
-<%- end -%>
+<%# if finder.file_exists?("#{url_for :action => 'index'}/_side_menu.html.erb") -%>
+
+<%# if Template.valid_extension?("#{url_for :action => 'index'}/_side_menu.html.erb") -%>
+  <%= sefe_render 'side_menu' %>
+<%# end -%>
 
 </div><!-- /contents -->
 <%= render 'common/footer' %>
