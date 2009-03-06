@@ -347,4 +347,11 @@ module Unshiu::ApplicationHelperModule
     hash.to_a.sort.collect{ |key, val| [val, key] }
   end
   
+  # 対象ファイルがあれば描画し、ない場合は例外を出さず無視する
+  # _param1_:: value
+  def sefe_render(value)
+    render value
+  rescue
+  end
+  
 end
