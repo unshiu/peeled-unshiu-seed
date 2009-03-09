@@ -139,7 +139,7 @@ module Unshiu::ApplicationHelperModule
   
   # キャンセルタグを出力するヘルパ
   def cancel_tag(value = nil, options = {})
-    value = I18n.t("Cancel button") unless value
+    value = I18n.t("view.noun.cancel_button") unless value
     submit_tag(value, {:name => 'cancel'}.merge!(options))
   end
   
@@ -230,27 +230,26 @@ module Unshiu::ApplicationHelperModule
     options
   end
 
-  # FIXME error メッセージのデザインを変更
   def error_messages_for(*params)
-    options = params.last.is_a?(Hash) ? params.pop.symbolize_keys : {}
-    objects = params.collect {|object_name| instance_variable_get("@#{object_name}") }.compact
-    object_names = params.dup
-    count   = objects.inject(0) {|sum, object| sum + object.errors.count }
-    if count.zero?
-          ''
+    if request.mobile?
+      # 携帯なら自前のヘルパへ
+      error_messages_for_mobile(*params)
     else
-      if request.mobile?
-        # 携帯なら自前のヘルパへ
-        error_messages_for_mobile(self, objects, object_names, count, options)
-      else
-        # それ以外ならデフォルトのヘルパへ
-        super(params)
-      end
+      # それ以外ならデフォルトのヘルパへ
+      super(*params)
     end
   end
   
   # 携帯用エラーメッセージヘルパ
-  def error_messages_for_mobile(instance, objects, object_names, count, options)
+  def error_messages_for_mobile(*params)
+    options = params.extract_options!.symbolize_keys
+    
+    if object = options.delete(:object)
+      objects = [object].flatten
+    else
+      objects = params.collect {|object_name| instance_variable_get("@#{object_name}") }.compact
+    end
+    
     count  = objects.inject(0) {|sum, object| sum + object.errors.count }
     unless count.zero?
       html = {}
@@ -263,7 +262,8 @@ module Unshiu::ApplicationHelperModule
           html[key] = 'errorExplanation'
         end
       end
-
+      options[:object_name] ||= params.first
+      
       I18n.with_options :locale => options[:locale], :scope => [:activerecord, :errors, :template] do |locale|
         header_message = if options.include?(:header_message)
           options[:header_message]
@@ -272,13 +272,14 @@ module Unshiu::ApplicationHelperModule
           object_name = I18n.t(object_name, :default => object_name, :scope => [:activerecord, :models], :count => 1)
           locale.t :header, :count => count, :model => object_name
         end
+        
         message = options.include?(:message) ? options[:message] : locale.t(:body)
         error_messages = objects.sum {|object| object.errors.full_messages.map {|msg| content_tag(:li, msg) } }.join
         
-        instance.content_tag(:div,
+        content_tag(:div,
             image_tag_for_default('Spec_02.gif') <<
             '<br/>' <<
-            instance.content_tag(options[:header_tag] || :span, '' + header_message, {:style => "color:#ff0100;"}) <<
+            content_tag(options[:header_tag] || :span, '' + header_message, {:style => "color:#ff0100;"}) <<
             '<br/>' <<
             error_messages.to_s <<
             image_tag_for_default('Spec_02.gif'),
