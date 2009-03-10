@@ -1,4 +1,7 @@
 common: &common
+
+  service_name: unshiu                                           # サービス名
+
   session_key: _mobilesns_session_id                             # セッションの名称
   application_domain: localhost:3000
   
