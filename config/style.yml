@@ -4,7 +4,7 @@ hr: margin:5px 0px 5px 0px;
 ad: margin:10px 0px 10px 0px;text-align:center;
 header_title: border:1px solid black;margin:0px 10px 0px 10px;
 
-sub_title: background-color:#ff9e00; color:#FFFFFF;
+sub_title: background-color:#75BF2A; color:#FFFFFF;
 sub_title_hr: background-color:#000000; height:2px;
 small_info_right: text-align:right;font-size:x-small;
 
@@ -15,5 +15,5 @@ list_odd: # nothing
 list_cell: color:#F75200
 
 form_style: background-color:#FFF7E7; text-align:left;
-inner_title: background-color:#ff9e00; color:#FFFFFF; text-align:left;
-hr1: border-style:solid; border-color:#ff9e00; background-color:#ff9e00; height:1px;
+inner_title: background-color:#75BF2A; color:#FFFFFF; text-align:left;
+hr1: border-style:solid; border-color:#ff9e00; background-color:#75BF2A; height:1px;
