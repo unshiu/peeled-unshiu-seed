@@ -23,7 +23,6 @@
 <div style="text-align:right">
 <% if logged_in? %>
 	<span style="color:#FF0000"></span>
-	<%= link_to_menu "aaa" %>
 	<%= link_to_portal "#{t('view.noun.my_portal')}", {:controller => 'base', :action => 'portal'}, {:accesskey => 0} %><br />
 <% else %>
 	<span style="color:#FF0000"></span>
