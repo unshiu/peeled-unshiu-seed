@@ -12,9 +12,10 @@ module Unshiu::ApplicationControllerModule
         include ExceptionNotifiable
         include AuthenticatedSystem
         
-        layout '_application'
+        layout :base_layout
         
-        protect_from_forgery :secret => Util.secret_key("session_secret_key")
+        #protect_from_forgery :secret => Util.secret_key("session_secret_key")
+        protect_from_forgery
         
         # 生パスワードをログに出力させない 
         filter_parameter_logging :password
@@ -128,12 +129,20 @@ private
     end
     return false
   end
-      
-  # 多段レイアウトを行うための filter 呼び出し
-  # 完了メソッド（名称末尾が done なメソッド）の場合は完了用のレイアウトを使う
-  # 完了メソッドの自動割り出しを行っているため、
-  # 各 Controller の“末尾”でこのメソッドを呼び出してください
+  
+  def base_layout
+    return 'done' if action_name =~ /done$/
+    return '_application_mobile' if request.mobile
+    return '_application'
+  end
+  
   module ClassMethods
+    
+    # 多段レイアウトを行うための filter 呼び出し
+    # 完了メソッド（名称末尾が done なメソッド）の場合は完了用のレイアウトを使う
+    # 完了メソッドの自動割り出しを行っているため、
+    # 各 Controller の“末尾”でこのメソッドを呼び出してください
+    # FIXME 非推奨
     def nested_layout_with_done_layout
       methods = self.public_instance_methods
       done_methods = methods.reject{|m|
