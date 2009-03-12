@@ -64,6 +64,7 @@ Rails::Initializer.run do |config|
   config.gem "mocha",              :version => "~> 0.9"
   config.gem "packet",             :version => "~> 0.1"
   config.gem "chronic",            :version => "~> 0.2"
+  config.gem "mime-types",         :version => "~> 1.1"
   
 end
 
