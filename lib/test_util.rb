@@ -37,6 +37,11 @@ module TestUtil
         error = BaseError.find_by_error_code_use_default(error_code)
         assert_redirected_to :controller => :base, :action => :error, :error_code => error.error_code, :error_message => error.message
       end
+      
+      def file_path(filename)
+        File.expand_path("#{RAILS_ROOT}/test/fixtures/#{filename}")
+      end
+      
     end
 
     class ActionController::TestRequest
