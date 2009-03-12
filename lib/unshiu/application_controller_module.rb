@@ -131,9 +131,9 @@ private
   end
   
   def base_layout
-    return 'done' if action_name =~ /done$/
-    return '_application_mobile' if request.mobile
-    return '_application'
+    suffix = request.mobile? ? '_mobile' : ''
+    return "_done#{suffix}" if action_name =~ /done$/
+    return "_application#{suffix}"
   end
   
   module ClassMethods
