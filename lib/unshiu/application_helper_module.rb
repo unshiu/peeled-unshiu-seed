@@ -143,6 +143,61 @@ module Unshiu::ApplicationHelperModule
     submit_tag(value, {:name => 'cancel'}.merge!(options))
   end
   
+  def paginate(page_enumerator)
+    #return '' if page_enumerator.last_page == 1 # 1ページしかないのでリンクはなし
+    link_params = params.dup
+    link_params.delete('commit')
+    link_params.delete('action')
+    link_params.delete('controller')
+    link_params.delete('page')
+    
+    <<-END
+    <div class="pager_col pager_col_top append-bottom">
+  		<div class="turnover">
+  			<span class="preview_page">
+  			  #{link_to '前のページへ', { :page => page_enumerator.previous_page }.merge(link_params) if page_enumerator.previous_page? }
+  			</span>
+  			<span>|</span>
+  			<span class="next_page">
+  			  #{link_to '次のページへ', { :page => page_enumerator.next_page }.merge(link_params) if page_enumerator.next_page? }
+  			</span>
+  		</div>
+  		<div class="page_on_pages">
+  			<span>#{page_enumerator.page} / #{page_enumerator.last_page} page</span>
+  		</div>
+  		<div class="pagenation">
+				#{page_links(page_enumerator, link_params)}
+			</div>
+			<div class="clear"></div>
+		</div>
+  	END
+  end
+  
+  def page_links(page_enumerator, link_params)
+    result = ''
+    current = page_enumerator.page
+    last_page = page_enumerator.last_page
+    start_page = current - 5
+    start_page = 1 if start_page < 1
+    end_page = start_page + 10
+    end_page = last_page if end_page > last_page
+    
+    if start_page != 1
+      result << '...'
+    end
+    for i in start_page..end_page
+      if i == page_enumerator.page
+        result << "<span class='pagenation_on'>#{i.to_s}</span>"
+      else
+        result << "<span>#{link_to(i, { :page => i }.merge(link_params))}</span>"
+      end
+    end
+    if end_page != last_page
+      result << '...'
+    end
+    result
+  end
+  
   # ページネートにまつわる情報をいろいろ表示するヘルパ
   def paginate_header(page_enumerator)
     <<-END
@@ -279,7 +334,7 @@ module Unshiu::ApplicationHelperModule
         content_tag(:div,
             image_tag_for_default('Spec_02.gif') <<
             '<br/>' <<
-            content_tag(options[:header_tag] || :span, '' + header_message, {:style => "color:#ff0100;"}) <<
+            content_tag(options[:header_tag] || :span, '' + header_message, {:style => "color:#024873;"}) <<
             '<br/>' <<
             error_messages.to_s <<
             image_tag_for_default('Spec_02.gif'),
@@ -355,4 +410,23 @@ module Unshiu::ApplicationHelperModule
   rescue
   end
   
+  # エラーメッセージにエラー発生元情報も表示するように
+  # error_message_onを参照のこと
+  def error_message_on_with_label(object, method, *args)
+    options = args.extract_options!
+    options.reverse_merge!(:prepend_text => '', :append_text => '', :css_class => 'formError')
+
+    if (obj = (object.respond_to?(:errors) ? object : instance_variable_get("@#{object}"))) &&
+      (errors = obj.errors.on(method))
+      content_tag("div",
+                  "#{options[:prepend_text]}" +
+                  I18n.t("activerecord.attributes." + object.class.to_s.underscore + "." + method.to_s,
+                  :default => method.to_s) +
+                  "#{errors.is_a?(Array) ? errors.first : errors}#{options[:append_text]}",
+                  :class => options[:css_class]
+      )
+    else
+      ''
+    end
+  end
 end
