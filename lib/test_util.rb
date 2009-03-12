@@ -103,6 +103,10 @@ module TestUtil
     
     module UnitTest
       
+      def file_path(filename)
+        File.expand_path("#{RAILS_ROOT}/test/fixtures/#{filename}")
+      end
+      
       # テスト用のfixtureデータを読みemailオブジェクトを返す
       # _param1_:: controller名
       # _param2_:: action名
