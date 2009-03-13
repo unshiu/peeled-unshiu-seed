@@ -8,7 +8,7 @@
 </div>
 
 <!--ページロゴ-->
-<div style="font-size:medium; background-color:#ff9e00; color:#FFFFFF; text-align:center;">
+<div style="font-size:medium; background-color:#75BF2A; color:#FFFFFF; text-align:center;">
 	<%= image_tag_for_default 'Spec_04.gif' %><br />
 	<%= @content_for_header_title ||= "HOME" %><br />
 	<%= image_tag_for_default 'Spec_04.gif' %>
@@ -22,10 +22,10 @@
 
 <div style="text-align:right">
 <% if logged_in? %>
-	<span style="color:#FF0000"></span>
+	<span style="color:#FF0000">&#xE6D8;</span>
 	<%= link_to_portal "#{t('view.noun.my_portal')}", {:controller => 'base', :action => 'portal'}, {:accesskey => 0} %><br />
 <% else %>
-	<span style="color:#FF0000"></span>
+	<span style="color:#FF0000">&#xE6D8;</span>
 	<%= link_to_portal "ログイン", {:controller => 'base_user', :action => 'login', :return_to => controller.request.request_uri}, {:utn => 'utn'} %><br />
 <% end %>
 </div>

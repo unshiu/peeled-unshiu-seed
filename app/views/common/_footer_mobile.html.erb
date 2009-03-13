@@ -5,12 +5,12 @@
 会員メニュー<br />
 <%= image_tag_for_default 'Spec_02.gif' %><br />
 <div style="text-align:left">
-	<%= link_to_menu '初めての方へ' %><br />
+	<%= link_to_menu '初めての方へ', :controller => 'base_guides' %><br />
 	<% unless logged_in? %>
 		<%= link_to_menu "#{t('view.noun.base_user')}登録", { :controller => 'base_signup', :action => 'presignup' } %><br />
 	<% end %>
-	<%= link_to_menu "#{t('view.noun.base_user')}情報･規約･方針" %><br />
-	<%= link_to_menu '機種変更時のご注意' %><br />
+	<%= link_to_menu "#{t('view.noun.base_user')}情報･規約･方針", :controller => 'base_terms' %><br />
+	<%= link_to_menu '機種変更時のご注意', :controller => 'base', :action => 'device_change' %><br />
 	<% unless logged_in? %>
 		<%= link_to_menu 'パスワードを忘れてしまったら', :controller => 'base_signup', :action => 'password_remind_ask' %><br/>
 	<% end %>
@@ -18,7 +18,7 @@
 	<% if logged_in? && !current_base_user_manage? %>
 		<%= link_to_menu '退会', :controller => 'base_signup', :action => 'quit_confirm' %><br />
 	<% end %>
-	<%= link_to_menu '対応端末' %><br />
+	<%= link_to_menu '対応端末', :controller => 'base', :action => 'device' %><br />
 </div>
 
 <div style="text-align:left">
@@ -44,7 +44,7 @@
 
 <%= image_tag_for_default 'Spec_02.gif' %><br />
 
-<div style="background-color:#000000; color:#FFFFFF; text-align:right">
+<div style="background-color:#027333; color:#FFFFFF; text-align:right">
 	<%= image_tag_for_default 'Spec_04.gif' %><br />
 	提供　株式会社○○○<br />
 	株式会社ﾄﾞﾘｺﾑ<br />

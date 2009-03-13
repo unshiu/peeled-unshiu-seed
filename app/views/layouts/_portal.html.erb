@@ -10,11 +10,11 @@
 				function(){ $("ul", this).fadeIn("fast"); }, 
 				function() { } 
 			);
-			if (document.all) {
+		if (document.all) {
 				$("#menu_list li").hoverClass ("sfHover");
 			}
 		});
-		
+
 		$.fn.hoverClass = function(c) {
 			return this.each(function(){
 				$(this).hover( 
@@ -22,15 +22,8 @@
 					function() { $(this).removeClass(c); }
 				);
 			});
-		};
-	
-		 $(document).ready(function() {
-			$("#flash_error").hide();
-			$("#flash_error").fadeIn(2000);
-		 });
-				
+		};	  
   </script>
-  <%= yield :js %>
 
   <%= stylesheet_link_tag "blueprint/screen.css", :media => 'all' %>
   <%= stylesheet_link_tag "blueprint/ie.css", :media => 'all' %>
@@ -108,10 +101,10 @@
 						<%= login_status(current_base_user.latest_login) %>前にログアウトしました
 					</div><!--/profile_logtime-->
 					<div id="profile_shozaiti"  class="profile_details">
-						<%= BaseProfile.area_kind_name(current_base_user.base_profile.area) %>在住
+							<%= BaseProfile.area_kind_name(current_base_user.base_profile.area) %>在住
 					</div><!--/profile_shozaiti-->
 					<div id="profile_gender"    class="profile_details">
-						<%= BaseProfile.sex_kind_name(current_base_user.base_profile.sex) %>
+							<%= BaseProfile.sex_kind_name(current_base_user.base_profile.sex) %>
 					</div><!--/profile_gender-->
 
 					<div id="contact_send_message_col" class="prepend-top span-4">
@@ -129,9 +122,7 @@
 			<ul id="sub_menu_list">
 				<li class="span-4 "><a href=""><div class="submenu_inner sub_menu_on tab_on"><div class="sub_menu_title_col"><div class="sub_menu_title">更新情報</div></div><img src="/images/default/icon/updatehistory.gif" width="32" height="32" border="0"></div></a></li>
 				<li class="span-4 "><a href=""><div class="submenu_inner sub_menu_off tab_off"><div class="sub_menu_title_col"><div class="sub_menu_title">プロフィール</div></div><img src="/images/default/icon/profile.gif" width="32" height="32" border="0"></div></a></li>
-				<li class="span-4 ">
-					<%= sub_tab_menu("日記", "diary", {:controller => :dia_entry, :action => :new})%>
-				</li>
+				<li class="span-4 "><a href=""><div class="submenu_inner sub_menu_off tab_off"><div class="sub_menu_title_col"><div class="sub_menu_title">日記</div></div><img src="/images/default/icon/diary.gif" width="32" height="32" border="0"></div></a></li>
 				<li class="span-4 ">
 					<%= sub_tab_menu("写真", "photo", {:controller => :abm_album, :action => :index})%>
 				</li>
@@ -142,28 +133,7 @@
 
 		<br class="clear">
 		
-		<div id="contents" class="container">
-			<div id="contents_inner" class="clearfix">
-				<div id="main_contents" class="span-18 prepend-top  last">
-					<div id="main_contents_inner">	
-					
-					<%= render 'common/flash_info' %>
-		
-					<%= yield  %>
-					
-					</div><!--/main_contents_inner-->
-				</div><!--/main_contents-->
-				
-				<div id="side_contents" class="span-6 prepend-top last">
-					<div id="side_contents_inner">
-		
-					<%= yield :sidemenu %>
-		
-					</div><!--/side_contents_inner-->
-				</div><!--/side_contents-->
-				<br class="clear">
-			</div><!--/contents_inner-->
-		</div><!--/contents-->
+		<%= yield  %>
 		
 		<div id="footer">
 			<div id="footer_inner">

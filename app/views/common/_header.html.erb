@@ -74,11 +74,13 @@
 				when "設定情報"; @mng_menu=1;
 				when "プラグイン管理"; @mng_menu=2;
 				when "携帯機種管理"; @mng_menu=3;
+				when "アクセスログ"; @mng_menu=4;
 			end -%>
 		<ul id="menu_sub_blog">
 			<li id="menu_01<%= mng_menu_on(1) %>"><%= link_to "設定情報", manage_mng_system_index_path %></li>
-			<li id="menu_01<%= mng_menu_on(2) %>"><%= link_to "プラグイン管理", manage_base_plugins_path %></li>
-			<li id="menu_02<%= mng_menu_on(3) %>"><%= link_to "携帯機種管理", manage_base_mobiles_path %></li>
+			<li id="menu_02<%= mng_menu_on(2) %>"><%= link_to "プラグイン管理", manage_base_plugins_path %></li>
+			<li id="menu_03<%= mng_menu_on(3) %>"><%= link_to "携帯機種管理", manage_base_mobiles_path %></li>
+			<li id="menu_04<%= mng_menu_on(4) %>"><%= link_to "アクセスログ", manage_mng_apache_logs_path %></li>
 		</ul>
 	<%- end -%>
 	
