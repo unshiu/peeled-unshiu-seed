@@ -73,7 +73,9 @@
 								<li id="menu_top"><a href="">トップ</a></li>
 								<li id="menu_home"class="prepend-1"><a href="">ホーム</a></li>
 								<li id="menu_mypage"><a href="">マイページ</a></li>
-								<li id="menu_messagebox"><a href="">受信箱</a></li>
+								<li id="menu_messagebox">
+									<%= link_to '受信箱', :controller => 'msg_message', :action => 'index' %>
+								</li>
 								<li id="menu_communication">
 									<a href=""><span>コミュニケーション</span><img src="/images/default/icon/naviarrow_under.gif" alt="option"></a>
 									<ul>
@@ -108,10 +110,10 @@
 						<%= login_status(current_base_user.latest_login) %>前にログアウトしました
 					</div><!--/profile_logtime-->
 					<div id="profile_shozaiti"  class="profile_details">
-						<%= BaseProfile.area_kind_name(current_base_user.base_profile.area) %>在住
+						<%= BaseProfile.area_kind_name(current_base_user.base_profile.try(:area)) %>在住
 					</div><!--/profile_shozaiti-->
 					<div id="profile_gender"    class="profile_details">
-						<%= BaseProfile.sex_kind_name(current_base_user.base_profile.sex) %>
+						<%= BaseProfile.sex_kind_name(current_base_user.base_profile.try(:sex)) %>
 					</div><!--/profile_gender-->
 
 					<div id="contact_send_message_col" class="prepend-top span-4">

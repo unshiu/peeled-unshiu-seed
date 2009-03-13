@@ -101,10 +101,10 @@
 						<%= login_status(current_base_user.latest_login) %>前にログアウトしました
 					</div><!--/profile_logtime-->
 					<div id="profile_shozaiti"  class="profile_details">
-							<%= BaseProfile.area_kind_name(current_base_user.base_profile.area) %>在住
+							<%= BaseProfile.area_kind_name(current_base_user.base_profile.try(:area)) %>在住
 					</div><!--/profile_shozaiti-->
 					<div id="profile_gender"    class="profile_details">
-							<%= BaseProfile.sex_kind_name(current_base_user.base_profile.sex) %>
+							<%= BaseProfile.sex_kind_name(current_base_user.base_profile.try(:sex)) %>
 					</div><!--/profile_gender-->
 
 					<div id="contact_send_message_col" class="prepend-top span-4">
