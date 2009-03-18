@@ -66,9 +66,17 @@ Rails::Initializer.run do |config|
   config.gem "chronic",            :version => "~> 0.2"
   config.gem "mime-types",         :version => "~> 1.1"
   
+  config.after_initialize do
+    unless Rails.env.test?
+      ActiveReload::ConnectionProxy::setup!
+    end
+  end
+  
 end
 
 # Add new mime types for use in respond_to blocks:
 # Mime::Type.register "text/richtext", :rtf
 # Mime::Type.register "application/x-mobile", :mobile
-ActiveReload::ConnectionProxy::setup!
+
+
+
