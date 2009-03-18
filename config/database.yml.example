@@ -23,7 +23,7 @@ development:
     password: admin
     port: 1978
     node: development
-  read_only_proxy:
+  master_database:
     adapter: mysql
     database: unshiu_development
     username: root
@@ -46,7 +46,7 @@ test:
     password: admin
     port: 1978
     node: test
-  read_only_proxy:
+  master_database:
     adapter: mysql
     database: unshiu_test
     username: root
@@ -67,7 +67,7 @@ production:
     password: admin
     port: 1978
     node: production
-  read_only_proxy:
+  master_database:
     adapter: mysql
     database: unshiu_production
     username: root
