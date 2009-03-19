@@ -5,11 +5,13 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.0' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 require 'string_expanse'
+require 'cgi'
+require 'cgi/session'
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here
@@ -50,7 +52,7 @@ Rails::Initializer.run do |config|
  
   config.gem "mysql",              :version => "2.7"
   config.gem "rmagick",            :version => "~> 2.5.0", :lib => 'RMagick'           
-  config.gem "ar-extensions",      :version => "~> 0.7",   :install_options => "--ignore-dependencies"
+  config.gem "ar-extensions",      :version => "~> 0.8.2",   :install_options => "--ignore-dependencies"
   config.gem "capistrano",         :version => "~> 2.5"
   config.gem "fastercsv",          :version => "~> 1.2.3"
   config.gem "json",               :version => "~> 1.1.2"
@@ -64,19 +66,15 @@ Rails::Initializer.run do |config|
   config.gem "mocha",              :version => "~> 0.9"
   config.gem "packet",             :version => "~> 0.1"
   config.gem "chronic",            :version => "~> 0.2"
-  config.gem "mime-types",         :version => "~> 1.1"
   
   config.after_initialize do
     unless Rails.env.test?
       ActiveReload::ConnectionProxy::setup!
     end
   end
-  
 end
 
 # Add new mime types for use in respond_to blocks:
 # Mime::Type.register "text/richtext", :rtf
 # Mime::Type.register "application/x-mobile", :mobile
-
-
 
