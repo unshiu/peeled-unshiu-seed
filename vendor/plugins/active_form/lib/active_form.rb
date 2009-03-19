@@ -3,12 +3,12 @@ class ActiveForm
   
   class << self
 
-    def self_and_descendents_from_active_record
+    def self_and_descendants_from_active_record
       [self]
     end
 
     def human_name(options = {})
-      defaults = self_and_descendents_from_active_record.map do |klass|
+      defaults = self_and_descendants_from_active_record.map do |klass|
         :"#{klass.name.underscore}"
       end 
       defaults << self.name.humanize
@@ -16,7 +16,7 @@ class ActiveForm
     end
 
     def human_attribute_name(attribute_key_name, options = {})
-      defaults = self_and_descendents_from_active_record.map do |klass|
+      defaults = self_and_descendants_from_active_record.map do |klass|
         :"#{klass.name.underscore}.#{attribute_key_name}"
       end
       defaults << options[:default] if options[:default]
