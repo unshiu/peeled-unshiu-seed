@@ -2,7 +2,7 @@ require 'mongrel_cluster/recipes'
 require File.join(File.dirname(__FILE__), 'boot')
 require File.join(File.dirname(__FILE__), '../config/environment')
 require File.join(File.dirname(__FILE__), '../lib/app_resources.rb')
-require 'application'
+require 'application_controller'
 
 # -----------------------------------------------------------
 # server basic setting 
