@@ -52,20 +52,12 @@ module Unshiu::ApplicationHelperModule
     link_to(name, options , html_options, *parameters_for_method_reference)
   end
   
-  # AppResources["base"]["notice_new_tearm"]日以内ならNew絵文字を出す
-  # Date型の場合は純粋な日数のみで判断しTime型なら時間まで加味して判断する
-  # datetime:: 日付（Time　or Date)
-  def notice_new_if_new(datetime)
- 	  if datetime.is_a?(Date)
-      return '' if datetime < Date.today - AppResources["base"]["notice_new_tearm"]
-    elsif datetime.is_a?(Time)
-      return '' if datetime < Time.now - AppResources["base"]["notice_new_tearm"] * 24 * 60 * 60
-    else
-      return ''
-    end
-    "<span style='color:#FF0000; text-decoration:blink'></span>"
+  # コンテンツを作成する際のaddmenu.gifを利用したリンクを生成
+  def link_add_menu_to(name, options = {}, html_options = nil, *parameters_for_method_reference)
+    name = "<span>#{image_tag_for_default("icon/addmenu.gif")}#{name}</span>"
+    html_options = { :class => "button" }
+    link_to(name, options , html_options, *parameters_for_method_reference)
   end
-  
   # 当日中に見ると時間を表示して、それ以外は日付を表示する helper
   def date_or_time(datetime)
     return '' unless datetime
@@ -143,8 +135,26 @@ module Unshiu::ApplicationHelperModule
     submit_tag(value, {:name => 'cancel'}.merge!(options))
   end
   
+  # button tag を利用した　submit
+  def submit_button_tag(label)
+    <<-END
+    <button type="submit" name="" value=""  class="button" >
+  		<span><img src="/stylesheets/blueprint/plugins/buttons/icons/tick.png" alt="">#{label}</span>
+  	</button>
+  	END
+  end
+  
+  # button tag を利用した　cancel
+  def cancel_button_tag(label = I18n.t("view.noun.cancel_button"))
+    <<-END
+    <button type="submit" name="cancel" value=""  class="button" >
+  		<span><img src="/stylesheets/blueprint/plugins/buttons/icons/cross.png" alt="">#{label}</span>
+  	</button>
+  	END
+  end
+  
   def paginate(page_enumerator)
-    #return '' if page_enumerator.last_page == 1 # 1ページしかないのでリンクはなし
+    return '' if page_enumerator.last_page == 1 # 1ページしかないのでリンクはなし
     link_params = params.dup
     link_params.delete('commit')
     link_params.delete('action')
