@@ -35,4 +35,9 @@ class Util
     end
   end
   
+  # デバイスごとのリソースキー名を取得する
+  def self.resources_keyname_from_device(key, mobile)
+    suffix = (!mobile.nil? && mobile) ? "_mobile" : ""
+    key + suffix
+  end
 end
