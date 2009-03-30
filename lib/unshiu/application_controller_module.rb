@@ -70,6 +70,15 @@ private
     params[:cancel] != nil
   end
   
+  # キャンセル後に遷移するURLへリダイレクト処理をする
+  def cancel_to_return
+    if request.mobile? && !request.mobile.supports_cookie?
+      plug = params[:cancel_to].index("?") == nil ? "?" : "&"
+      params[:cancel_to] += "#{plug}#{request.session_options[:key]}=#{request.session_options[:id]}"
+    end
+    redirect_to params[:cancel_to]
+  end
+  
   # ログイン状態ではキャッシュを生成しない
   def cache_erb_fragment(block, name = {}, options = nil)
     if logged_in? then block.call; return end
