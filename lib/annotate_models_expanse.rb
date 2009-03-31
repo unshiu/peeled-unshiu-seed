@@ -2,6 +2,7 @@
 # AnnotateModels
 #  http://redmine.unshiu.drecom.jp/issues/show/120
 #  http://redmine.unshiu.drecom.jp/issues/show/323
+#  http://redmine.unshiu.drecom.jp/issues/show/529
 module AnnotateModels
   
   def self.annotate_one_file(file_name, info_block)
@@ -26,10 +27,6 @@ module AnnotateModels
     plugin_path = File.join(RAILS_ROOT, "vendor/plugins/#{plugin_name}/lib/#{plugin_name}/app/models")
     
     header = PREFIX.dup
-    version = ActiveRecord::Migrator.current_version rescue 0
-    if version > 0
-      header << "\n# Schema version: #{version}"
-    end
     
     self.get_model_names.each do |m|
       class_name = m.sub(/\.rb$/,'').camelize
