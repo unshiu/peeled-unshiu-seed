@@ -72,10 +72,11 @@ private
   
   # キャンセル後に遷移するURLへリダイレクト処理をする
   def cancel_to_return
-    if request.mobile? && !request.mobile.supports_cookie?
+    if request.mobile? && !request.mobile.supports_cookie? && request.session_options
       plug = params[:cancel_to].index("?") == nil ? "?" : "&"
       params[:cancel_to] += "#{plug}#{request.session_options[:key]}=#{request.session_options[:id]}"
     end
+   
     redirect_to params[:cancel_to]
   end
   
