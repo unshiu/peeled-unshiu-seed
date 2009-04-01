@@ -20,7 +20,7 @@
 			when t('view.noun.base_user'); @common_menu=2;
 			when "メール"; @common_menu=3
 			when t('view.noun.pnt_point'); @common_menu=4;
-			when "アクセス数"; @common_menu=5;
+			when "mixiアプリ"; @common_menu=5;
 			when "管理者設定"; @common_menu=6;
 			when "システム設定"; @common_menu=7;	
 		end -%>
@@ -29,7 +29,9 @@
 			<li id="bl_commu<%= common_menu_on(2) %>"><%= link_to t('view.noun.base_user'), :controller => 'manage/base_user', :action => 'index' %></li>
 			<li id="bl_commu<%= common_menu_on(3) %>"><%= link_to 'メール', :controller => 'manage/mlg', :action => 'list' %></li>
 			<li id="bl_commu<%= common_menu_on(4) %>"><%= link_to t('view.noun.pnt_point'), :controller => 'manage/pnt', :action => 'month_history' %></li>
-			<li id="bl_commu<%= common_menu_on(5) %>"><%= link_to 'アクセス数', :controller => 'manage/mng', :action => 'index' %></li>
+		<%# if Unshiu::Plugins.active_mixi? %>
+			<li id="bl_commu<%= common_menu_on(5) %>"><%= link_to 'mixiアプリ', :controller => 'manage/mixi_apps', :action => 'index' %></li>
+		<%# end %>
 			<li id="bl_commu<%= common_menu_on(6) %>"><%= link_to '管理者設定', :controller => 'manage/mng_user', :action => 'list' %></li>
 			<li id="bl_commu<%= common_menu_on(7) %>"><%= link_to 'システム設定', manage_mng_system_index_path %></li>
 		</ul>
