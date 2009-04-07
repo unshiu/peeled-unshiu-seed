@@ -137,20 +137,24 @@ module Unshiu::ApplicationHelperModule
   
   # button tag を利用した　submit
   def submit_button_tag(label)
-    <<-END
-    <button type="submit" name="" value=""  class="button" >
-  		<span><img src="/stylesheets/blueprint/plugins/buttons/icons/tick.png" alt="">#{label}</span>
-  	</button>
-  	END
+    button_tag("", label, "tick")
   end
   
   # button tag を利用した　cancel
   def cancel_button_tag(label = I18n.t("view.noun.cancel_button"))
+    button_tag("cancel", label, "cross")
+  end
+  
+  # button tag を利用した submitボタンを出力する
+  # _param1_:: name 複数のbuttonによりsubmitされた際にcontroller側でどのbuttonがsubmitされたかを判別するためのもの
+  # _param2_:: label text label
+  # _param3_:: image icon image
+  def button_tag(name, label, image)
     <<-END
-    <button type="submit" name="cancel" value=""  class="button" >
-  		<span><img src="/stylesheets/blueprint/plugins/buttons/icons/cross.png" alt="">#{label}</span>
-  	</button>
-  	END
+    <button type="submit" name="#{name}" value=""  class="button" >
+    	<span><img src="/stylesheets/blueprint/plugins/buttons/icons/#{image}.png" alt="">#{label}</span>
+    </button>
+    END
   end
   
   def paginate(page_enumerator)
