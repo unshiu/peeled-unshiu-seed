@@ -22,14 +22,14 @@ module Unshiu
     end
     
     # unshiu plugin リスト
-    LIST = ['base', 'abm', 'dia', 'prf', 'msg', 'pnt', 'cmm', 'mlg', 'mng', 'tpc', 'ace']
+    LIST = ['base', 'abm', 'dia', 'prf', 'msg', 'pnt', 'cmm', 'mlg', 'mng', 'tpc', 'ace', 'mixi']
     
     # 現在有効なplugin
     ACTIVE_LIST = LIST.clone.delete_if { |plugin| eval("!active_#{plugin}?") }
     
     # 外部　plugin リスト
     EXTERNAL_LIST = ['jpmobile', 'acts_as_paranoid', 'auto_nested_layouts', 
-                     'file_column', 'paginating_find', 'acts_as_readonlyable', 'acts_as_tokyotyrant']
+                     'file_column', 'paginating_find', 'acts_as_readonlyable']
     
   end
 end
