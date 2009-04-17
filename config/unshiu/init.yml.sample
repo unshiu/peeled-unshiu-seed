@@ -21,6 +21,12 @@ common: &common
   # 送信先アドレスが存在しなかった際にメールが返されるアドレス
   return_path_adddress: root@unshiu.drecom.jp
   
+  # tokyotyrant
+  tokyotyrant_on : false # 利用するか
+  tokyotyrant_master_server_ip: 127.0.0.1
+  tokyotyrant_master_server_port: 1979
+  tokyotyrant_timeout: 60
+
 development:
   <<: *common
 
