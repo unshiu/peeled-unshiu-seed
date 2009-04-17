@@ -10,6 +10,15 @@ module TestUtil
   
   module Base
     
+    # Gadgetテスト便利モジュール
+    module GadgetControllerTest
+      
+      def setup
+        @request.session_options = {:id => "test_session", :key => AppResources[:init][:session_key]}
+      end
+      
+    end
+    
     # PCのコントローラテスト便利モジュール
     module PcControllerTest
       include AuthenticatedTestHelper
