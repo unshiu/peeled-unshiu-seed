@@ -66,6 +66,8 @@ Rails::Initializer.run do |config|
   config.gem "packet",             :version => "~> 0.1"
   config.gem "chronic",            :version => "~> 0.2"
   config.gem "tsukasaoishi-miyazakiresistance", :version => "~> 0.0.9", :lib => "MiyazakiResistance"
+  config.gem "locale",             :version => "~> 2.0.1"
+  config.gem "locale_rails",       :version => "~> 2.0.1"
   
   config.after_initialize do
     unless Rails.env.test?
