@@ -56,13 +56,7 @@ module AuthenticatedSystem
       self.current_base_user ||= BaseUser.authenticate(username, passwd) || :false if username && passwd
       
       if logged_in? && authorized? && current_base_user.active?
-        latest_login = BaseLatestLogin.find_by_base_user_id(self.current_base_user.id) 
-        if latest_login.nil?
-          latest_login = BaseLatestLogin.new
-          latest_login.base_user_id = self.current_base_user.id
-        end
-        latest_login.update_latest_login # 最終ログイン日時更新
-        
+        BaseLatestLogin.update_latest_login(self.current_base_user.id) # 最終ログイン日時更新
         true 
       else 
         access_denied
