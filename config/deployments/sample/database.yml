@@ -23,13 +23,13 @@ development:
     password: admin
     port: 1978
     node: development
-  read_only:
+  master_database:
     adapter: mysql
     database: unshiu_development
     username: root
     password: root
     host: localhost
-    port: 13306
+    port: 3306
       
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -46,7 +46,7 @@ test:
     password: admin
     port: 1978
     node: test
-  read_only:
+  master_database:
     adapter: mysql
     database: unshiu_test
     username: root
@@ -67,7 +67,7 @@ production:
     password: admin
     port: 1978
     node: production
-  read_only:
+  master_database:
     adapter: mysql
     database: unshiu_production
     username: <%= db_user %>
