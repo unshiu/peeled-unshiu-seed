@@ -161,28 +161,6 @@ namespace :unshiu do
     end
     
   end
-
-  namespace :gettext do
-    require 'locale'
-    require 'gettext/utils'
-    require 'unshiu/plugins'
-    
-    desc 'Update unshiu plugin pot/po files.'
-    task :updatepo, "plugin_name", "version"
-    task :updatepo do |task, args|
-      task.set_arg_names ["plugin_name", "version"]
-      
-      ENV["MSGMERGE_PATH"] = "msgmerge --sort-output --no-fuzzy-matching"
-      
-      files = []
-      files << Dir.glob("vendor/plugins/#{args.plugin_name}/{app,config,components,lib,generators}/**/*.{rb,html.erb}")
-      files.flatten!
-
-      unless files.empty?
-        GetText.update_pofiles(args.plugin_name, files, "#{args.plugin_name} #{args.version}")
-      end
-    end
-  end
   
   desc "Add schema information (as comments) to model files"
   task :annotate_models do
