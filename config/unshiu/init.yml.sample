@@ -31,6 +31,8 @@ development:
   <<: *common
 
 test:
+  tokyotyrant_on : true
+
   file_column_image_root_path: test/tmp/file_column
   <<: *common
 
