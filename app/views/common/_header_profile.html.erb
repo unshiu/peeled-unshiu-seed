@@ -1,14 +1,16 @@
 <div id="profiles_col" class="container  prepend-top">
 
 	<div id="profile_image_col" class="span-2 first ">
-		<a href="/images/default/sample/n1065330509_3284.jpg">
-			<%= safe_profile_view(current_base_user.base_profile, :large, { :width => "40", :height => "40" }) %>
-		</a>
+		<% link_to :controller => 'base_profile', :action=> 'show', :id => base_user.id do %>
+			<%= safe_profile_view(base_user.base_profile, :large, { :width => "40", :height => "40" }) %>
+		<% end %>
 	</div><!--/profile_image_col-->
 
 	<div id="profile_detail_col" class="span-22  last ">
 		<div id="profile_detail_col_inner" class="">
-			<div id="profile_name"     class="profile_details">		<%= link_to current_base_user.show_name, :controller => 'base_profile', :action=> 'show', :id => current_base_user.id %></div><!--/profile_name-->
+			<div id="profile_name" class="profile_details">		
+				<%= link_to base_user.show_name, :controller => 'base_profile', :action=> 'show', :id => base_user.id %>
+			</div><!--/profile_name-->
 		</div><!--/profile_detail_col_inner-->
 	</div><!--/profile_detail_col-->
 

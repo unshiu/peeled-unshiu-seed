@@ -23,15 +23,16 @@
   });
 
   function setup_sub_menu_drag_and_drop() {
-		$("ul#sub_sub_menu_list li").draggable();
-		$("ul#sub_menu_list li").draggable();
+		$("ul#sub_sub_menu_list li").draggable({containment : '#sub_menu_col'});
+		$("ul#sub_menu_list li").draggable({containment : '#sub_menu_col'});
 		$("ul#sub_menu_list li").droppable({
-			drop: function(event, ui) { 
+			activeClass : 'droppable-hover',
+			drop: function(event, ui) {
 				var num = $(this).attr("id").match(/submenu_number_(\d+)/)[1];
 				var base_menu_master_id = ui.draggable.attr("id").match(/submenu_master_id_(\d+)/)[1];
 				
 				<%= remote_function(:url => {:controller => 'base', :action=>'menus_update'}, 
-				                    :with =>"'base_menu_master_id='+base_menu_master_id+'&num='+num") %>
+				                   	:with =>"'base_menu_master_id='+base_menu_master_id+'&num='+num") %>
 			}
 		});
   }
@@ -41,6 +42,7 @@
   <%= stylesheet_link_tag "blueprint/plugins/buttons/screen", :media => 'all' %>
   <%= stylesheet_link_tag "blueprint/plugins/fancy-type/screen", :media => 'all' %>
   <%= stylesheet_link_tag "styles", :media => 'all' %>
+  <%= stylesheet_link_tag "styles_cmm", :media => 'all' %>
   <%= stylesheet_link_tag "app", :media => 'all' %>
 
 </head>
@@ -63,7 +65,11 @@
 					
 					
 					<% if logged_in? %>
-						<%= render 'common/header_profile' %>
+						<% if @content_for_header_profile %>
+							<%= yield :header_profile %>
+						<% else %>
+							<%= render :partial => 'common/header_profile', :locals => {:base_user => current_base_user} %>
+						<% end %>
 						<div class="clear"></div>
 						<%= render 'common/header_submenu' %>
 					<% end %>

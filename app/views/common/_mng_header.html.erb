@@ -27,11 +27,15 @@
 		<ul id="cont_menu_l">
 			<li id="bl_commu<%= common_menu_on(1) %>"><%= link_to 'SNS設定', :controller => 'manage/dia', :action => 'index' %></li>
 			<li id="bl_commu<%= common_menu_on(2) %>"><%= link_to t('view.noun.base_user'), :controller => 'manage/base_user', :action => 'index' %></li>
-			<li id="bl_commu<%= common_menu_on(3) %>"><%= link_to 'メール', :controller => 'manage/mlg', :action => 'list' %></li>
-			<li id="bl_commu<%= common_menu_on(4) %>"><%= link_to t('view.noun.pnt_point'), :controller => 'manage/pnt', :action => 'month_history' %></li>
-		<%# if Unshiu::Plugins.active_mixi? %>
-			<li id="bl_commu<%= common_menu_on(5) %>"><%= link_to 'mixiアプリ', :controller => 'manage/mixi_apps', :action => 'index' %></li>
-		<%# end %>
+			<% if Unshiu::Plugins.active_mlg? %>
+				<li id="bl_commu<%= common_menu_on(3) %>"><%= link_to 'メール', :controller => 'manage/mlg', :action => 'list' %></li>
+			<% end %>
+			<% if Unshiu::Plugins.active_pnt? %>
+				<li id="bl_commu<%= common_menu_on(4) %>"><%= link_to t('view.noun.pnt_point'), :controller => 'manage/pnt', :action => 'month_history' %></li>
+			<% end %>
+			<% if Unshiu::Plugins.active_mixi? %>
+				<li id="bl_commu<%= common_menu_on(5) %>"><%= link_to 'mixiアプリ', :controller => 'manage/mixi_users', :action => 'index' %></li>
+			<% end %>
 			<li id="bl_commu<%= common_menu_on(6) %>"><%= link_to '管理者設定', :controller => 'manage/mng_user', :action => 'list' %></li>
 			<li id="bl_commu<%= common_menu_on(7) %>"><%= link_to 'システム設定', manage_mng_system_index_path %></li>
 		</ul>
@@ -46,12 +50,24 @@
 				when t('view.noun.base_notice'); @sns_menu=6;
 			end -%>       
 		<ul id="menu_sub_blog">
-			<li id="menu_02<%= sns_menu_on(1) %>"><%= link_to t('view.noun.dia_entry'), :controller => 'manage/dia', :action => 'index' %></li>
-			<li id="menu_03<%= sns_menu_on(2) %>"><%= link_to t('view.noun.abm_album'), :controller => 'manage/abm_album', :action => 'index' %></li>
-			<li id="menu_04<%= sns_menu_on(3) %>"><%= link_to t('view.noun.cmm_community'), :controller => 'manage/cmm', :action => 'index' %></li>
-			<li id="menu_05<%= sns_menu_on(4) %>"><%= link_to t('view.noun.msg_message'), :controller => 'manage/msg', :action => 'index' %></li>
-			<li id="menu_01<%= sns_menu_on(5) %>"><%= link_to t('view.noun.prf_profile'), :controller => 'prf', :action => 'index' %></li>
-			<li id="menu_06<%= sns_menu_on(6) %>"><%= link_to t('view.noun.base_notice'), :controller => 'manage/base_notice', :action => 'index' %></li>
+			<% if Unshiu::Plugins.active_dia? %>
+				<li id="menu_02<%= sns_menu_on(1) %>"><%= link_to t('view.noun.dia_entry'), :controller => 'manage/dia', :action => 'index' %></li>
+			<% end %>
+			<% if Unshiu::Plugins.active_abm? %>
+				<li id="menu_03<%= sns_menu_on(2) %>"><%= link_to t('view.noun.abm_album'), :controller => 'manage/abm_album', :action => 'index' %></li>
+			<% end %>
+			<% if Unshiu::Plugins.active_cmm? %>
+				<li id="menu_04<%= sns_menu_on(3) %>"><%= link_to t('view.noun.cmm_community'), :controller => 'manage/cmm', :action => 'index' %></li>
+			<% end %>
+			<% if Unshiu::Plugins.active_msg? %>
+				<li id="menu_05<%= sns_menu_on(4) %>"><%= link_to t('view.noun.msg_message'), :controller => 'manage/msg', :action => 'index' %></li>
+			<% end %>
+			<% if Unshiu::Plugins.active_prf? %>
+				<li id="menu_01<%= sns_menu_on(5) %>"><%= link_to t('view.noun.prf_profile'), :controller => 'prf', :action => 'index' %></li>
+			<% end %>
+			<% if Unshiu::Plugins.active_base? %>
+				<li id="menu_06<%= sns_menu_on(6) %>"><%= link_to t('view.noun.base_notice'), :controller => 'manage/base_notice', :action => 'index' %></li>
+			<% end %>
 		</ul>
 	<%- end -%>
 
@@ -66,9 +82,11 @@
 		<ul id="menu_sub_blog">
 			<li id="menu_01<%= mng_menu_on(1) %>"><%= link_to '管理者設定', :controller => 'manage/mng_user', :action => 'index' %></li>
 			<li id="menu_02<%= mng_menu_on(2) %>"><%= link_to '管理画面ログ', manage_mng_user_action_histories_path %></li>
-			<li id="menu_02<%= mng_menu_on(3) %>"><%= link_to t('view.noun.base_ng_word'), :controller => 'manage/base_ng_word', :action => 'index' %></li>
-			<li id="menu_03<%= mng_menu_on(4) %>"><%= link_to t('view.noun.base_error_code'), :controller => 'manage/base_error', :action => 'index' %></li>
-			<li id="menu_04<%= mng_menu_on(5) %>"><%= link_to t('view.noun.base_mail_template'), :controller => 'manage/base_mail_template_kinds', :action => 'index' %></li>
+			<% if Unshiu::Plugins.active_base? %>
+				<li id="menu_02<%= mng_menu_on(3) %>"><%= link_to t('view.noun.base_ng_word'), :controller => 'manage/base_ng_word', :action => 'index' %></li>
+				<li id="menu_03<%= mng_menu_on(4) %>"><%= link_to t('view.noun.base_error_code'), :controller => 'manage/base_error', :action => 'index' %></li>
+				<li id="menu_04<%= mng_menu_on(5) %>"><%= link_to t('view.noun.base_mail_template'), :controller => 'manage/base_mail_template_kinds', :action => 'index' %></li>
+			<% end %>
 		</ul>
 	<%- end -%>
 	<%- if @common_menu==7 -%>
