@@ -1,7 +1,7 @@
 #= Unshiu::ApplicationControllerModule
 #
 #== Summary
-# unshiu アプリケーションとしての基底 module
+# unshiu アプリケーションとしての規程 module
 # 
 module Unshiu::ApplicationControllerModule
   
@@ -12,12 +12,17 @@ module Unshiu::ApplicationControllerModule
         include ExceptionNotifiable
         include AuthenticatedSystem
         
-        layout :application_layout
+        layout :base_layout
         
+        #protect_from_forgery :secret => Util.secret_key("session_secret_key")
         protect_from_forgery
         
         # 生パスワードをログに出力させない 
         filter_parameter_logging :password
+        
+        # DoCoMo(FOMA)携帯対応
+        # http://jpmobile-rails.org/ticket/22
+        #session :cookie_only => false
         
         # 携帯向けのセッション保持
         transit_sid
@@ -135,7 +140,7 @@ private
     return false
   end
   
-  def application_layout
+  def base_layout
     suffix = request.mobile? ? '_mobile' : ''
     return "_done#{suffix}" if action_name =~ /done$/
     return "_application#{suffix}"
@@ -145,16 +150,16 @@ private
     
     # 多段レイアウトを行うための filter 呼び出し
     # 完了メソッド（名称末尾が done なメソッド）の場合は完了用のレイアウトを使う
+    # Ajaxの呼び出しである __remote_ で始まるメソッドはレイアウトが空であるempty layoutを使う
     # 完了メソッドの自動割り出しを行っているため、
     # 各 Controller の“末尾”でこのメソッドを呼び出してください
-    # FIXME 非推奨
     def nested_layout_with_done_layout
       methods = self.public_instance_methods
-      done_methods = methods.reject{|m|
-        index = m.index('done')
-        index.nil? || index + 'done'.length < m.length
-      }
-      nested_layout nil, :except => done_methods
+      done_methods = methods.reject { |m| !(/done\.html\.erb$/ =~ m) }
+      remote_methods = methods.reject { |m| !(/remote\.html\.erb$/ =~ m) }
+      
+      nested_layout nil, :except => done_methods + remote_methods
+      nested_layout ["empty"], :only => remote_methods
       nested_layout ['done'], :only => done_methods
     end
   end
