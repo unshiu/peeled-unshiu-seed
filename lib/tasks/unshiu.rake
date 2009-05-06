@@ -1,22 +1,37 @@
+desc "Add schema information (as comments) to model files non schema number"
+task :annotate_models do
+   require File.join(File.dirname(__FILE__), "../../vendor/plugins/annotate_models/lib/annotate_models.rb")
+   require File.join(File.dirname(__FILE__), "../annotate_models_expanse.rb")
+   AnnotateModels.do_annotations
+end
+
 namespace :unshiu do
   
   namespace :plugins do
     require 'unshiu/plugins'
     
+    def svn_plugin(user, plugin)
+      "svn+ssh://#{user}@svn.drecom.co.jp/usr/local/svnrepos/unshiu/#{plugin}/"
+    end
+    
     def svn_plugin_trunk(user, plugin)
-      "svn+ssh://#{user}@svn.drecom.co.jp/usr/local/svnrepos/unshiu/#{plugin}/trunk/"
+      svn_plugin(user,plugin) + "trunk/"
     end
     
     def svn_plugin_branch(user, plugin, branch_name)
-      "svn+ssh://#{user}@svn.drecom.co.jp/usr/local/svnrepos/unshiu/#{plugin}/branches/#{branch_name}/"
+      svn_plugin(user,plugin) + "branches/#{branch_name}/"
     end
     
     def svn_plugin_tags(user, plugin, version)
-      "svn+ssh://#{user}@svn.drecom.co.jp/usr/local/svnrepos/unshiu/#{plugin}/tags/#{plugin}-#{version}/"
+      svn_plugin(user,plugin) + "tags/#{plugin}-#{version}/"
+    end
+    
+    def svn_external_plugin(user, plugin)
+      "svn+ssh://#{user}@svn.drecom.co.jp/usr/local/svnrepos/unshiu/plugins/#{plugin}/"
     end
     
     def svn_external_plugin_trunk(user, plugin)
-      "svn+ssh://#{user}@svn.drecom.co.jp/usr/local/svnrepos/unshiu/plugins/#{plugin}/trunk/"
+      svn_external_plugin +"trunk/"
     end
     
     desc 'all plugin trunk install.'
@@ -66,6 +81,24 @@ namespace :unshiu do
       end
     end
     
+    desc 'all plugin trunk git checkout.'
+    task :git_checkout_trunk_all, "user"
+    task :git_checkout_trunk_all do |task, args|
+      task.set_arg_names ["user"]
+      Unshiu::Plugins::LIST.each do |plugin|
+        if File.exist?("vendor/plugins/#{plugin}/.git")
+          system "git-svn rebase vendor/plugins/#{plugin}"
+          
+        elsif File.exist?("vendor/plugins/#{plugin}")
+          system "rm -rf vendor/plugins/#{plugin}"
+          system "git-svn clone #{svn_plugin(args.user,plugin)} -s vendor/plugins/#{plugin}"
+        
+        else
+          system "git-svn clone #{svn_plugin(args.user,plugin)} -s vendor/plugins/#{plugin}"
+        end
+      end
+    end
+    
     desc 'all plugin branches checkout.'
     task :checkout_branches_all, "user", "branch_name"
     task :checkout_branches_all do |task, args|
@@ -100,7 +133,25 @@ namespace :unshiu do
       task.set_arg_names ["user"]
       Unshiu::Plugins::EXTERNAL_LIST.each do |plugin|
         system "rm -rf vendor/plugins/#{plugin}" if File.exist?("vendor/plugins/#{plugin}")
-        system "ruby script/plugin install #{svn_external_plugin_trunk(args.user, plugin)}"
+        system "svn script/plugin install #{svn_external_plugin_trunk(args.user, plugin)}"
+      end
+    end
+    
+    desc 'all　external plugin trunk git checkout.'
+    task :git_checkout_external_plugin_trunk_all, "user"
+    task :git_checkout_external_plugin_trunk_all do |task, args|
+      task.set_arg_names ["user"]
+      Unshiu::Plugins::EXTERNAL_LIST.each do |plugin|
+        if File.exist?("vendor/plugins/#{plugin}/.git")
+          system "git-svn rebase vendor/plugins/#{plugin}"
+          
+        elsif File.exist?("vendor/plugins/#{plugin}")
+          system "rm -rf vendor/plugins/#{plugin}"
+          system "git-svn clone #{svn_external_plugin(args.user,plugin)} -s vendor/plugins/#{plugin}"
+        
+        else
+          system "git-svn clone #{svn_external_plugin(args.user,plugin)} -s vendor/plugins/#{plugin}"
+        end
       end
     end
     
@@ -142,7 +193,7 @@ namespace :unshiu do
       CodeStatistics.new(*STATS_DIRECTORIES).to_s
     end
     
-    desc "Add schema information (as comments) to model files"
+    desc "Add schema information (as comments) to model files for plugin"
       task :annotate_models, "plugin_name"
       task :annotate_models do |task, args|
         task.set_arg_names ["plugin_name"]
