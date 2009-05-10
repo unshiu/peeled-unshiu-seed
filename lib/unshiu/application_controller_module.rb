@@ -14,15 +14,10 @@ module Unshiu::ApplicationControllerModule
         
         layout :base_layout
         
-        #protect_from_forgery :secret => Util.secret_key("session_secret_key")
         protect_from_forgery
         
         # 生パスワードをログに出力させない 
         filter_parameter_logging :password
-        
-        # DoCoMo(FOMA)携帯対応
-        # http://jpmobile-rails.org/ticket/22
-        #session :cookie_only => false
         
         # 携帯向けのセッション保持
         transit_sid
@@ -54,7 +49,7 @@ private
   def set_header
     if request.mobile?
       if request.mobile.is_a?(Jpmobile::Mobile::Docomo)
-        headers['Content-Type'] = 'application/xhtml+xml;charset=Shift_JIS'
+        headers['Content-Type'] = 'application/xhtml+xml'
       end
     end
   end
