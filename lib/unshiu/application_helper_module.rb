@@ -322,7 +322,7 @@ module Unshiu::ApplicationHelperModule
     count  = objects.inject(0) {|sum, object| sum + object.errors.count }
     unless count.zero?
       html = {}
-      html[:style] = "background-color:#FFE7E7; text-align:left;"      
+      html[:style] = style_value('error_div')    
       [:id, :class].each do |key|
         if options.include?(key)
           value = options[key]
@@ -346,12 +346,9 @@ module Unshiu::ApplicationHelperModule
         error_messages = objects.sum {|object| object.errors.full_messages.map {|msg| content_tag(:li, msg) } }.join
         
         content_tag(:div,
-            image_tag_for_default('Spec_02.gif') <<
+            content_tag(options[:header_tag] || :span, '&#xE6FE;' + header_message, {:style => style_value('error_div_message')}) <<
             '<br/>' <<
-            content_tag(options[:header_tag] || :span, '' + header_message, {:style => "color:#024873;"}) <<
-            '<br/>' <<
-            error_messages.to_s <<
-            image_tag_for_default('Spec_02.gif'),
+            error_messages.to_s,
           html)
       end
     else
