@@ -145,15 +145,20 @@ private
     
     # 多段レイアウトを行うための filter 呼び出し
     # 完了メソッド（名称末尾が done なメソッド）の場合は完了用のレイアウトを使う
-    # Ajaxの呼び出しである __remote_ で始まるメソッドはレイアウトが空であるempty layoutを使う
+    # Ajaxの呼び出しである remote で終わるメソッドはレイアウトが空であるempty layoutを使う
     # 完了メソッドの自動割り出しを行っているため、
     # 各 Controller の“末尾”でこのメソッドを呼び出してください
-    def nested_layout_with_done_layout
-      methods = self.public_instance_methods
-      done_methods = methods.reject { |m| !(/done\.html\.erb$/ =~ m) }
-      remote_methods = methods.reject { |m| !(/remote\.html\.erb$/ =~ m) }
+    def nested_layout_with_done_layout(main_layout = nil)
       
-      nested_layout nil, :except => done_methods + remote_methods
+      methods = self.public_instance_methods
+      done_methods = methods.reject { |m| !(/done$/ =~ m) }
+      remote_methods = methods.reject { |m| !(/remote$/ =~ m) }
+      
+      if main_layout.nil?
+        nested_layout nil, :except => done_methods + remote_methods
+      else
+        nested_layout [main_layout], :except => done_methods + remote_methods
+      end
       nested_layout ["empty"], :only => remote_methods
       nested_layout ['done'], :only => done_methods
     end
