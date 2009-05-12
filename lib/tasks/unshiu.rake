@@ -31,7 +31,7 @@ namespace :unshiu do
     end
     
     def svn_external_plugin_trunk(user, plugin)
-      svn_external_plugin +"trunk/"
+      svn_external_plugin(user,plugin) +"trunk/"
     end
     
     desc 'all plugin trunk install.'
