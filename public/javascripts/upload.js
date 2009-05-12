@@ -108,7 +108,6 @@ var Upload = {
 	*/
 	upload_success: function(file, data)
 	{
-		alert('success' + data);
 		$('#' + file.id).html($(data).html());
 	},
 
