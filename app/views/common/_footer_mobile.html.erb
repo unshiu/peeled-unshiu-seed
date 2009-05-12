@@ -1,9 +1,7 @@
-<a href="#8" accesskey="8" name="8"></a>
 <a id="menu"></a>
 
 <!--会員メニュー-->
 会員メニュー<br />
-<%= image_tag_for_default 'Spec_02.gif' %><br />
 <div style="text-align:left">
 	<%= link_to_menu '初めての方へ', :controller => 'base_guides' %><br />
 	<% unless logged_in? %>
@@ -35,18 +33,13 @@
 	<%= link_to_menu '検索', :controller => 'base', :action => 'search' %><br />
 <% end %>
 </div>
-	  
-<%= image_tag_for_default 'Spec_02.gif' %><br />
 
 <div style="text-align:right">
 	<a href="#top"><span style="color:#FF0000">▲ﾍﾟｰｼﾞTOPへ</span></a><br />
 </div>
 
-<%= image_tag_for_default 'Spec_02.gif' %><br />
 
-<div style="background-color:#027333; color:#FFFFFF; text-align:right">
-	<%= image_tag_for_default 'Spec_04.gif' %><br />
+<div style="<%= style_value('footer') %>">
 	提供　株式会社○○○<br />
 	株式会社ﾄﾞﾘｺﾑ<br />
-	<%= image_tag_for_default 'Spec_04.gif' %><br />
 </div>

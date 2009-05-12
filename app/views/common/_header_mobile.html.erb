@@ -1,24 +1,17 @@
-<a href="#2" accesskey="2" name="2"></a>
-
 <!--トップロゴ-->
-<div style="background-color:#000000; color:#FFFFFF; text-align:right;">
-	<%= image_tag_for_default 'Spec_04.gif' %><br />
-	サイト名<br />
-	<%= image_tag_for_default 'Spec_04.gif' %>
+<div style="background-color:#FFFFFF; text-align:center;">
+	<img alt="unshiu" src="/images/default/logo.gif"><br />
 </div>
 
 <!--ページロゴ-->
-<div style="font-size:medium; background-color:#75BF2A; color:#FFFFFF; text-align:center;">
-	<%= image_tag_for_default 'Spec_04.gif' %><br />
-	<%= @content_for_header_title ||= "HOME" %><br />
-	<%= image_tag_for_default 'Spec_04.gif' %>
+<div style="font-size:medium; background-color:#6299C5; color:#636363; text-align:center;">
+	<%= @content_for_header_title ||= "HOME" %>
+	<br />
 </div>
-<%= image_tag_for_default 'Spec_08.gif' %><br />
-	  
-<a id="top"></a>
+<br/>
 <!--広告バナー-->
 <%= image_tag_for_default 'banner.jpg' %><br />
-<%= image_tag_for_default 'Spec_08.gif' %><br />
+<br />
 
 <div style="text-align:right">
 <% if logged_in? %>
@@ -26,22 +19,17 @@
 	<%= link_to_portal "#{t('view.noun.my_portal')}", {:controller => 'base', :action => 'portal'}, {:accesskey => 0} %><br />
 <% else %>
 	<span style="color:#FF0000">&#xE6D8;</span>
+	<%= link_to_menu "#{t('view.noun.base_user')}登録", { :controller => 'base_signup', :action => 'presignup' } %><br/>
+	<span style="color:#FF0000">&#xE6D8;</span>
 	<%= link_to_portal "ログイン", {:controller => 'base_user', :action => 'login', :return_to => controller.request.request_uri}, {:utn => 'utn'} %><br />
 <% end %>
 </div>
-<%= image_tag_for_default 'Spec_04.gif' %>
 
 <% unless @content_for_sub_title.nil? %>
 
 	<div style="<%= style_value('sub_title') %>">
-		<div style="<%= style_value('sub_title_hr') %>">
-			<%= image_tag_for_default 'Spec_02.gif' %><br/>
-		</div>
-		<%= image_tag_for_default 'Spec_02.gif' %><br />
 		<%= @content_for_sub_title %><br />
-		<%= image_tag_for_default 'Spec_02.gif' %>
 	</div>
-	<%= image_tag_for_default 'Spec_04.gif' %><br />
 
 <% end %>
 

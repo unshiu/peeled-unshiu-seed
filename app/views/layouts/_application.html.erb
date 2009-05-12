@@ -2,7 +2,7 @@
 <HTML lang="ja">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title><%= @content_for_header_title ||= "HOME" %> : unshiu </title>
+  <title><%= (@content_for_header_title ||= "HOME").strip %> - <%= (@content_for_sub_title ||= "a").strip %> - unshiu</title>
   <%= javascript_include_tag :defaults %>
   <%= javascript_include_tag 'unshiu' %>
 
@@ -63,17 +63,18 @@
 					<%= render 'common/header_menu' %>
 				</div><!--/search_col_prepend-->
 					
-					
+				<% if @content_for_header_profile %>
+					<%= yield :header_profile %>
+				<% else %>
 					<% if logged_in? %>
-						<% if @content_for_header_profile %>
-							<%= yield :header_profile %>
-						<% else %>
-							<%= render :partial => 'common/header_profile', :locals => {:base_user => current_base_user} %>
-						<% end %>
-						<div class="clear"></div>
-						<%= render 'common/header_submenu' %>
+						<%= render :partial => 'common/header_profile', :locals => {:base_user => current_base_user} %>
 					<% end %>
-					
+				<% end %>
+				<div class="clear"></div>
+				<% if logged_in? %>
+					<%= render 'common/header_submenu' %>
+				<% end %>
+				
 				</div><!--/menu_and_search_col-->
 			</div><!--/header_inner-->
 		</div><!--/header-->
@@ -101,12 +102,8 @@
 			</div><!--/contents_inner-->
 		</div><!--/contents-->
 		
-		<div id="footer">
-			<div id="footer_inner">
-			
-			
-			</div><!--/footer_inner-->
-		</div><!--/footer-->
+		<%= render 'common/footer' %>
+		
 	</div><!--/container_inner-->
 </div><!--/container-->
 </BODY>

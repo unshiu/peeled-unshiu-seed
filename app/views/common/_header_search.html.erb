@@ -1,17 +1,29 @@
-<div id="header_search_col" class="span-8 prepend-10 first last">
+<div id="header_search_col" class="span-10 prepend-8 first last">
+	<div style="float:right">
+		<% if logged_in? %>
+			<%= current_base_user.login %> | 
+			<%= link_to "ログアウト", :controller => :base_user, :action => :logout %>
+			<% if current_base_user_manage? %>
+				| <%= link_to "管理画面", :controller => 'manage/mng', :action => :index %>
+			<% end %>
+			&nbsp;
+		<% end %>
+	</div>
+	<div class="clear"></div>
 	<div id="header_search_box" class="clearfix">
 		<% form_tag :controller => 'base', :action => 'search' do %>
 		<div id="search_list"  class=" first" >
 			<span id="header_search_category">
 			<a href="#" style="">
-				<span><img src="/images/default/icon/search_col.gif" alt="" style="" width=""></span>
+				<span><img src="/images/default/icon/search_col.gif" alt="" style="" width="">ユーザ</span>
 				<img src="/images/default/icon/naviarrow_under.gif" alt="" style="">
 			</a>
 			</span>
 			<%= text_field 'base_search', 'keyword', {:class => "span-4"} %>
-			<%= hidden_field('base_search', 'scope') %>
+			<%= hidden_field('base_search', 'scope', :value => "base_user") %>
 			
 			<%= submit_button_tag("検索")%>
+			
 			<ul id="" class="clear">
 				<li class="first_child current"><a id="base_user" href="#">ユーザ</a></li>
 				<li><a id="abm" href="#">写真</a></li>
@@ -21,6 +33,6 @@
 		</div>
 
 		<% end %>
-
 	</div><!--/header_search_box-->
+	
 </div><!--/header_search_col-->

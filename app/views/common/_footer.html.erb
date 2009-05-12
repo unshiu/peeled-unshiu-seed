@@ -1,6 +1,14 @@
-<!-- フッターブロック -->
-<div id="footer">
-  <div class="link"> </div>
-	<div class="copyright">Copyright&copy; 2001-<%= Time.now.strftime("%Y") %> Drecom Co.,Ltd. All Rights Reserved.</div>
-</div>
-<!-- フッターブロック -->
+<div id="footer_col">
+	<div id="footer_box">
+		<div class="copyright">Copyright&copy; 2001-<%= Time.now.strftime("%Y") %> Drecom Co.,Ltd. All Rights Reserved.</div>
+		<div class="link">
+			<ul>
+				<li><%= link_to "このサイトについて", :controller => :base_guides %></li>
+				<li><%= link_to "お問い合わせ", :controller => :base, :action => 'inquire_input' %></li>	
+				<li><%= link_to "規約", :controller => :base_terms %></li>
+				<li><%= link_to "プライバシーポリシー", :controller => :base_privacy %></li>
+				<li><%= link_to "モバイル", :controller => :base_guides, :action => 'mobile' %></li>
+			</ul>
+		</div>
+	</div><!--/footer_box-->
+</div><!--/footer_col-->
