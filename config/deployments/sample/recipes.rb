@@ -8,9 +8,12 @@ Capistrano::Configuration.instance.load do
   env_path << '$PATH'
   default_environment['PATH'] = env_path.join(':')
   
+  set :domain, ""
+  
   # -----------------------------------------------------------
   # Apache
   # -----------------------------------------------------------
+  set :apache_home,          "/usr/local/drecom/apache2"
   set :apache_server_admin,  "admin@unshiu.drecom.jp"
   set :apache_server_name,   "unshiu.drecom.jp"
   set :apache_max_clients,   200
