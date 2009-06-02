@@ -53,9 +53,9 @@ module Unshiu::ApplicationHelperModule
   end
   
   # コンテンツを作成する際のaddmenu.gifを利用したリンクを生成
-  def link_add_menu_to(name, options = {}, html_options = nil, *parameters_for_method_reference)
+  def link_add_menu_to(name, options = {}, html_options = {}, *parameters_for_method_reference)
     name = "<span>#{image_tag_for_default("icon/addmenu.gif")}#{name}</span>"
-    html_options = { :class => "button" }
+    html_options.merge!({ :class => "button" })
     link_to(name, options , html_options, *parameters_for_method_reference)
   end
   # 当日中に見ると時間を表示して、それ以外は日付を表示する helper
@@ -129,6 +129,11 @@ module Unshiu::ApplicationHelperModule
     br(str)
   end
   
+  # 本文などのサマリ表示
+  def body_summary(value, options = {})
+    truncate(h(strip_tags(value)), :length => options[:length])
+  end
+  
   # キャンセルタグを出力するヘルパ
   def cancel_tag(value = nil, options = {})
     value = I18n.t("view.noun.cancel_button") unless value
@@ -151,7 +156,7 @@ module Unshiu::ApplicationHelperModule
   # _param3_:: image icon image
   def button_tag(name, label, image)
     <<-END
-    <button type="submit" name="#{name}" value=""  class="button" >
+    <button id="#{name}" type="submit" name="#{name}" value=""  class="button" >
     	<span><img src="/stylesheets/blueprint/plugins/buttons/icons/#{image}.png" alt="">#{label}</span>
     </button>
     END
@@ -373,22 +378,20 @@ module Unshiu::ApplicationHelperModule
   # _param1_:: モデル名
   # _param2_:: フィールド名
   def adjusted_datetime(model_name, field_name)
-    id_1i = "#{model_name}_#{field_name}_1i"
-    id_2i = "#{model_name}_#{field_name}_2i"
-    id_3i = "#{model_name}_#{field_name}_3i"
+    id_1i = "##{model_name}_#{field_name}_1i"
+    id_2i = "##{model_name}_#{field_name}_2i"
+    id_3i = "##{model_name}_#{field_name}_3i"
     <<-END
       #{observe_field id_1i, :url => {:controller => :application, :action => 'adjusted_datetime', :model_name => model_name, :field_name => field_name}, 
-                             :with => "'year=' + escape(value) + '&month=' + escape($('#{id_2i}').value) + '&day=' + escape($('#{id_3i}').value)"}
+                             :with => "'year=' + escape(value) + '&month=' + escape($('#{id_2i} option:selected').attr('value')) + '&day=' + escape($('#{id_3i} option:selected').attr('value'))"}
       #{observe_field id_2i, :url => {:controller => :application, :action => 'adjusted_datetime', :model_name => model_name, :field_name => field_name},
-                             :with => "'year=' + escape($('#{id_1i}').value) + '&month=' + escape(value) + '&day=' + escape($('#{id_3i}').value)"}
+                             :with => "'year=' + escape($('#{id_1i} option:selected').attr('value')) + '&month=' + escape(value) + '&day=' + escape($('#{id_3i} option:selected').attr('value'))"}
 	    
 	    <script type="text/javascript">
-	      Event.observe(window, "load", init_datatime_#{model_name}_#{field_name}, false);
-  	  
-  	    function init_datatime_#{model_name}_#{field_name}() {
-  	      #{remote_function(:url => {:controller => :application, :action => 'adjusted_datetime', :model_name => model_name, :field_name => field_name},
-  	                        :with => "'year=' + escape($('#{id_1i}').value) + '&month=' + escape($('#{id_2i}').value) + '&day=' + escape($('#{id_3i}').value)")}
-      　　}
+	      $(function() {
+	        #{remote_function(:url => {:controller => :application, :action => 'adjusted_datetime', :model_name => model_name, :field_name => field_name},
+  	                        :with => "'year=' + escape($('#{id_1i} option:selected').attr('value')) + '&month=' + escape($('#{id_2i} option:selected').attr('value')) + '&day=' + escape($('#{id_3i} option:selected').attr('value'))")}
+  	    });
       </script>
 	  END
 	end

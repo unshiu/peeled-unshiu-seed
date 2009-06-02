@@ -63,18 +63,6 @@ module AuthenticatedSystem
       end
     end
     
-    def login_by_manager_required
-      if login_required
-        if BaseUserRole.manager?(current_base_user)
-          true
-        else
-          flash[:error] = '管理者権限のあるユーザーでログインしてください。'
-          access_denied
-        end
-      else
-        false
-      end
-    end
     # Redirect as appropriate when an access request fails.
     #
     # The default action is to redirect to the login screen.
@@ -145,7 +133,6 @@ module AuthenticatedSystem
         user.remember_me
         self.current_base_user = user
         cookies[:auth_token] = { :value => self.current_base_user.remember_token , :expires => self.current_base_user.remember_token_expires_at }
-        flash[:notice] = "Logged in successfully"
       end
     end
 

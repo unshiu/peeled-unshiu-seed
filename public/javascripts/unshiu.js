@@ -81,7 +81,7 @@
  ================================================================*/
 	$(document).ready(function(){
 		$("#search_list ul").css({display:"none"}),
-		$("#search_list a").click(function(){
+		$("#header_search_box a").click(function(){
 				$("#search_list ul").animate(
 					{height: "toggle"},
 					{duration: "fast"}
@@ -94,8 +94,9 @@
 				}
 		});
 		$("#search_list ul li a").click(function(){
-			$("#header_search_category a span").replaceWith("<span>"+$(this).text()+"</span>");
+			$("#header_search_category").replaceWith("<span id='header_search_category'>"+$(this).text()+"から ▼</span>");
 			$("#base_search_scope").val($(this).attr("id"));
+			$("#search_list ul").css({display:"none"});
 		});
 
 	});

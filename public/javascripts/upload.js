@@ -28,9 +28,10 @@ var Upload = {
 		if (num_queued > 0)
 		{
 			Upload.files_queued += num_queued;
-			$('#upload').removeClass('disabled')
+			/*$('#upload').removeClass('disabled')
 				.attr('disabled', '')
-				.text('Upload ' + Upload.files_queued + ' Files');
+				.attr('value', '　選択した' + Upload.files_queued + ' 個のファイルをアップロード');*/
+			this.startUpload();
 		}
 	},
 
@@ -62,7 +63,7 @@ var Upload = {
 	*/
 	upload_start: function(file)
 	{
-		$('#' + file.id + ' div.status').html('Uploading...');
+		$('#' + file.id + ' div.status').html('アップロード中...');
 	},
 	
 	/* 
@@ -108,7 +109,8 @@ var Upload = {
 	*/
 	upload_success: function(file, data)
 	{
-		$('#' + file.id).html($(data).html());
+		/*$('#' + file.id).html($(data).html());*/
+		//$('#images').append($(data).html());
 	},
 
 	/* 
@@ -129,7 +131,8 @@ var Upload = {
 		{
 			$('#upload').addClass('disabled')
 				.attr('disabled', 'true')
-				.text('Upload 0 Files');
+				.attr('value', 'アップロード');
+			location.reload(true); // FIXME リロードではなくアルバム一覧だけ書き換えた方が効率的
 		}
 		
 		// Start Next Upload

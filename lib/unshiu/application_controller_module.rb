@@ -21,14 +21,19 @@ module Unshiu::ApplicationControllerModule
         
         # 携帯向けのセッション保持
         transit_sid
-        
+         
         # SJIS化
         # 半角カナ変換あり
         mobile_filter :hankaku => true
+        emoticon_filter :editable_tag => false
         
         # docomoはインラインCSSを使うのにもContent-Typeの指定までしないといけない。不便。
         # TODO jpmobile にいれてしまいたい
         after_filter :set_header
+        
+        before_filter :set_locale
+        
+        before_filter :login_from_cookie
       end
     end
   end
@@ -49,7 +54,7 @@ private
   def set_header
     if request.mobile?
       if request.mobile.is_a?(Jpmobile::Mobile::Docomo)
-        headers['Content-Type'] = 'application/xhtml+xml'
+        headers['Content-Type'] = 'application/xhtml+xml;charset=Shift_JIS'
       end
     end
   end
@@ -140,7 +145,11 @@ private
     return "_done#{suffix}" if action_name =~ /done$/
     return "_application#{suffix}"
   end
-  
+
+  def set_locale
+    I18n.locale = "ja-JP"
+  end
+
   module ClassMethods
     
     # 多段レイアウトを行うための filter 呼び出し

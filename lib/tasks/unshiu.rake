@@ -203,6 +203,16 @@ namespace :unshiu do
         AnnotateModels.do_plugin_annotations(args.plugin_name)
     end
     
+    desc "Add schema information (as comments) to model files for all plugin"
+      task :annotate_models_all do 
+        require File.join(File.dirname(__FILE__), "../../vendor/plugins/annotate_models/lib/annotate_models.rb")
+        require File.join(File.dirname(__FILE__), "../annotate_models_expanse.rb")
+        
+        Unshiu::Plugins::LIST.each do |plugin|
+          AnnotateModels.do_plugin_annotations(plugin)
+        end
+    end
+    
     desc "gettext2i18n"
     task :gettext2i18n do
       base = Gettext2I18n::Base.new

@@ -1,7 +1,7 @@
 /**
- * WYSIWYG - jQuery plugin 0.4
+ * WYSIWYG - jQuery plugin 0.5
  *
- * Copyright (c) 2008 Juan M Martinez
+ * Copyright (c) 2008-2009 Juan M Martinez
  * http://plugins.jquery.com/project/jWYSIWYG
  *
  * Dual licensed under the MIT and GPL licenses:
@@ -86,8 +86,8 @@
             messages : {}
         }, options);
 
-        $.extend(options.messages, Wysiwyg.MSGS_EN);
-        $.extend(options.controls, Wysiwyg.TOOLBAR);
+        options.messages = $.extend(true, options.messages, Wysiwyg.MSGS_EN);
+        options.controls = $.extend(true, options.controls, Wysiwyg.TOOLBAR);
 
         for ( var control in controls )
         {
@@ -156,6 +156,13 @@
                 else if ( self.options.messages.nonSelection )
                     alert(self.options.messages.nonSelection);
             }
+        },
+
+        setContent : function( newContent )
+        {
+            var self = $.data(this, 'wysiwyg');
+                self.setContent( newContent );
+                self.saveContent();
         },
 
         clear : function()
@@ -258,7 +265,7 @@
             h3mozilla : { visible : true && $.browser.mozilla, className : 'h3', command : 'heading', arguments : ['h3'], tags : ['h3'] },
 
             h1 : { visible : true && !( $.browser.mozilla ), className : 'h1', command : 'formatBlock', arguments : ['Heading 1'], tags : ['h1'] },
-            h2 : { visible : true && !( $.browser.mozilla ), className : 'h2', command : 'formatBlock', arguments : ['Heading 2'], tags : ['h2'] },
+						h2 : { visible : true && !( $.browser.mozilla ), className : 'h2', command : 'formatBlock', arguments : ['Heading 2'], tags : ['h2'] },
             h3 : { visible : true && !( $.browser.mozilla ), className : 'h3', command : 'formatBlock', arguments : ['Heading 3'], tags : ['h3'] },
 
             separator07 : { visible : false, separator : true },
@@ -373,7 +380,11 @@
             this.viewHTML = false;
 
             this.initialHeight = newY - 8;
-            this.initialContent = $(element).text();
+
+            /**
+             * @link http://code.google.com/p/jwysiwyg/issues/detail?id=52
+             */
+            this.initialContent = $(element).val();
 
             this.initFrame();
 
@@ -382,6 +393,12 @@
 
             if ( this.options.autoSave )
                 $('form').submit(function() { self.saveContent(); });
+
+            $('form').bind('reset', function()
+            {
+                self.setContent( self.initialContent );
+                self.saveContent();
+            });
         },
 
         initFrame : function()
@@ -447,6 +464,7 @@
                  * @link http://code.google.com/p/jwysiwyg/issues/detail?id=11
                  */
                 $(this.editorDoc).keydown(function() { self.saveContent(); })
+                                 .keyup(function() { self.saveContent(); })
                                  .mousedown(function() { self.saveContent(); });
             }
 
