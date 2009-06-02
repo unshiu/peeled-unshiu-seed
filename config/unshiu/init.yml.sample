@@ -23,8 +23,6 @@ common: &common
   
   # tokyotyrant
   tokyotyrant_on : false # 利用するか
-  tokyotyrant_master_server_ip: 127.0.0.1
-  tokyotyrant_master_server_port: 1979
   tokyotyrant_timeout: 60
 
 development:

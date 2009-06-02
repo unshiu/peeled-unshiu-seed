@@ -43,6 +43,8 @@ require File.join(File.dirname(__FILE__), "deployments/#{ENV['RAILS_ENV']}/recip
 after  :"deploy:update",   :"config:setup"
 after  :"deploy:update",   :"mongrel:cluster:restart"
 after  :"deploy:update",   :"apache:restart"
+after  :"deploy:update",   :"backgroundrb:stop"
+after  :"deploy:update",   :"backgroundrb:start"
 
 namespace :config do
 
@@ -90,19 +92,19 @@ namespace :backgroundrb do
 
   desc "start backgroundrb server process."
   task :start, :roles => :backgroundrb do
-    run "cd #{current_path} && RAILS_ENV=#{backgroundrb_environment} nohup ./script/backgroundrb/start -d > /dev/null 2>&1"
+    run "cd #{current_path} && RAILS_ENV=#{backgroundrb_environment} nohup ./script/backgroundrb start 2>&1 1>/dev/null"
   end
 
 
   desc "stop backgroundrb server process."
   task :stop, :roles => :backgroundrb do
-    run "cd #{current_path} && ./script/backgroundrb/stop"
+    run "cd #{current_path} && ./script/backgroundrb stop"
   end
 
 
   desc "restart backgroundrb server process."
   task :restart, :roles => :backgroundrb do
-    run "cd #{current_path} && ./script/backgroundrb/restart"
+    run "cd #{current_path} && ./script/backgroundrb restart"
   end
 
 end

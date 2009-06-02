@@ -2,7 +2,7 @@
 # by Akira Matsuda (ronnie@dio.jp)
 # AR error messages are basically taken from Ruby-GetText-Package. Thanks to Masao Mutoh.
 
-ja:
+ja-JP:
   date:
     formats:
       default: "%Y/%m/%d"
@@ -20,7 +20,7 @@ ja:
   time:
     formats:
       default: "%Y/%m/%d %H:%M:%S"
-      short: "%y/%m/%d %H:%M"
+      short: "%Y/%m/%d %H:%M"
       long: "%Y年%m月%d日(%a) %H時%M分%S秒 %Z"
     am: "午前"
     pm: "午後"
@@ -116,6 +116,7 @@ ja:
         inclusion: "は一覧にありません。"
         exclusion: "は予約されています。"
         invalid: "は不正な値です。"
+        date_invalid: "は不正な日付です。"
         file_invalid_format: "ファイルフォーマットに問題があります。"
         confirmation: "が一致しません。"
         accepted: "を受諾してください。"
@@ -135,7 +136,9 @@ ja:
         file_size_less_than: "のファイルサイズが大きすぎます。{{count}}より小さいもののみアップロード可能です。"
         odd: "は奇数にしてください。"
         even: "は偶数にしてください。"
+        after_date: "は{{date}}より後の日付を設定してください。"
         
       stand_messages:
         too_long: "{{count}}文字以内で入力してください。"
-        
+      
+                

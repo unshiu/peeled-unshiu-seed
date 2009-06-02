@@ -18,3 +18,6 @@ config.action_controller.perform_caching             = true
 # config.action_mailer.raise_delivery_errors = false
 
 ActionMailer::Base.delivery_method = :smtp
+
+ActiveRecord::Base.logger = Logger.new("#{RAILS_ROOT}/log/debug.log")
+ActiveRecord::Base.logger.level = 0
