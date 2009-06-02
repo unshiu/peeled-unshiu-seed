@@ -6,6 +6,10 @@ module ApplicationHelper
     include BaseHelper
   end
   
+  if Unshiu::Plugins.active_cmm?
+    include CmmHelper
+  end
+  
   if Unshiu::Plugins.active_abm?
     include AbmHelper
   end
