@@ -6,10 +6,10 @@
 <hr>
 
 <% if logged_in? %>
-<%= link_basic_to '[0]トップ', {:controller => 'base', :action => 'portal'}, {:accesskey => 0} %><br />
+<%= link_basic_to '[1]トップ', {:controller => 'base', :action => 'portal'}, {:accesskey => 1} %><br />
 <%= link_basic_to 'ログアウト', :controller => 'base_user', :action => 'logout' %><br />
 <hr>
-<%= link_basic_to '友だちをこのサービスに招待する', :controller => 'base_invite', :action => 'new' %>
+<%= link_basic_to '友達をこのサービスに招待する', :controller => 'base_invite', :action => 'new' %>
 <% else %>
-<%= link_basic_to '[0]トップ', {:controller => 'base', :action => 'index'}, {:accesskey => 0} %><br />
+<%= link_basic_to '[1]トップ', {:controller => 'base', :action => 'index'}, {:accesskey => 1} %><br />
 <% end %>

@@ -14,4 +14,9 @@
 		</div><!--/profile_detail_col_inner-->
 	</div><!--/profile_detail_col-->
 
+	<% if logged_in? && !current_base_user.me?(base_user.id) %>
+		<div id="profile_logtime"  class="profile_details">
+			最終ログインは<%= login_status(base_user.latest_login) %>です。
+		</div><!--/profile_logtime-->
+	<% end %>
 </div><!--/profiles_col-->

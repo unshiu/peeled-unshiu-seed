@@ -26,9 +26,9 @@
 	<%= link_to_menu 'ログアウト', :controller => 'base_user', :action => 'logout' %><br />
 	<%= link_to_menu '検索', :controller => 'base', :action => 'search' %><br />
 	<%= link_to_menu '登録情報変更', :controller => 'base_user_config', :action => 'index' %><br />
-	<%= link_to_menu '友だちをこのサービスに招待する', :controller => 'base_invite', :action => 'new' %><br />
+	<%= link_to_menu '友達をこのサービスに招待する', :controller => 'base_invite', :action => 'new' %><br />
 <% else %>
-	<%= link_to_menu '[0]トップへ戻る', {:controller => 'base', :action => 'index'}, {:accesskey => 0} %><br />
+	<%= link_to_menu '[1]トップへ戻る', {:controller => 'base', :action => 'index', :anchor => 'top'}, {:accesskey => 1} %><br />
 	<%= link_to_menu 'ログイン', :controller => 'base_user', :action => 'login', :return_to => controller.request.request_uri %><br />
 	<%= link_to_menu '検索', :controller => 'base', :action => 'search' %><br />
 <% end %>
