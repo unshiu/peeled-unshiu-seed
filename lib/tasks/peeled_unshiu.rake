@@ -31,6 +31,16 @@ namespace :peeled_unshiu do
       end
     end
     
+    desc 'all　external plugin trunk install.'
+    task :install_external_plugin_trunk_all, "user"
+    task :install_external_plugin_trunk_all do |task, args|
+      task.set_arg_names ["user"]
+      Unshiu::Plugins::EXTERNAL_LIST.each do |plugin|
+        system "rm -rf vendor/plugins/#{plugin}" if File.exist?("vendor/plugins/#{plugin}")
+        system "ruby script/plugin install #{svn_external_plugin_trunk(args.user, plugin)}"
+      end
+    end
+    
     desc "Report code statistics (KLOCs, etc) from the plugin "
     task :stats, "plugin_name"
     task :stats do |task, args|
