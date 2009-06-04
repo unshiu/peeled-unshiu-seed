@@ -52,7 +52,7 @@ Capistrano::Configuration.instance.load do
   set :backgroundrb_host, "127.0.0.1"
   
   #set :gateway, ""
-  #set :ssh_options, :forward_agent => true, :port => 10022
+  #set :ssh_options, :forward_agent => true, :port => 22
   set :server_ssh_port, 22
   
   role :app,        "127.0.0.1", :port => server_ssh_port
