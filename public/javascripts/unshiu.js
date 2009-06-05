@@ -1,12 +1,11 @@
 /*!
- * Unshiu JavaScript Library v1.0.9
+ * Unshiu JavaScript Library v1.0.0
  * http://drecom.co.jp/
  *
  * Require JQuery Library v1.3.2
  *
  * Copyright (c) 2009 Drecom
- * Dual licensed under the MIT and GPL licenses.
- * http://unshiu.com/License
+ * MPL License: http://wiki.unshiu.jp/License
  *
  * Date: 2009-03-18 
  * Revision: 0001
