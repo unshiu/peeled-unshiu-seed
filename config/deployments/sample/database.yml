@@ -11,6 +11,13 @@
 #
 # And be sure to use new-style password hashing:
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
+<%
+socket = ["/tmp/mysqld.sock",
+          "/tmp/mysql.sock",
+          "/var/run/mysqld/mysqld.sock",
+          "/var/lib/mysql/mysql.sock"].detect{|socket| File.exist?(socket)}
+%>
+
 development:
   adapter: mysql
   database: unshiu_development
@@ -61,6 +68,7 @@ production:
   password: <%= db_password %>
   host: <%= db_host %>
   encoding: utf8
+  socket : <%= socket %>
   estraier:
     host: localhost
     user: admin
@@ -74,3 +82,4 @@ production:
     password: <%= db_password %>
     host: db_proxy
     port: 13306
+    socket : <%= socket %>
