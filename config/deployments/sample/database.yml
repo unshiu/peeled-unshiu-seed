@@ -24,6 +24,7 @@ development:
   username: root
   password: root 
   host: localhost
+  socket : <%= socket %>
   estraier:
     host: localhost
     user: admin
@@ -37,6 +38,7 @@ development:
     password: root
     host: localhost
     port: 3306
+    socket : <%= socket %>
       
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -47,6 +49,7 @@ test:
   username: root
   password: root
   host: localhost
+  socket : <%= socket %>
   estraier:
     host: localhost
     user: admin
@@ -60,6 +63,7 @@ test:
     password: root
     host: localhost
     port: 13306
+    socket : <%= socket %>
       
 production:
   adapter: mysql
