@@ -10,6 +10,7 @@ RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 require 'string_expanse'
+require 'unshiu/plugins'
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here
@@ -72,6 +73,12 @@ Rails::Initializer.run do |config|
     unless Rails.env.test?
       ActiveReload::ConnectionProxy::setup!
     end
+  end
+  
+  if Unshiu::Plugins.active_mixi?
+    config.action_controller.asset_host = Proc.new { |source, request|
+      "#{request.host_with_port}"
+    }
   end
 end
 
