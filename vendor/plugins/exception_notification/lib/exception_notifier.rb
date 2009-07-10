@@ -44,6 +44,8 @@ class ExceptionNotifier < ActionMailer::Base
 
     recipients exception_recipients
     from       sender_address
+    
+    request.session.inspect # Ensure session data is loaded (Rails 2.3 lazy-loading)
 
     body       data.merge({ :controller => controller, :request => request,
                   :exception => exception, :host => (request.env["HTTP_X_FORWARDED_HOST"] || request.env["HTTP_HOST"]),
