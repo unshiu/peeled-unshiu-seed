@@ -2,20 +2,8 @@
 module ApplicationHelper
   include Unshiu::ApplicationHelperModule
   
-  if Unshiu::Plugins.active_base?
-    include BaseHelper
-  end
-  
-  if Unshiu::Plugins.active_cmm?
-    include CmmHelper
-  end
-  
-  if Unshiu::Plugins.active_abm?
-    include AbmHelper
-  end
-  
-  if Unshiu::Plugins.active_ace?
-    include AceHelper
+  Unshiu::Plugins::ACTIVE_LIST.each do |plugin|
+    eval("include #{plugin.capitalize}Helper") 
   end
   
 end
