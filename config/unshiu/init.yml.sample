@@ -21,6 +21,9 @@ common: &common
   # 送信先アドレスが存在しなかった際にメールが返されるアドレス
   return_path_adddress: root@sample.unshiu.jp
   
+  # sessionを残しておく日数
+  session_active_days: 7
+
   # 本番環境でエラーが発生したときにメールを送信
   exception_notifier_from_name: Application Error
   exception_notifier_from_address: applicationerror@unshiu.jp

@@ -12,3 +12,6 @@
 <% plugin_path = "#{RAILS_ROOT}/vendor/plugins/#{plugin}/schedules.yml" %>
 <%= IO.read(plugin_path) if File.exist?(plugin_path) %>
 <% end %>
+  :del_session_worker: 
+    :delete:
+      :trigger_args: 0 0 4 * * * *
