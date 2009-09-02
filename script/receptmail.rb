@@ -5,5 +5,6 @@
 
 require File.dirname(__FILE__) + '/../config/boot'
 require File.dirname(__FILE__) + '/../config/environment'
+require 'application_controller'
 
 BaseMailerNotifier::receive(STDIN.read)
