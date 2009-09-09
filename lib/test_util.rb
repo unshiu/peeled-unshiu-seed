@@ -17,6 +17,11 @@ module TestUtil
         @request.session_options = {:id => "test_session", :key => AppResources[:init][:session_key]}
       end
       
+      def assert_redirect_with_error_code(error_code)
+        error = BaseError.find_by_error_code_use_default(error_code)
+        assert_redirected_to :controller => :base, :action => :error, :error_code => error.error_code, :error_message => error.message
+      end
+      
     end
     
     # PCのコントローラテスト便利モジュール
