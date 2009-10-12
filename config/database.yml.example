@@ -11,19 +11,21 @@
 #
 # And be sure to use new-style password hashing:
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
+<% 
 socket = ["/tmp/mysqld.sock",
           "/tmp/mysql.sock",
           "/var/run/mysqld/mysqld.sock",
-          "/var/lib/mysql/mysql.sock"].detect{|socket| File.exist?(socket)}
+          "/var/lib/mysql/mysql.sock",
+          "/private/tmp/mysql.sock"].detect{|socket| File.exist?(socket)}
 %>
 
 development:
   adapter: mysql
-  database: unshiu_development
-  username: root
-  password: root 
+  database: 29_development
+  username: 29
+  password: 29 
+  socket: <%= socket %>
   host: localhost
-　　socket : <%= socket %>
   estraier:
     host: localhost
     user: admin
@@ -32,12 +34,12 @@ development:
     node: development
   master_database:
     adapter: mysql
-    database: unshiu_development
-    username: root
-    password: root
+    database: 29_development
+    username: 29
+    password: 29
     host: localhost
     port: 3306
-    socket : <%= socket %>
+    socket: <%= socket %>
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -47,8 +49,8 @@ test:
   database: unshiu_test
   username: root
   password: root
+  socket : <%= socket %>
   host: localhost
-　　socket : <%= socket %>
   estraier:
     host: localhost
     user: admin
@@ -70,8 +72,8 @@ production:
   username: root
   password: root
   host: root
+  socket : <%= socket %>
   encoding: utf8
-　　socket : <%= socket %>
   estraier:
     host: localhost
     user: admin
@@ -85,4 +87,4 @@ production:
     password: root
     host: db_proxy
     port: 13306
-　　　　socket : <%= socket %>
+    socket : <%= socket %>
