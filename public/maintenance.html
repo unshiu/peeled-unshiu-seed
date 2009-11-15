@@ -36,7 +36,9 @@
 							<div class="box_inner clearfix">
 							<h2>メンテナンス</h2>
 
-						<p class="error"><span>ただいまメンテナンス中です。</span></p>
+						<p class="error">
+							<span>ただいまメンテナンス中です。終了予定時刻は<%= deadline ||= '未定' %>です。</span>
+						</p>
 						<span class="more"><a href="/">トップへ戻る</a></span>
 
 							</div><!--/box_inner-->
@@ -53,7 +55,7 @@
 			<div id="footer_box" class="container">
 			<div class="box_inner clearfix">
 			
-				<div class="copyright">Copyrightc 2001-2009 Drecom Co.,Ltd. All Rights Reserved.</div>
+				<div class="copyright">Copyrightc 2001-<%= Time.now.strftime("%Y") %> Drecom Co.,Ltd. All Rights Reserved.</div>
 				
 			</div><!--/box_inner-->
 			</div><!--/footer_box-->

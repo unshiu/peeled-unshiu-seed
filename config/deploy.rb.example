@@ -148,7 +148,6 @@ namespace :deploy do
       require 'erb'
       on_rollback { run "rm #{shared_path}/system/maintenance.html" }
 
-      reason = ENV['REASON']
       deadline = ENV['UNTIL']
 	    
       template = File.read(File.join(File.dirname(__FILE__), "../public/maintenance.html"))
