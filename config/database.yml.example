@@ -21,9 +21,9 @@ socket = ["/tmp/mysqld.sock",
 
 development:
   adapter: mysql
-  database: 29_development
-  username: 29
-  password: 29 
+  database: unshiu_development
+  username: unshiu
+  password: unshiu 
   socket: <%= socket %>
   host: localhost
   estraier:
@@ -34,9 +34,9 @@ development:
     node: development
   master_database:
     adapter: mysql
-    database: 29_development
-    username: 29
-    password: 29
+    database: unshiu_development
+    username: unshiu
+    password: unshiu
     host: localhost
     port: 3306
     socket: <%= socket %>
