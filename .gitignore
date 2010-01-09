@@ -1,0 +1,4 @@
+config/database.yml
+config/unshiu/init.yml
+public/system/files/secret_key/*
+log/*
